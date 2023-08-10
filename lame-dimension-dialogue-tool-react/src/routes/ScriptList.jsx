@@ -12,11 +12,14 @@ const Component = () => {
 
     const loadScripts = async () => {
         try {
-            let res = await axios.get(`http://localhost:8080/scripts`, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            });
+            let res = await axios.get(
+                `${process.env.REACT_APP_API_DOMAIN}/scripts`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                }
+            );
 
             setScripts(res.data);
         } catch (e) {

@@ -77,11 +77,14 @@ function App() {
 
     const loadScript = async () => {
         try {
-            let res = await axios.get(`${process.env.REACT_APP_API_DOMAIN}/scripts/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            });
+            let res = await axios.get(
+                `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                }
+            );
 
             setChapters(res.data.chapters);
             setScript(res.data);

@@ -16,7 +16,7 @@ let port = process.env.PORT || 8080;
 const databaseUrl = process.env.LD_DB_URL;
 mongoose.Promise = global.Promise;
 
-console.log("DATABASE URL: " + databaseUrl);
+console.log('DATABASE URL: ' + databaseUrl);
 
 /*
  * Connect to database

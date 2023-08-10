@@ -24,15 +24,18 @@ const Component = () => {
 
     const createUser = async () => {
         try {
-            await axios.post(`http://localhost:8080/users`, {
+            await axios.post(`${process.env.REACT_APP_API_DOMAIN}/users`, {
                 username,
                 password,
             });
 
-            let res = await axios.post(`http://localhost:8080/auth`, {
-                username,
-                password,
-            });
+            let res = await axios.post(
+                `${process.env.REACT_APP_API_DOMAIN}/auth`,
+                {
+                    username,
+                    password,
+                }
+            );
 
             localStorage.setItem('jwtToken', res.data.jwtToken);
             navigate(`/scripts`);

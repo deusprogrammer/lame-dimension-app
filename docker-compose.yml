@@ -1,8 +1,11 @@
 services:
   ui:
-    build: ./lame-dimension-dialogue-tool-react
+    build:
+      context: ./lame-dimension-dialogue-tool-react
+      args:
+        REACT_APP_API_DOMAIN: $LD_API_DOMAIN
     ports:
-      - "80:3000"
+      - "80:80"
     environment:
       - REACT_APP_API_DOMAIN=http://api:8080/
   api:

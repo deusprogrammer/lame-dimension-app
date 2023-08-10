@@ -25,11 +25,14 @@ function App() {
 
     const getUser = async () => {
         try {
-            let res = await axios.get(`${process.envREACT_APP_API_DOMAIN}/profiles/self`, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            });
+            let res = await axios.get(
+                `${process.env.REACT_APP_API_DOMAIN}/profiles/self`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                }
+            );
 
             setUser(res.data);
         } catch (e) {
