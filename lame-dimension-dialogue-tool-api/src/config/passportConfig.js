@@ -1,9 +1,9 @@
-import jwtStrategy from 'passport-jwt/lib/strategy';
-import extractJwt from 'passport-jwt/lib/extract_jwt';
+const jwtStrategy = require('passport-jwt/lib/strategy');
+const extractJwt = require('passport-jwt/lib/extract_jwt');
 
-import authConfig from './authConfig';
+const authConfig = require('./authConfig');
 
-export default new jwtStrategy(
+module.exports = new jwtStrategy(
     {
         secretOrKey: authConfig.key,
         jwtFromRequest: extractJwt.fromAuthHeaderAsBearerToken(),
