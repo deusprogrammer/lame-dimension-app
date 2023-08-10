@@ -8,7 +8,7 @@ const authRoute = require('./routes/authRoutes');
 const userRoute = require('./routes/userRoutes');
 const profileRoute = require('./routes/profileRoutes');
 
-import jwtAuthStrategy from './config/passportConfig';
+const jwtAuthStrategy = require('./config/passportConfig');
 
 let app = express();
 let port = process.env.PORT || 8080;
