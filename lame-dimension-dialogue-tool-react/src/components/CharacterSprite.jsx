@@ -32,7 +32,7 @@ const Component = ({ position, dialogue, active }) => {
     const [isSpeaking, setIsSpeaking] = useState(false);
 
     const loadTextures = async (character, emote) => {
-        let directory = `${process.env.PUBLIC_URL}/sprites/${emote}/spr_${character}${emote}`;
+        let directory = `${process.env.REACT_APP_API_DOMAIN}/assets/sprites/${emote}/spr_${character}${emote}`;
         let spriteFile = `${directory}/spr_${character}${emote}.yy`;
 
         console.log('SPRITE FILE: ' + spriteFile);

@@ -9,8 +9,6 @@ const Component = ({ scene, index }) => {
 
     let { active } = scene.dialogue[index];
 
-    console.log('SCENE: ' + JSON.stringify(scene.dialogue[index]));
-
     return (
         <div
             style={{
