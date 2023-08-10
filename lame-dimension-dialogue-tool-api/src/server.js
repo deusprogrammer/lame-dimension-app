@@ -2,12 +2,13 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import passport from 'passport';
-import { jwtAuthStrategy } from './config/passportConfig';
 
 import scriptsRoute from './routes/scriptRoutes';
 import authRoute from './routes/authRoutes';
 import userRoute from './routes/userRoutes';
 import profileRoute from './routes/profileRoutes';
+
+import { jwtAuthStrategy } from './config/passportConfig';
 
 let app = express();
 let port = process.env.PORT || 8080;
