@@ -3,7 +3,7 @@ import extractJwt from 'passport-jwt/lib/extract_jwt';
 
 import authConfig from './authConfig';
 
-export default new jwtStrategy(
+export let jwtAuthStrategy = new jwtStrategy(
     {
         secretOrKey: authConfig.key,
         jwtFromRequest: extractJwt.fromAuthHeaderAsBearerToken(),
