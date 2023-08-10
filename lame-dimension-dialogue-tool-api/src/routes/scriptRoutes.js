@@ -1,7 +1,6 @@
-const fs = require('fs');
-const express = require('express');
-const Scripts = require('../models/script');
-const { randomUUID } = require('crypto');
+import express        from 'express';
+import Scripts        from '../models/script';
+import { randomUUID } from 'crypto';
 const router = express.Router();
 
 //recursively remove _id fields
@@ -115,4 +114,4 @@ router.put('/:id', async function (req, res, next) {
     }
 });
 
-module.exports = router;
+export default router;
