@@ -1,3 +1,4 @@
+version: "3"
 services:
   ui:
     build:
@@ -5,13 +6,13 @@ services:
       args:
         REACT_APP_API_DOMAIN: $LD_API_DOMAIN
     ports:
-      - "80:80"
+      - "9990:80"
     environment:
-      - REACT_APP_API_DOMAIN=http://api:8080/
+      - REACT_APP_API_DOMAIN=http://api:9900/
   api:
     build: ./lame-dimension-dialogue-tool-api
     ports:
-      - "8080:8080"
+      - "9900:8080"
     environment:
       - JWT_SIGNING_KEY=$JWT_SIGNING_KEY
       - LD_DB_URL=mongodb://datalayer/lame-dimension-db?retryWrites=true
