@@ -1,0 +1,258 @@
+{
+    "resourceType": "GMSprite",
+    "resourceVersion": "1.0",
+    "name": "spr_medicneutral",
+    "bbox_bottom": 267,
+    "bbox_left": 18,
+    "bbox_right": 164,
+    "bbox_top": 9,
+    "bboxMode": 0,
+    "collisionKind": 1,
+    "collisionTolerance": 0,
+    "DynamicTexturePage": false,
+    "edgeFiltering": false,
+    "For3D": false,
+    "frames": [
+        {
+            "resourceType": "GMSpriteFrame",
+            "resourceVersion": "1.1",
+            "name": "1b32d450-676c-44ae-a8fd-521a944ffe92"
+        },
+        {
+            "resourceType": "GMSpriteFrame",
+            "resourceVersion": "1.1",
+            "name": "76c79600-f4c7-4639-a9ae-2eeeef1d559a"
+        },
+        {
+            "resourceType": "GMSpriteFrame",
+            "resourceVersion": "1.1",
+            "name": "da2a69ea-65fe-49da-a8ea-2fec78e82c51"
+        },
+        {
+            "resourceType": "GMSpriteFrame",
+            "resourceVersion": "1.1",
+            "name": "772605ce-f4ff-4601-be5d-99e9f698d40c"
+        },
+        {
+            "resourceType": "GMSpriteFrame",
+            "resourceVersion": "1.1",
+            "name": "7f5c8068-10d8-45fe-82f6-ae97fe89e96c"
+        },
+        {
+            "resourceType": "GMSpriteFrame",
+            "resourceVersion": "1.1",
+            "name": "370629ec-bd7b-4f42-b658-96006c551ec2"
+        }
+    ],
+    "gridX": 0,
+    "gridY": 0,
+    "height": 268,
+    "HTile": false,
+    "layers": [
+        {
+            "resourceType": "GMImageLayer",
+            "resourceVersion": "1.0",
+            "name": "d184d1d2-0f0a-4f44-a069-02a9088e419c",
+            "blendMode": 0,
+            "displayName": "default",
+            "isLocked": false,
+            "opacity": 100.0,
+            "visible": true
+        }
+    ],
+    "nineSlice": null,
+    "origin": 9,
+    "parent": {
+        "name": "medic",
+        "path": "folders/Sprites/characters/npc/medic.yy"
+    },
+    "preMultiplyAlpha": false,
+    "sequence": {
+        "resourceType": "GMSequence",
+        "resourceVersion": "1.4",
+        "name": "spr_medicneutral",
+        "autoRecord": true,
+        "backdropHeight": 768,
+        "backdropImageOpacity": 0.5,
+        "backdropImagePath": "",
+        "backdropWidth": 1366,
+        "backdropXOffset": 0.0,
+        "backdropYOffset": 0.0,
+        "events": {
+            "resourceType": "KeyframeStore<MessageEventKeyframe>",
+            "resourceVersion": "1.0",
+            "Keyframes": []
+        },
+        "eventStubScript": null,
+        "eventToFunction": {},
+        "length": 6.0,
+        "lockOrigin": false,
+        "moments": {
+            "resourceType": "KeyframeStore<MomentsEventKeyframe>",
+            "resourceVersion": "1.0",
+            "Keyframes": []
+        },
+        "playback": 1,
+        "playbackSpeed": 15.0,
+        "playbackSpeedType": 0,
+        "showBackdrop": true,
+        "showBackdropImage": false,
+        "timeUnits": 1,
+        "tracks": [
+            {
+                "resourceType": "GMSpriteFramesTrack",
+                "resourceVersion": "1.0",
+                "name": "frames",
+                "builtinName": 0,
+                "events": [],
+                "inheritsTrackColour": true,
+                "interpolation": 1,
+                "isCreationTrack": false,
+                "keyframes": {
+                    "resourceType": "KeyframeStore<SpriteFrameKeyframe>",
+                    "resourceVersion": "1.0",
+                    "Keyframes": [
+                        {
+                            "resourceType": "Keyframe<SpriteFrameKeyframe>",
+                            "resourceVersion": "1.0",
+                            "Channels": {
+                                "0": {
+                                    "resourceType": "SpriteFrameKeyframe",
+                                    "resourceVersion": "1.0",
+                                    "Id": {
+                                        "name": "1b32d450-676c-44ae-a8fd-521a944ffe92",
+                                        "path": "sprites/spr_medicneutral/spr_medicneutral.yy"
+                                    }
+                                }
+                            },
+                            "Disabled": false,
+                            "id": "ad061159-a547-4020-bdd3-9373d548817e",
+                            "IsCreationKey": false,
+                            "Key": 0.0,
+                            "Length": 1.0,
+                            "Stretch": false
+                        },
+                        {
+                            "resourceType": "Keyframe<SpriteFrameKeyframe>",
+                            "resourceVersion": "1.0",
+                            "Channels": {
+                                "0": {
+                                    "resourceType": "SpriteFrameKeyframe",
+                                    "resourceVersion": "1.0",
+                                    "Id": {
+                                        "name": "76c79600-f4c7-4639-a9ae-2eeeef1d559a",
+                                        "path": "sprites/spr_medicneutral/spr_medicneutral.yy"
+                                    }
+                                }
+                            },
+                            "Disabled": false,
+                            "id": "ee03368f-db88-40c1-9faa-387f587c568f",
+                            "IsCreationKey": false,
+                            "Key": 1.0,
+                            "Length": 1.0,
+                            "Stretch": false
+                        },
+                        {
+                            "resourceType": "Keyframe<SpriteFrameKeyframe>",
+                            "resourceVersion": "1.0",
+                            "Channels": {
+                                "0": {
+                                    "resourceType": "SpriteFrameKeyframe",
+                                    "resourceVersion": "1.0",
+                                    "Id": {
+                                        "name": "da2a69ea-65fe-49da-a8ea-2fec78e82c51",
+                                        "path": "sprites/spr_medicneutral/spr_medicneutral.yy"
+                                    }
+                                }
+                            },
+                            "Disabled": false,
+                            "id": "aed6dd73-230a-413d-b7c4-8031f4b85bd7",
+                            "IsCreationKey": false,
+                            "Key": 2.0,
+                            "Length": 1.0,
+                            "Stretch": false
+                        },
+                        {
+                            "resourceType": "Keyframe<SpriteFrameKeyframe>",
+                            "resourceVersion": "1.0",
+                            "Channels": {
+                                "0": {
+                                    "resourceType": "SpriteFrameKeyframe",
+                                    "resourceVersion": "1.0",
+                                    "Id": {
+                                        "name": "772605ce-f4ff-4601-be5d-99e9f698d40c",
+                                        "path": "sprites/spr_medicneutral/spr_medicneutral.yy"
+                                    }
+                                }
+                            },
+                            "Disabled": false,
+                            "id": "aa759405-6f20-40b9-aa9f-5b6dd715c045",
+                            "IsCreationKey": false,
+                            "Key": 3.0,
+                            "Length": 1.0,
+                            "Stretch": false
+                        },
+                        {
+                            "resourceType": "Keyframe<SpriteFrameKeyframe>",
+                            "resourceVersion": "1.0",
+                            "Channels": {
+                                "0": {
+                                    "resourceType": "SpriteFrameKeyframe",
+                                    "resourceVersion": "1.0",
+                                    "Id": {
+                                        "name": "7f5c8068-10d8-45fe-82f6-ae97fe89e96c",
+                                        "path": "sprites/spr_medicneutral/spr_medicneutral.yy"
+                                    }
+                                }
+                            },
+                            "Disabled": false,
+                            "id": "a4489736-0cde-4f40-a085-ea924deec4cb",
+                            "IsCreationKey": false,
+                            "Key": 4.0,
+                            "Length": 1.0,
+                            "Stretch": false
+                        },
+                        {
+                            "resourceType": "Keyframe<SpriteFrameKeyframe>",
+                            "resourceVersion": "1.0",
+                            "Channels": {
+                                "0": {
+                                    "resourceType": "SpriteFrameKeyframe",
+                                    "resourceVersion": "1.0",
+                                    "Id": {
+                                        "name": "370629ec-bd7b-4f42-b658-96006c551ec2",
+                                        "path": "sprites/spr_medicneutral/spr_medicneutral.yy"
+                                    }
+                                }
+                            },
+                            "Disabled": false,
+                            "id": "ca680b41-f81a-44d1-8bd5-e6ce848fa1ba",
+                            "IsCreationKey": false,
+                            "Key": 5.0,
+                            "Length": 1.0,
+                            "Stretch": false
+                        }
+                    ]
+                },
+                "modifiers": [],
+                "spriteId": null,
+                "trackColour": 0,
+                "tracks": [],
+                "traits": 0
+            }
+        ],
+        "visibleRange": null,
+        "volume": 1.0,
+        "xorigin": 0,
+        "yorigin": -2
+    },
+    "swatchColours": null,
+    "swfPrecision": 2.525,
+    "textureGroupId": {
+        "name": "texgroup_cutscene",
+        "path": "texturegroups/texgroup_cutscene"
+    },
+    "type": 0,
+    "VTile": false,
+    "width": 188
+}
