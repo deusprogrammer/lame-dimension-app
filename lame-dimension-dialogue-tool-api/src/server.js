@@ -2,8 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import passport from 'passport';
-import { jwtAuthStrategy } from './config/passportConfig';
 
+import jwtAuthStrategy from './config/passportConfig';
 const scriptsRoute = require('./routes/scriptRoutes');
 const authRoute = require('./routes/authRoutes');
 const userRoute = require('./routes/userRoutes');
