@@ -5,8 +5,8 @@ import passport from 'passport';
 import { jwtAuthStrategy } from './config/passportConfig';
 
 import scriptsRoute from './routes/scriptRoutes';
-import authRoute    from './routes/authRoutes';
-import userRoute    from './routes/userRoutes';
+import authRoute from './routes/authRoutes';
+import userRoute from './routes/userRoutes';
 import profileRoute from './routes/profileRoutes';
 
 let app = express();
