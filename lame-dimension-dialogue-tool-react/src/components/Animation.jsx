@@ -64,7 +64,7 @@ const Animation = ({
         <img
             alt="animation frame"
             style={{ transform: `scaleX(${flip ? -1 : 1})` }}
-            src={`${process.env.PUBLIC_URL}${images[currentIndex]}`}
+            src={`${images[currentIndex]}`}
             width={width}
             height={height}
         />
