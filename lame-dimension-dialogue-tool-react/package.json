@@ -2,6 +2,7 @@
     "name": "lame-dimension-dialogue-tool",
     "version": "0.1.0",
     "private": true,
+    "homepage": "https://deusprogrammer.com/lamedimension",
     "dependencies": {
         "@pixi/react": "^7.1.0",
         "@testing-library/jest-dom": "^5.17.0",
