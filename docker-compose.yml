@@ -20,7 +20,6 @@ services:
     image: "mongo"
     restart: always
     volumes:
-      - mongo_data:/data/db
-
+      - ~/mongo_data:/data/db
 volumes:
   mongo_data:
