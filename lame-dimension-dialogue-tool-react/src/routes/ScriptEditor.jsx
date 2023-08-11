@@ -53,7 +53,7 @@ function App() {
             toast.info('Script Saved');
         } catch (e) {
             console.error(e);
-            navigate(`/login`);
+            navigate(`${process.env.PUBLIC_URL}/login`);
         }
     };
 

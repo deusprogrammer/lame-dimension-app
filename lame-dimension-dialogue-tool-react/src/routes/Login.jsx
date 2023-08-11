@@ -16,7 +16,7 @@ const Component = () => {
             });
 
             localStorage.setItem('jwtToken', res.data.jwtToken);
-            navigate(`/scripts`);
+            navigate(`${process.env.PUBLIC_URL}/scripts`);
         } catch (e) {
             setError('Incorrect credentials');
         }
@@ -38,7 +38,7 @@ const Component = () => {
             );
 
             localStorage.setItem('jwtToken', res.data.jwtToken);
-            navigate(`/scripts`);
+            navigate(`${process.env.PUBLIC_URL}/scripts`);
         } catch (e) {
             setError('User creation failed');
         }

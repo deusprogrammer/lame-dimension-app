@@ -50,16 +50,16 @@ function App() {
             <div>Welcome {user.username}</div>
             <Router>
                 <Routes>
-                    <Route path={`/scripts`} exact element={<ScriptList />} />
+                    <Route path={`${process.env.PUBLIC_URL}/scripts`} exact element={<ScriptList />} />
                     <Route
-                        path={`/scripts/:id`}
+                        path={`${process.env.PUBLIC_URL}/scripts/:id`}
                         exact
                         element={<ScriptEditor />}
                     />
-                    <Route path={`/login`} exact element={<Login />} />
+                    <Route path={`${process.env.PUBLIC_URL}/login`} exact element={<Login />} />
                     <Route
                         path="*"
-                        element={<Navigate to="/" replace={true} />}
+                        element={<Navigate to={`${process.env.PUBLIC_URL}/scripts`} replace={true} />}
                     />
                 </Routes>
             </Router>

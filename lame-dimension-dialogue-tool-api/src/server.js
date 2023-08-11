@@ -10,12 +10,12 @@ import profileRoute from './routes/profileRoutes.js';
 
 import { jwtAuthStrategy } from './config/passportConfig.js';
 
-import path from 'path'
-import { fileURLToPath } from 'url'
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url)
+const __filename = fileURLToPath(import.meta.url);
 
-const __dirname = path.dirname(__filename)
+const __dirname = path.dirname(__filename);
 
 let app = express();
 let port = process.env.PORT || 8080;
