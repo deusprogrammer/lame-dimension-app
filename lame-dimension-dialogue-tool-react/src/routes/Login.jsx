@@ -10,7 +10,7 @@ const Component = () => {
 
     const login = async () => {
         try {
-            let res = await axios.post(`http://localhost:8080/auth`, {
+            let res = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/auth`, {
                 username,
                 password,
             });
