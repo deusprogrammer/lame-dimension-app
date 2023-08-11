@@ -41,7 +41,7 @@ const Animation = ({
             <img
                 alt="seele"
                 style={{ transform: `scaleX(${flip ? -1 : 1})` }}
-                src={`${process.env.PUBLIC_URL}/seele.jpeg`}
+                src={`${process.env.REACT_APP_API_DOMAIN}/assets/seele.jpeg`}
                 width={516 / 4}
                 height={1162 / 4}
             />
