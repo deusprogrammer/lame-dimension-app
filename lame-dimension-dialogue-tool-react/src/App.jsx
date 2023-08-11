@@ -66,7 +66,7 @@ function App() {
                         element={<Login />}
                     />
                     <Route
-                        path="*"
+                        path="/"
                         element={
                             <Navigate
                                 to={`${process.env.PUBLIC_URL}/scripts`}
