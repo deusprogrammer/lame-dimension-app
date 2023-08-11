@@ -46,7 +46,7 @@ const Component = () => {
                                     : 'none',
                         }}
                         onClick={() => {
-                            navigate(`/scripts/${script.id}`);
+                            navigate(`${process.env.PUBLIC_URL}/scripts/${script.id}`);
                         }}
                     >
                         {user.username === script.editor ? '>' : null}

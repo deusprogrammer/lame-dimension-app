@@ -10,10 +10,13 @@ const Component = () => {
 
     const login = async () => {
         try {
-            let res = await axios.post(`${process.env.REACT_APP_API_DOMAIN}/auth`, {
-                username,
-                password,
-            });
+            let res = await axios.post(
+                `${process.env.REACT_APP_API_DOMAIN}/auth`,
+                {
+                    username,
+                    password,
+                }
+            );
 
             localStorage.setItem('jwtToken', res.data.jwtToken);
             navigate(`${process.env.PUBLIC_URL}/scripts`);
