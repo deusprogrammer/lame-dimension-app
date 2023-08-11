@@ -1,8 +1,8 @@
 import express from 'express';
 import jsonwebtoken from 'jsonwebtoken';
-import authConfig from '../config/authConfig';
+import authConfig from '../config/authConfig.js';
 
-import Users from '../models/user';
+import Users from '../models/user.js';
 const router = express.Router();
 
 router.post('/', async (req, res, next) => {
