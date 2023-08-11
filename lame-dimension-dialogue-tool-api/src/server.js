@@ -3,12 +3,19 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import passport from 'passport';
 
-import scriptsRoute from './routes/scriptRoutes';
-import authRoute from './routes/authRoutes';
-import userRoute from './routes/userRoutes';
-import profileRoute from './routes/profileRoutes';
+import scriptsRoute from './routes/scriptRoutes.js';
+import authRoute from './routes/authRoutes.js';
+import userRoute from './routes/userRoutes.js';
+import profileRoute from './routes/profileRoutes.js';
 
-import { jwtAuthStrategy } from './config/passportConfig';
+import { jwtAuthStrategy } from './config/passportConfig.js';
+
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+
+const __dirname = path.dirname(__filename)
 
 let app = express();
 let port = process.env.PORT || 8080;

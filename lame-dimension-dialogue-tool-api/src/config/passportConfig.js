@@ -1,7 +1,7 @@
-import jwtStrategy from 'passport-jwt/lib/strategy';
-import extractJwt from 'passport-jwt/lib/extract_jwt';
+import jwtStrategy from 'passport-jwt/lib/strategy.js';
+import extractJwt from 'passport-jwt/lib/extract_jwt.js';
 
-import authConfig from './authConfig';
+import authConfig from './authConfig.js';
 
 export let jwtAuthStrategy = new jwtStrategy(
     {

@@ -1,5 +1,5 @@
 import express from 'express';
-import Scripts from '../models/script';
+import Scripts from '../models/script.js';
 import { randomUUID } from 'crypto';
 const router = express.Router();
 
