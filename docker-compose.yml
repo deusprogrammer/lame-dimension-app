@@ -15,11 +15,4 @@ services:
       - "9900:8080"
     environment:
       - JWT_SIGNING_KEY=$JWT_SIGNING_KEY
-      - LD_DB_URL=mongodb://datalayer/lame-dimension-db?retryWrites=true
-  datalayer:
-    image: "mongo"
-    restart: always
-    volumes:
-      - ~/mongo_data:/data/db
-volumes:
-  mongo_data:
+      - LD_DB_URL=mongodb://10.0.0.244/lame-dimension-db?retryWrites=true
