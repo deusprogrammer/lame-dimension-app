@@ -289,7 +289,9 @@ function App() {
                 </div>
                 {scene ? (
                     <Option
-                        onOptionsChange={(options) => {updateOptions((options))}}
+                        onOptionsChange={(options) => {
+                            updateOptions(options);
+                        }}
                         options={chapters[chapter]?.scenes[scene].options}
                     />
                 ) : null}

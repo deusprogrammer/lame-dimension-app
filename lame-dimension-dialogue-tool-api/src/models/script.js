@@ -29,9 +29,18 @@ let scene = new mongoose.Schema({
         type: [dialogue],
     },
     options: {
-        smallerPortraits: Boolean,
-        disablePortraits: Boolean,
-        keepBlackBars: Boolean,
+        smallerPortraits: {
+            type: Boolean,
+            default: false
+        },
+        disablePortraits: {
+            type: Boolean,
+            default: false
+        },
+        keepBlackBars: {
+            type: Boolean,
+            default: false
+        }
     },
 });
 
