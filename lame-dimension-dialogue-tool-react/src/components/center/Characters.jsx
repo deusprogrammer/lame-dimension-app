@@ -97,7 +97,10 @@ const component = ({ characters, side, scene, index, onPositionChange }) => {
                                             positions[position]?.name
                                         ]?.emotes.map((emote) => {
                                             return (
-                                                <option key={`${position}-${emote}`} value={emote}>
+                                                <option
+                                                    key={`${position}-${emote}`}
+                                                    value={emote}
+                                                >
                                                     {emote}
                                                 </option>
                                             );

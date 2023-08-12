@@ -31,8 +31,8 @@ let scene = new mongoose.Schema({
     options: {
         smallerPortraits: Boolean,
         disablePortraits: Boolean,
-        keepBlackBars: Boolean
-    }
+        keepBlackBars: Boolean,
+    },
 });
 
 let chapter = new mongoose.Schema({

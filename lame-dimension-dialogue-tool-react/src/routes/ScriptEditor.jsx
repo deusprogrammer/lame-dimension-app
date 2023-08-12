@@ -104,8 +104,8 @@ function App() {
     }, []);
 
     const changeSceneKey = (sceneKey, oldSceneKey) => {
-        let chaptersCopy = {...chapters};
-        let scenesCopy = {...chapters[chapter].scenes};
+        let chaptersCopy = { ...chapters };
+        let scenesCopy = { ...chapters[chapter].scenes };
 
         if (sceneKey in scenesCopy) {
             return;
@@ -115,7 +115,13 @@ function App() {
         delete scenesCopy[oldSceneKey];
         chaptersCopy[chapter].scenes = scenesCopy;
         setChapters(chaptersCopy);
-    }
+    };
+
+    const updateOptions = (options) => {
+        let chaptersCopy = { ...chapters };
+        chaptersCopy[chapter].scenes[scene].options = options;
+        setChapters(chaptersCopy);
+    };
 
     const updateDialog = (index, entry) => {
         let copy = { ...chapters };
@@ -201,7 +207,10 @@ function App() {
                     </table>
                 </div>
                 <Chapters
-                    onChapterSelect={(chapter) => {setChapter(chapter); setScene(null);}}
+                    onChapterSelect={(chapter) => {
+                        setChapter(chapter);
+                        setScene(null);
+                    }}
                     onCreateChapter={addChapter}
                     selectedChapter={chapter}
                     chapters={chapters}
@@ -244,7 +253,10 @@ function App() {
             <div className="center" style={{ textAlign: 'center' }}>
                 <SceneMeta
                     sceneKey={scene}
-                    onSceneKeyChange={(sceneKey, oldSceneKey) => {changeSceneKey(sceneKey, oldSceneKey); setScene(sceneKey);}}
+                    onSceneKeyChange={(sceneKey, oldSceneKey) => {
+                        changeSceneKey(sceneKey, oldSceneKey);
+                        setScene(sceneKey);
+                    }}
                 />
                 <div className="preview">
                     <Characters
@@ -275,7 +287,12 @@ function App() {
                         onPositionChange={updateDialog}
                     />
                 </div>
-                {scene ? <Option onChange={() => {}} options={chapters[chapter]?.scenes[scene].options} /> : null}
+                {scene ? (
+                    <Option
+                        onOptionsChange={(options) => {updateOptions((options))}}
+                        options={chapters[chapter]?.scenes[scene].options}
+                    />
+                ) : null}
                 <DialogueEditor
                     language={language}
                     defaultLanguage={defaultLanguage}

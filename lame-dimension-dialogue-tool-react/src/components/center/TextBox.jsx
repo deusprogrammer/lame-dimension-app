@@ -39,10 +39,7 @@ const Component = ({ scene, language, index, characters }) => {
 
     return (
         <div>
-            <Stage
-                width={640}
-                height={70}
-            >
+            <Stage width={640} height={70}>
                 <Container x={0} y={0} width={640} height={70}>
                     <Graphics x={0} y={0} width={640} height={70} draw={draw} />
                     <Text

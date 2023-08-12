@@ -15,7 +15,7 @@ const component = ({
             <h2>Chapters</h2>
             <div className="scrolling">
                 {Object.keys(chapters).map((chapterName) => (
-                    <div 
+                    <div
                         key={chapterName}
                         className={`selectable ${
                             selectedChapter === chapterName ? 'selected' : null

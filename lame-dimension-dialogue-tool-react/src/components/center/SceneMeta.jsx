@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 const component = ({ sceneKey, onSceneKeyChange }) => {
     const [newSceneKey, setNewSceneKey] = useState(sceneKey);
@@ -7,11 +7,20 @@ const component = ({ sceneKey, onSceneKeyChange }) => {
         setNewSceneKey(sceneKey);
     }, [sceneKey]);
 
-    console.log("SCENE: " + sceneKey);
+    console.log('SCENE: ' + sceneKey);
 
     return (
         <div className="dialogue-meta">
-            <input type="text" value={newSceneKey} onChange={({target: {value}}) => {setNewSceneKey(value)}} onBlur={() => {onSceneKeyChange(newSceneKey, sceneKey)}}/>
+            <input
+                type="text"
+                value={newSceneKey}
+                onChange={({ target: { value } }) => {
+                    setNewSceneKey(value);
+                }}
+                onBlur={() => {
+                    onSceneKeyChange(newSceneKey, sceneKey);
+                }}
+            />
         </div>
     );
 };
