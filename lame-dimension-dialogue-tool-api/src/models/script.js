@@ -28,6 +28,11 @@ let scene = new mongoose.Schema({
     dialogue: {
         type: [dialogue],
     },
+    options: {
+        smallerPortraits: Boolean,
+        disablePortraits: Boolean,
+        keepBlackBars: Boolean
+    }
 });
 
 let chapter = new mongoose.Schema({

@@ -18,8 +18,6 @@ const Animation = ({
             clearInterval(intervals[label]);
         }
 
-        console.log(`${label}: ${JSON.stringify(images, null, 5)}`);
-
         setCurrentIndex(0);
         intervals[label] = setInterval(() => {
             setCurrentIndex((oldIndex) => {

@@ -43,7 +43,7 @@ const Component = ({
                 <tbody>
                     {scene.dialogue.map((entry, dialogueIndex) => {
                         return (
-                            <tr
+                            <tr key={`dialogue${dialogueIndex}`}
                                 className={`${
                                     index === dialogueIndex ? 'selected' : null
                                 }`}

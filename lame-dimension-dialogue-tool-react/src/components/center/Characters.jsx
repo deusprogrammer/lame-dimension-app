@@ -1,9 +1,7 @@
 import React from 'react';
 
-import characters from '../../data/characters';
-
-const component = ({ side, scene, index, onPositionChange }) => {
-    if (!scene) {
+const component = ({ characters, side, scene, index, onPositionChange }) => {
+    if (!scene || !characters) {
         return <div className="characters"></div>;
     }
 
@@ -47,7 +45,7 @@ const component = ({ side, scene, index, onPositionChange }) => {
                     .filter((position) => position.toLowerCase().includes(side))
                     .map((position) => {
                         return (
-                            <div>
+                            <div key={`pos-${position}`}>
                                 <div>{position.toUpperCase()}</div>
                                 <div>
                                     <select
@@ -61,7 +59,7 @@ const component = ({ side, scene, index, onPositionChange }) => {
                                         <option value="none">none</option>
                                         {Object.keys(characters).map((key) => {
                                             return (
-                                                <option value={key}>
+                                                <option value={key} key={key}>
                                                     {characters[key].name}
                                                 </option>
                                             );
@@ -99,7 +97,7 @@ const component = ({ side, scene, index, onPositionChange }) => {
                                             positions[position]?.name
                                         ]?.emotes.map((emote) => {
                                             return (
-                                                <option value={emote}>
+                                                <option key={`${position}-${emote}`} value={emote}>
                                                     {emote}
                                                 </option>
                                             );

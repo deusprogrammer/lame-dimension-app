@@ -38,6 +38,7 @@ const Component = () => {
             {scripts.map((script) => {
                 return (
                     <div
+                        key={script.name}
                         style={{
                             cursor: 'pointer',
                             backgroundColor:

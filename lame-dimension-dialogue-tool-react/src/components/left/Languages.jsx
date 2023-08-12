@@ -15,6 +15,7 @@ const component = ({
                 {languages.map((language) => {
                     return (
                         <div
+                            key={language}
                             onClick={() => {
                                 onSelectLanguage(language);
                             }}
@@ -38,7 +39,7 @@ const component = ({
             >
                 {languages.map((language) => {
                     return (
-                        <option value={language}>
+                        <option key={`def-${language}`} value={language}>
                             {language.toUpperCase()}
                         </option>
                     );

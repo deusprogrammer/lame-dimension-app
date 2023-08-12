@@ -13,7 +13,6 @@ import SceneMeta from '../components/center/SceneMeta';
 import DialogueEditor from '../components/center/DialogueEditor';
 
 import Option from '../components/right/Options';
-import characters from '../data/characters';
 import userAtom from '../atoms/User.atom';
 
 import { useNavigate, useParams } from 'react-router';
@@ -28,7 +27,7 @@ function App() {
     const [script, setScript] = useState({});
     const [chapters, setChapters] = useState({});
     const [chapter, setChapter] = useState('');
-    const [scene, setScene] = useState('');
+    const [scene, setScene] = useState(null);
     const [sceneIndex, setSceneIndex] = useState(0);
     const [user] = useAtom(userAtom);
     const navigate = useNavigate();
@@ -103,6 +102,20 @@ function App() {
 
         // interval = setInterval(save, 30000);
     }, []);
+
+    const changeSceneKey = (sceneKey, oldSceneKey) => {
+        let chaptersCopy = {...chapters};
+        let scenesCopy = {...chapters[chapter].scenes};
+
+        if (sceneKey in scenesCopy) {
+            return;
+        }
+
+        scenesCopy[sceneKey] = scenesCopy[oldSceneKey];
+        delete scenesCopy[oldSceneKey];
+        chaptersCopy[chapter].scenes = scenesCopy;
+        setChapters(chaptersCopy);
+    }
 
     const updateDialog = (index, entry) => {
         let copy = { ...chapters };
@@ -188,7 +201,7 @@ function App() {
                     </table>
                 </div>
                 <Chapters
-                    onChapterSelect={setChapter}
+                    onChapterSelect={(chapter) => {setChapter(chapter); setScene(null);}}
                     onCreateChapter={addChapter}
                     selectedChapter={chapter}
                     chapters={chapters}
@@ -231,13 +244,14 @@ function App() {
             <div className="center" style={{ textAlign: 'center' }}>
                 <SceneMeta
                     sceneKey={scene}
-                    scene={chapters[chapter]?.scenes[scene]}
+                    onSceneKeyChange={(sceneKey, oldSceneKey) => {changeSceneKey(sceneKey, oldSceneKey); setScene(sceneKey);}}
                 />
                 <div className="preview">
                     <Characters
                         side="left"
                         scene={chapters[chapter]?.scenes[scene]}
                         index={sceneIndex}
+                        characters={script.characters}
                         onPositionChange={updateDialog}
                     />
                     <div>
@@ -250,16 +264,18 @@ function App() {
                             defaultLanguage={defaultLanguage}
                             scene={chapters[chapter]?.scenes[scene]}
                             index={sceneIndex}
+                            characters={script.characters}
                         />
                     </div>
                     <Characters
                         side="right"
                         scene={chapters[chapter]?.scenes[scene]}
                         index={sceneIndex}
+                        characters={script.characters}
                         onPositionChange={updateDialog}
                     />
                 </div>
-                {scene ? <Option onChange={() => {}} /> : null}
+                {scene ? <Option onChange={() => {}} options={chapters[chapter]?.scenes[scene].options} /> : null}
                 <DialogueEditor
                     language={language}
                     defaultLanguage={defaultLanguage}

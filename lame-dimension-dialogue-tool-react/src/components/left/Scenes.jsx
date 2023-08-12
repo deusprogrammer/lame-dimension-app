@@ -12,6 +12,7 @@ const component = ({ scenes, selectedScene, onSelectScene, onCreateScene }) => {
                 {Object.keys(scenes).map((name) => {
                     return (
                         <div
+                            key={name}
                             onClick={() => {
                                 onSelectScene(name);
                             }}

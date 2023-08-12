@@ -3,9 +3,7 @@ import React, { useCallback } from 'react';
 import { Stage, Container, Text, Graphics } from '@pixi/react';
 import * as PIXI from 'pixi.js';
 
-import characters from '../../data/characters';
-
-const Component = ({ scene, language, index }) => {
+const Component = ({ scene, language, index, characters }) => {
     const draw = useCallback((g) => {
         g.clear();
         g.beginFill(0x0c0d0d);
@@ -44,7 +42,6 @@ const Component = ({ scene, language, index }) => {
             <Stage
                 width={640}
                 height={70}
-                options={{ backgroundColor: 'teal' }}
             >
                 <Container x={0} y={0} width={640} height={70}>
                     <Graphics x={0} y={0} width={640} height={70} draw={draw} />

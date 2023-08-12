@@ -35,8 +35,6 @@ const Component = ({ position, dialogue, active }) => {
         let directory = `${process.env.REACT_APP_API_DOMAIN}/assets/sprites/${emote}/spr_${character}${emote}`;
         let spriteFile = `${directory}/spr_${character}${emote}.yy`;
 
-        console.log('SPRITE FILE: ' + spriteFile);
-
         try {
             let response = await axios.get(spriteFile, {
                 headers: {
@@ -51,8 +49,6 @@ const Component = ({ position, dialogue, active }) => {
             );
             setHeight(height);
             setWidth(width);
-
-            console.log('SET FILES: ' + files.length);
 
             setFileList(files);
         } catch (e) {
