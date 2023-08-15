@@ -58,8 +58,8 @@ const Component = ({
                                                 }
                                                 onClick={() => {
                                                     swapDialogues(
-                                                        index,
-                                                        index - 1
+                                                        dialogueIndex,
+                                                        dialogueIndex - 1
                                                     );
                                                 }}
                                             >
@@ -75,7 +75,10 @@ const Component = ({
                                                 dialogueIndex + 1 + dialogCount
                                             }
                                             onClick={() => {
-                                                swapDialogues(index, index + 1);
+                                                swapDialogues(
+                                                    dialogueIndex, 
+                                                    dialogueIndex + 1
+                                                );
                                             }}
                                         >
                                             Down
@@ -141,7 +144,7 @@ const Component = ({
                                             dialogueIndex + 1 + dialogCount * 4
                                         }
                                         onClick={() => {
-                                            onDialogueAdd(index);
+                                            onDialogueAdd(dialogueIndex);
                                         }}
                                     >
                                         Add Below

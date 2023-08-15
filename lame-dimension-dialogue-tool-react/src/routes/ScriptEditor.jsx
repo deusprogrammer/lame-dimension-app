@@ -140,13 +140,13 @@ function App() {
         setChapters(chaptersCopy);
     };
 
-    const updateDialog = (index, entry) => {
+    const updateDialogue = (index, entry) => {
         let copy = { ...chapters };
         copy[chapter].scenes[scene].dialogue[index] = entry;
         setChapters(copy);
     };
 
-    const addDialog = (afterIndex) => {
+    const addDialogue = (afterIndex) => {
         let copy = { ...chapters };
         copy[chapter].scenes[scene].dialogue.splice(afterIndex + 1, 0, {
             positions: {
@@ -161,7 +161,7 @@ function App() {
                 jp: '',
                 fr: '',
                 br: '',
-                ch: ''
+                ch: '',
             },
             active: 'left',
             emote: null,
@@ -304,7 +304,7 @@ function App() {
                         scene={chapters[chapter]?.scenes[scene]}
                         index={sceneIndex}
                         characters={script.characters}
-                        onPositionChange={updateDialog}
+                        onPositionChange={updateDialogue}
                     />
                     <div>
                         <CharacterSprites
@@ -324,7 +324,7 @@ function App() {
                         scene={chapters[chapter]?.scenes[scene]}
                         index={sceneIndex}
                         characters={script.characters}
-                        onPositionChange={updateDialog}
+                        onPositionChange={updateDialogue}
                     />
                 </div>
                 {scene ? (
@@ -341,8 +341,8 @@ function App() {
                     scene={chapters[chapter]?.scenes[scene]}
                     index={sceneIndex}
                     onDialogueIndexChange={setSceneIndex}
-                    onDialogueChange={updateDialog}
-                    onDialogueAdd={addDialog}
+                    onDialogueChange={updateDialogue}
+                    onDialogueAdd={addDialogue}
                     onDialogueRearrange={storeDialogues}
                 />
             </div>
