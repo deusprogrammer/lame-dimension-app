@@ -26,6 +26,11 @@ router.post('/', async function (req, res, next) {
 });
 
 router.get('/', async function (req, res, next) {
+    if (!req.user.roles.includes('EDITOR')) {
+        req.statusCode = 403;
+        return res.send();
+    }
+    
     let scripts = await Scripts.find({});
 
     return res.json(scripts);
@@ -34,6 +39,12 @@ router.get('/', async function (req, res, next) {
 router.get('/:id', async function (req, res, next) {
     let { pull } = req.query;
     let { id } = req.params;
+
+    if (!req.user.roles.includes('EDITOR')) {
+        req.statusCode = 403;
+        return res.send();
+    }
+    
     try {
         if (pull) {
             let script = await Scripts.findOne({ id, editor: pull });
@@ -78,6 +89,11 @@ router.put('/:id', async function (req, res, next) {
     try {
         let { merge } = req.query;
         let { id } = req.params;
+
+        if (!req.user.roles.includes('EDITOR')) {
+            req.statusCode = 403;
+            return res.send();
+        }
 
         // If admin and merge is passed, overwrite what's in root.
         if (merge === '' || (merge && req.user.roles.includes('ADMIN'))) {

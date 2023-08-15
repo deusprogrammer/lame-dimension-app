@@ -31,16 +31,16 @@ let scene = new mongoose.Schema({
     options: {
         smallerPortraits: {
             type: Boolean,
-            default: false
+            default: false,
         },
         disablePortraits: {
             type: Boolean,
-            default: false
+            default: false,
         },
         keepBlackBars: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
 });
 
