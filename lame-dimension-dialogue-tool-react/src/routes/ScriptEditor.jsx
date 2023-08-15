@@ -12,7 +12,7 @@ import Characters from '../components/center/Characters';
 import SceneMeta from '../components/center/SceneMeta';
 import DialogueEditor from '../components/center/DialogueEditor';
 
-import Option from '../components/right/Options';
+import Option from '../components/center/Options';
 import userAtom from '../atoms/User.atom';
 
 import { useNavigate, useParams } from 'react-router';
@@ -33,6 +33,16 @@ function App() {
     const navigate = useNavigate();
     const { id } = useParams();
     const jwtToken = localStorage.getItem('jwtToken');
+
+    useEffect(() => {
+        loadScript();
+
+        if (interval) {
+            clearInterval(interval);
+        }
+
+        // interval = setInterval(save, 30000);
+    }, []);
 
     const save = async () => {
         if (!chapters || chapters === {}) {
@@ -74,6 +84,23 @@ function App() {
         }
     };
 
+    const pull = async () => {
+        try {
+            await axios.get(
+                `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}?pull`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                }
+            );
+            toast.info('Script Updated from Root');
+        } catch (e) {
+            console.error(e);
+            navigate(`/login`);
+        }
+    };
+
     const loadScript = async () => {
         try {
             let res = await axios.get(
@@ -92,16 +119,6 @@ function App() {
             navigate(`/login`);
         }
     };
-
-    useEffect(() => {
-        loadScript();
-
-        if (interval) {
-            clearInterval(interval);
-        }
-
-        // interval = setInterval(save, 30000);
-    }, []);
 
     const changeSceneKey = (sceneKey, oldSceneKey) => {
         let chaptersCopy = { ...chapters };
@@ -147,7 +164,7 @@ function App() {
     };
 
     const addChapter = () => {
-        let chapterName = `Chapter ${chapters.length}`;
+        let chapterName = `Chapter ${Object.keys(chapters).length}`;
         if (chapters.length === 0) {
             chapterName = 'Prologue';
         }
@@ -157,6 +174,9 @@ function App() {
             scenes: [],
         };
         setChapters(copy);
+        setScene(null);
+        setSceneIndex(0);
+        setChapter(chapterName.toLowerCase());
     };
 
     const storeDialogues = (newDialogs) => {
@@ -182,7 +202,14 @@ function App() {
                         rightFront: {},
                         right: {},
                     },
-                    text: '',
+                    text: {
+                        en: '',
+                        es: '',
+                        jp: '',
+                        fr: '',
+                        br: '',
+                        ch: '',
+                    },
                     active: 'left',
                     emote: null,
                 },
@@ -235,8 +262,9 @@ function App() {
                 <h2>Actions</h2>
                 <button onClick={save}>Save</button>
                 {user?.roles?.includes('ADMIN') ? (
-                    <button onClick={merge}>Merge</button>
+                    <button onClick={merge}>Merge to Root</button>
                 ) : null}
+                <button onClick={pull}>Pull from Root</button>
                 <button
                     onClick={() => {
                         navigator.clipboard.writeText(
@@ -252,7 +280,7 @@ function App() {
                         toast.info('JSON Payload Copied to Clipboard');
                     }}
                 >
-                    Take a Dump
+                    Dump JSON to Clipboard
                 </button>
             </div>
             <div className="center" style={{ textAlign: 'center' }}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 
 const component = ({
     chapters,
@@ -6,9 +6,16 @@ const component = ({
     onChapterSelect,
     onCreateChapter,
 }) => {
+    const selectedHook = useRef(null);
     if (!chapters) {
         return <div className="chapters"></div>;
     }
+
+    useEffect(() => {
+        if (selectedHook.current) {
+            selectedHook.current.scrollIntoView({block: 'nearest'});
+        }
+    }, [selectedChapter]);
 
     return (
         <div className="chapters">
@@ -17,6 +24,7 @@ const component = ({
                 {Object.keys(chapters).map((chapterName) => (
                     <div
                         key={chapterName}
+                        ref={chapterName === selectedChapter ? selectedHook : null}
                         className={`selectable ${
                             selectedChapter === chapterName ? 'selected' : null
                         }`}
