@@ -7,6 +7,7 @@ import scriptsRoute from './routes/scriptRoutes.js';
 import authRoute from './routes/authRoutes.js';
 import userRoute from './routes/userRoutes.js';
 import profileRoute from './routes/profileRoutes.js';
+import codeRoute from './routes/codeRoutes.js';
 
 import { jwtAuthStrategy } from './config/passportConfig.js';
 
@@ -70,6 +71,11 @@ app.use(
     '/scripts',
     passport.authenticate('jwt', { session: false }),
     scriptsRoute
+);
+app.use(
+    '/codes',
+    passport.authenticate('jwt', { session: false }),
+    codeRoute
 );
 
 app.listen(port);

@@ -21,7 +21,7 @@ const Component = () => {
                 }
             );
 
-            setScripts(res.data);
+            setScripts(res.data || []);
         } catch (e) {
             console.error(e);
             navigate(`${process.env.PUBLIC_URL}/login`);

@@ -1,14 +1,19 @@
 import axios from 'axios';
+import {useAtom} from 'jotai';
+import userAtom from '../atoms/User.atom';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 const Component = () => {
+    const [user, setUser] = useAtom(userAtom);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [code, setCode] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const login = async () => {
+        let jwtToken;
         try {
             let res = await axios.post(
                 `${process.env.REACT_APP_API_DOMAIN}/auth`,
@@ -18,18 +23,38 @@ const Component = () => {
                 }
             );
 
+            jwtToken = res.data.jwtToken;
             localStorage.setItem('jwtToken', res.data.jwtToken);
             navigate(`${process.env.PUBLIC_URL}/scripts`);
         } catch (e) {
             setError('Incorrect credentials');
+            return;
+        }
+
+        try {
+            let res = await axios.get(
+                `${process.env.REACT_APP_API_DOMAIN}/profiles/self`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                }
+            );
+
+            setUser(res.data);
+        } catch (e) {
+            console.error(e);
+            return;
         }
     };
 
     const createUser = async () => {
+        let jwtToken;
         try {
             await axios.post(`${process.env.REACT_APP_API_DOMAIN}/users`, {
                 username,
                 password,
+                code,
             });
 
             let res = await axios.post(
@@ -40,10 +65,27 @@ const Component = () => {
                 }
             );
 
+            jwtToken = res.data.jwtToken;
             localStorage.setItem('jwtToken', res.data.jwtToken);
             navigate(`${process.env.PUBLIC_URL}/scripts`);
         } catch (e) {
             setError('User creation failed');
+        }
+
+        try {
+            let res = await axios.get(
+                `${process.env.REACT_APP_API_DOMAIN}/profiles/self`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                }
+            );
+
+            setUser(res.data);
+        } catch (e) {
+            console.error(e);
+            return;
         }
     };
 
@@ -83,6 +125,14 @@ const Component = () => {
                     value={password}
                     onChange={({ target: { value } }) => {
                         setPassword(value);
+                    }}
+                />
+                <label>Creation Code</label>
+                <input
+                    type="text"
+                    value={code}
+                    onChange={({ target: { value } }) => {
+                        setCode(value);
                     }}
                 />
                 <button onClick={login}>Login</button>
