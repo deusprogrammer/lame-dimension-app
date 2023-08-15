@@ -155,7 +155,14 @@ function App() {
                 rightFront: {},
                 right: {},
             },
-            text: '',
+            text: {
+                en: '',
+                es: '',
+                jp: '',
+                fr: '',
+                br: '',
+                ch: ''
+            },
             active: 'left',
             emote: null,
         });
