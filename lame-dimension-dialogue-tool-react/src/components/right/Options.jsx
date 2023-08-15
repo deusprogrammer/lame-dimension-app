@@ -1,6 +1,16 @@
 import React from 'react';
 
 const component = ({ onOptionsChange, options }) => {
+    if (!options) {
+        onOptionsChange({
+            smallerPortraits: false,
+            disabledPortraits: false,
+            keepBlackBars: false,
+        });
+
+        return <></>;
+    }
+
     return (
         <div>
             <h2>Options</h2>

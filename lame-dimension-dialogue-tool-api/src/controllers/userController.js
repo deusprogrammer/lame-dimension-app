@@ -47,7 +47,7 @@ export default {
         });
     },
     createUser: async (req, res) => {
-        req.body.roles = [];
+        req.body.roles = ['EDITOR'];
 
         let { code } = req.body;
 
@@ -72,9 +72,9 @@ export default {
         }
     },
     updateUser: async (req, res) => {
-        let user = await Users.findOne({username: req.user.username});
-        let {password, roles} = req.body;
-        
+        let user = await Users.findOne({ username: req.user.username });
+        let { password, roles } = req.body;
+
         let isAdmin = checkRoles(req, 'ADMIN');
 
         // If the caller doesn't own this user and they aren't an admin, fail
@@ -92,7 +92,7 @@ export default {
             user.password = password;
             user.save();
         } else {
-            await Users.updateOne({username: req.params.id}, req.body);
+            await Users.updateOne({ username: req.params.id }, req.body);
         }
 
         return res.send();

@@ -171,6 +171,11 @@ function App() {
         copy[chapter].scenes[newSceneKey] = {
             dialogue: [
                 {
+                    options: {
+                        smallerPortraits: false,
+                        disablePortraits: false,
+                        keepBlackBars: false,
+                    },
                     positions: {
                         left: {},
                         leftFront: {},

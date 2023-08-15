@@ -50,20 +50,24 @@ function App() {
         <>
             <div>
                 <div>
-                    {user.username ?
-                    <>
-                    Welcome <Link to={`${process.env.PUBLIC_URL}/user`}>{user.username}</Link>{' '}
-                     <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                            localStorage.removeItem('jwtToken');
-                            setUser({roles: []});
-                            navigate(`${process.env.PUBLIC_URL}/login`);
-                        }}
-                    >
-                        (Logout)
-                    </span></> : null}
-                    
+                    {user.username ? (
+                        <>
+                            Welcome{' '}
+                            <Link to={`${process.env.PUBLIC_URL}/user`}>
+                                {user.username}
+                            </Link>{' '}
+                            <span
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                    localStorage.removeItem('jwtToken');
+                                    setUser({ roles: [] });
+                                    navigate(`${process.env.PUBLIC_URL}/login`);
+                                }}
+                            >
+                                (Logout)
+                            </span>
+                        </>
+                    ) : null}
                 </div>
                 <div>
                     <button

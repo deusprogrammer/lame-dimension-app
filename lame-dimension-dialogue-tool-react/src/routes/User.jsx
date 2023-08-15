@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
 
 const component = () => {
-    const [user, setUser] = useState({password: ''});
+    const [user, setUser] = useState({ password: '' });
     const navigate = useNavigate();
     let jwtToken = localStorage.getItem('jwtToken');
 
@@ -12,7 +12,7 @@ const component = () => {
             await axios.put(
                 `${process.env.REACT_APP_API_DOMAIN}/profiles/${user.username}`,
                 {
-                    ...user
+                    ...user,
                 },
                 {
                     headers: {
@@ -25,7 +25,7 @@ const component = () => {
             console.error(e);
             return;
         }
-    }
+    };
 
     const getUser = async () => {
         try {
@@ -43,7 +43,7 @@ const component = () => {
             console.error(e);
             return;
         }
-    }
+    };
 
     useEffect(() => {
         getUser();
@@ -51,9 +51,16 @@ const component = () => {
 
     return (
         <div>
-            <input type='password' value={user.password} onChange={({target: {value}}) => {setUser({...user, password: value})}} /><button onClick={updateUser}>Change Password</button>
+            <input
+                type="password"
+                value={user.password}
+                onChange={({ target: { value } }) => {
+                    setUser({ ...user, password: value });
+                }}
+            />
+            <button onClick={updateUser}>Change Password</button>
         </div>
     );
-}
+};
 
 export default component;
