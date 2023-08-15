@@ -7,23 +7,17 @@ const component = () => {
     const jwtToken = localStorage.getItem('jwtToken');
 
     const loadUsers = async () => {
-        let res = await axios.get(
-            `${process.env.REACT_APP_API_DOMAIN}/users`,
-            {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            }
-        );
+        let res = await axios.get(`${process.env.REACT_APP_API_DOMAIN}/users`, {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`,
+            },
+        });
         setUsers(res.data);
-        res = await axios.get(
-            `${process.env.REACT_APP_API_DOMAIN}/codes`,
-            {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            }
-        );
+        res = await axios.get(`${process.env.REACT_APP_API_DOMAIN}/codes`, {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`,
+            },
+        });
         setCodes(res.data);
     };
 
@@ -38,7 +32,7 @@ const component = () => {
             }
         );
         await loadUsers();
-    }
+    };
 
     const adjustUserRoles = async (checked, username, role) => {
         const foundUserIndex = users.findIndex(
@@ -147,13 +141,17 @@ const component = () => {
             </table>
             <h2>Codes</h2>
             <ul>
-            { codes.map(({code}) => {
-                return (
-                    <li>{code}</li>
-                )
-            })}
+                {codes.map(({ code }) => {
+                    return <li>{code}</li>;
+                })}
             </ul>
-            <button onClick={() => {createCode()}}>Create Code</button>
+            <button
+                onClick={() => {
+                    createCode();
+                }}
+            >
+                Create Code
+            </button>
         </div>
     );
 };

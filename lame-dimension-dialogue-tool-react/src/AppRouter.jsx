@@ -4,12 +4,14 @@ import {
     Route,
     Navigate,
     useNavigate,
+    Link,
 } from 'react-router-dom';
 
 import ScriptList from './routes/ScriptList';
 import ScriptEditor from './routes/ScriptEditor';
 import Login from './routes/Login';
-import Admin from './components/Admin';
+import User from './routes/User';
+import Admin from './routes/Admin';
 
 import userAtom from './atoms/User.atom';
 
@@ -47,9 +49,30 @@ function App() {
     return (
         <>
             <div>
-                <div>Welcome {user.username} <span style={{cursor: 'pointer'}} onClick={() => {localStorage.removeItem('jwtToken'); navigate(`${process.env.PUBLIC_URL}/login`);}}>(Logout)</span></div>
                 <div>
-                    <button onClick={() => {navigate(`${process.env.PUBLIC_URL}/`)}}>Home</button>
+                    {user.username ?
+                    <>
+                    Welcome <Link to={`${process.env.PUBLIC_URL}/user`}>{user.username}</Link>{' '}
+                     <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                            localStorage.removeItem('jwtToken');
+                            setUser({roles: []});
+                            navigate(`${process.env.PUBLIC_URL}/login`);
+                        }}
+                    >
+                        (Logout)
+                    </span></> : null}
+                    
+                </div>
+                <div>
+                    <button
+                        onClick={() => {
+                            navigate(`${process.env.PUBLIC_URL}/`);
+                        }}
+                    >
+                        Home
+                    </button>
                     {user.roles.includes('ADMIN') ? (
                         <button
                             onClick={() => {
@@ -83,6 +106,11 @@ function App() {
                     path={`${process.env.PUBLIC_URL}/admin`}
                     exact
                     element={<Admin />}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/user`}
+                    exact
+                    element={<User />}
                 />
                 <Route
                     path="*"

@@ -5,20 +5,20 @@ import { checkRoles } from '../helpers/SecurityHelper.js';
 
 const router = express.Router();
 
-router.route("/").post(async (req, res) => {
+router.route('/').post(async (req, res) => {
     if (!checkRoles(req, 'ADMIN')) {
         res.statusCode = 403;
         return res.send();
     }
 
     await Codes.create({
-        code: randomUUID()
+        code: randomUUID(),
     });
 
     return res.send();
 });
 
-router.route("/").get(async (req, res) => {
+router.route('/').get(async (req, res) => {
     if (!checkRoles(req, 'ADMIN')) {
         res.statusCode = 403;
         return res.send();

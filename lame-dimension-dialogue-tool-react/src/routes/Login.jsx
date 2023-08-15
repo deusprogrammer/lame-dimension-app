@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useAtom} from 'jotai';
+import { useAtom } from 'jotai';
 import userAtom from '../atoms/User.atom';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';

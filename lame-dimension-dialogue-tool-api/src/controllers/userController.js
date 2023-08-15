@@ -49,9 +49,9 @@ export default {
     createUser: async (req, res) => {
         req.body.roles = [];
 
-        let {code} = req.body;
+        let { code } = req.body;
 
-        let found = await Codes.findOne({code});
+        let found = await Codes.findOne({ code });
 
         if (!found) {
             res.statusCode = 403;
@@ -62,22 +62,39 @@ export default {
 
         try {
             let result = await Users.create(req.body);
-            await Codes.deleteOne({code});
+            await Codes.deleteOne({ code });
 
             res.json(result);
             return res.send();
         } catch (error) {
             res.status(400);
-                return res.send(error);
+            return res.send(error);
         }
     },
     updateUser: async (req, res) => {
-        if (!checkRoles(req, 'ADMIN')) {
-            res.status(403);
+        let user = await Users.findOne({username: req.user.username});
+        let {password, roles} = req.body;
+        
+        let isAdmin = checkRoles(req, 'ADMIN');
+
+        // If the caller doesn't own this user and they aren't an admin, fail
+        if (user.username !== req.params.id && !isAdmin) {
+            res.statusCode = 403;
             return res.send();
         }
-        await Users.updateOne({ username: req.params.id }, req.body);
-        res.json(req.body);
+
+        // If the role isn't admin, then clear changes to roles
+        if (!isAdmin) {
+            req.params.roles = user.roles;
+        }
+
+        if (password) {
+            user.password = password;
+            user.save();
+        } else {
+            await Users.updateOne({username: req.params.id}, req.body);
+        }
+
         return res.send();
     },
     deleteUser: async (req, res) => {

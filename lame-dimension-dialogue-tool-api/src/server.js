@@ -72,11 +72,7 @@ app.use(
     passport.authenticate('jwt', { session: false }),
     scriptsRoute
 );
-app.use(
-    '/codes',
-    passport.authenticate('jwt', { session: false }),
-    codeRoute
-);
+app.use('/codes', passport.authenticate('jwt', { session: false }), codeRoute);
 
 app.listen(port);
 console.log('Lame Dimension API server started on: ' + port);

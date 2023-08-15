@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/', async (req, res, next) => {
     const user = await Users.findOne({ username: req.body.username });
-    if (!user || !await user.isValidPassword(req.body.password)) {
+    if (!user || !(await user.isValidPassword(req.body.password))) {
         res.statusCode = 401;
         return res.send();
     }
