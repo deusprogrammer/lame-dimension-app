@@ -92,7 +92,7 @@ body {
 
 .dialogue-text {
     height: 700px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .dialogue-text table {
@@ -115,7 +115,7 @@ body {
 }
 
 .scrolling {
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 200px;
 }
 

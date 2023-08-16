@@ -297,7 +297,7 @@ function App() {
                         navigator.clipboard.writeText(
                             JSON.stringify(
                                 {
-                                    characters,
+                                    ...script,
                                     chapters,
                                 },
                                 null,
