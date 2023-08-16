@@ -1,6 +1,12 @@
 import React, { createRef, useEffect } from 'react';
 
-const component = ({ scenes, selectedScene, onSelectScene, onCreateScene, onSceneRemove }) => {
+const component = ({
+    scenes,
+    selectedScene,
+    onSelectScene,
+    onCreateScene,
+    onSceneRemove,
+}) => {
     if (!scenes) {
         return (
             <div className="scenes">
@@ -27,19 +33,27 @@ const component = ({ scenes, selectedScene, onSelectScene, onCreateScene, onScen
                     <tbody>
                         {Object.keys(scenes).map((name) => {
                             return (
-                                <tr
-                                    key={name}
-                                    ref={sceneRefs[name]}
-                                >
-                                    <td onClick={() => {
-                                        onSelectScene(name);
-                                    }}
-                                    className={`selectable ${
-                                        selectedScene === name ? 'selected' : null
-                                    }`}>{name}</td>
-                                    <td className='delete-button' onClick={() => {
-                                        onSceneRemove(name);
-                                    }}>X</td>
+                                <tr key={name} ref={sceneRefs[name]}>
+                                    <td
+                                        onClick={() => {
+                                            onSelectScene(name);
+                                        }}
+                                        className={`selectable ${
+                                            selectedScene === name
+                                                ? 'selected'
+                                                : null
+                                        }`}
+                                    >
+                                        {name}
+                                    </td>
+                                    <td
+                                        className="delete-button"
+                                        onClick={() => {
+                                            onSceneRemove(name);
+                                        }}
+                                    >
+                                        X
+                                    </td>
                                 </tr>
                             );
                         })}

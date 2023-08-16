@@ -231,19 +231,19 @@ function App() {
         let copy = { ...chapters };
         delete copy[chapter].scenes[sceneKey];
         setChapters(copy);
-    }
+    };
 
     const removeChapter = (chapterKey) => {
         let copy = { ...chapters };
         delete copy[chapterKey];
         setChapters(copy);
-    }
+    };
 
     const removeDialogue = (dialogueIndex) => {
         let copy = { ...chapters };
-        copy[chapter].scenes[sceneKey].dialogue.splice(dialogueIndex, 1);
+        copy[chapter].scenes[scene].dialogue.splice(dialogueIndex, 1);
         setChapters(copy);
-    }
+    };
 
     return (
         <div className="container">

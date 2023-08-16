@@ -41,14 +41,16 @@ const Component = ({
         <>
             <h2>Dialogue</h2>
             <div className="dialogue-text">
-                <table className='dialogue-table'>
+                <table className="dialogue-table">
                     <tbody>
                         {scene.dialogue.map((entry, dialogueIndex) => {
                             return (
                                 <tr
                                     key={`dialogue${dialogueIndex}`}
                                     className={`${
-                                        index === dialogueIndex ? 'selected' : null
+                                        index === dialogueIndex
+                                            ? 'selected'
+                                            : null
                                     }`}
                                 >
                                     <td>
@@ -56,7 +58,8 @@ const Component = ({
                                             <>
                                                 <button
                                                     tabIndex={
-                                                        dialogueIndex + dialogCount
+                                                        dialogueIndex +
+                                                        dialogCount
                                                     }
                                                     onClick={() => {
                                                         swapDialogues(
@@ -74,7 +77,9 @@ const Component = ({
                                         scene.dialogue.length - 1 ? (
                                             <button
                                                 tabIndex={
-                                                    dialogueIndex + 1 + dialogCount
+                                                    dialogueIndex +
+                                                    1 +
+                                                    dialogCount
                                                 }
                                                 onClick={() => {
                                                     swapDialogues(
@@ -87,10 +92,12 @@ const Component = ({
                                             </button>
                                         ) : null}
                                     </td>
-                                    <td className='dialogue-text-col'>
+                                    <td className="dialogue-text-col">
                                         <textarea
                                             tabIndex={
-                                                dialogueIndex + 1 + dialogCount * 2
+                                                dialogueIndex +
+                                                1 +
+                                                dialogCount * 2
                                             }
                                             className="editor-text"
                                             onFocus={() => {
@@ -98,7 +105,9 @@ const Component = ({
                                                     dialogueIndex
                                                 );
                                             }}
-                                            onChange={({ target: { value } }) => {
+                                            onChange={({
+                                                target: { value },
+                                            }) => {
                                                 updateDialogueText(
                                                     dialogueIndex,
                                                     language,
@@ -115,14 +124,18 @@ const Component = ({
                                                 color: 'white',
                                             }}
                                         >
-                                            <b>{defaultLanguage.toUpperCase()}</b>:{' '}
-                                            {entry.text[defaultLanguage]}
+                                            <b>
+                                                {defaultLanguage.toUpperCase()}
+                                            </b>
+                                            : {entry.text[defaultLanguage]}
                                         </pre>
                                     </td>
                                     <td>
                                         <textarea
                                             tabIndex={
-                                                dialogueIndex + 1 + dialogCount * 3
+                                                dialogueIndex +
+                                                1 +
+                                                dialogCount * 3
                                             }
                                             className="editor-choice"
                                             onFocus={() => {
@@ -130,7 +143,9 @@ const Component = ({
                                                     dialogueIndex
                                                 );
                                             }}
-                                            onChange={({ target: { value } }) => {
+                                            onChange={({
+                                                target: { value },
+                                            }) => {
                                                 updateDialogue(
                                                     'choices',
                                                     dialogueIndex,
@@ -143,7 +158,9 @@ const Component = ({
                                     <td>
                                         <button
                                             tabIndex={
-                                                dialogueIndex + 1 + dialogCount * 4
+                                                dialogueIndex +
+                                                1 +
+                                                dialogCount * 4
                                             }
                                             onClick={() => {
                                                 onDialogueAdd(dialogueIndex);
@@ -153,7 +170,9 @@ const Component = ({
                                         </button>
                                         <button
                                             tabIndex={
-                                                dialogueIndex + 1 + dialogCount * 5
+                                                dialogueIndex +
+                                                1 +
+                                                dialogCount * 5
                                             }
                                             onClick={() => {
                                                 onDialogueRemove(dialogueIndex);

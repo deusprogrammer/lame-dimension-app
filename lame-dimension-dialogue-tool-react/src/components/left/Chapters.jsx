@@ -33,14 +33,26 @@ const component = ({
                                         : null
                                 }
                             >
-                                <td className={`selectable ${
-                                    selectedChapter === chapterName ? 'selected' : null
-                                }`} onClick={() => {
-                                    onChapterSelect(chapterName);
-                                }}>{chapterName}</td>
-                                <td className='delete-button' onClick={() => {
-                                    onChapterRemove(chapterName);
-                                }}>X</td>
+                                <td
+                                    className={`selectable ${
+                                        selectedChapter === chapterName
+                                            ? 'selected'
+                                            : null
+                                    }`}
+                                    onClick={() => {
+                                        onChapterSelect(chapterName);
+                                    }}
+                                >
+                                    {chapterName}
+                                </td>
+                                <td
+                                    className="delete-button"
+                                    onClick={() => {
+                                        onChapterRemove(chapterName);
+                                    }}
+                                >
+                                    X
+                                </td>
                             </tr>
                         ))}
                     </tbody>
