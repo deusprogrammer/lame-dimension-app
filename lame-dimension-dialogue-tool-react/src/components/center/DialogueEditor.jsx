@@ -8,6 +8,7 @@ const Component = ({
     onDialogueIndexChange,
     onDialogueChange,
     onDialogueAdd,
+    onDialogueRemove,
     onDialogueRearrange,
 }) => {
     if (!scene) {
@@ -37,125 +38,137 @@ const Component = ({
     const dialogCount = scene.dialogue.length;
 
     return (
-        <div className="dialogue-text">
+        <>
             <h2>Dialogue</h2>
-            <table>
-                <tbody>
-                    {scene.dialogue.map((entry, dialogueIndex) => {
-                        return (
-                            <tr
-                                key={`dialogue${dialogueIndex}`}
-                                className={`${
-                                    index === dialogueIndex ? 'selected' : null
-                                }`}
-                            >
-                                <td>
-                                    {dialogueIndex > 0 ? (
-                                        <>
+            <div className="dialogue-text">
+                <table className='dialogue-table'>
+                    <tbody>
+                        {scene.dialogue.map((entry, dialogueIndex) => {
+                            return (
+                                <tr
+                                    key={`dialogue${dialogueIndex}`}
+                                    className={`${
+                                        index === dialogueIndex ? 'selected' : null
+                                    }`}
+                                >
+                                    <td>
+                                        {dialogueIndex > 0 ? (
+                                            <>
+                                                <button
+                                                    tabIndex={
+                                                        dialogueIndex + dialogCount
+                                                    }
+                                                    onClick={() => {
+                                                        swapDialogues(
+                                                            dialogueIndex,
+                                                            dialogueIndex - 1
+                                                        );
+                                                    }}
+                                                >
+                                                    Up
+                                                </button>
+                                                <br />
+                                            </>
+                                        ) : null}
+                                        {dialogueIndex <
+                                        scene.dialogue.length - 1 ? (
                                             <button
                                                 tabIndex={
-                                                    dialogueIndex + dialogCount
+                                                    dialogueIndex + 1 + dialogCount
                                                 }
                                                 onClick={() => {
                                                     swapDialogues(
                                                         dialogueIndex,
-                                                        dialogueIndex - 1
+                                                        dialogueIndex + 1
                                                     );
                                                 }}
                                             >
-                                                Up
+                                                Down
                                             </button>
-                                            <br />
-                                        </>
-                                    ) : null}
-                                    {dialogueIndex <
-                                    scene.dialogue.length - 1 ? (
-                                        <button
+                                        ) : null}
+                                    </td>
+                                    <td className='dialogue-text-col'>
+                                        <textarea
                                             tabIndex={
-                                                dialogueIndex + 1 + dialogCount
+                                                dialogueIndex + 1 + dialogCount * 2
                                             }
-                                            onClick={() => {
-                                                swapDialogues(
-                                                    dialogueIndex, 
-                                                    dialogueIndex + 1
+                                            className="editor-text"
+                                            onFocus={() => {
+                                                onDialogueIndexChange(
+                                                    dialogueIndex
                                                 );
                                             }}
+                                            onChange={({ target: { value } }) => {
+                                                updateDialogueText(
+                                                    dialogueIndex,
+                                                    language,
+                                                    value
+                                                );
+                                            }}
+                                            value={entry.text[language]}
+                                        ></textarea>
+                                        <pre
+                                            style={{
+                                                textAlign: 'left',
+                                                padding: '0px',
+                                                margin: '0px',
+                                                color: 'white',
+                                            }}
                                         >
-                                            Down
+                                            <b>{defaultLanguage.toUpperCase()}</b>:{' '}
+                                            {entry.text[defaultLanguage]}
+                                        </pre>
+                                    </td>
+                                    <td>
+                                        <textarea
+                                            tabIndex={
+                                                dialogueIndex + 1 + dialogCount * 3
+                                            }
+                                            className="editor-choice"
+                                            onFocus={() => {
+                                                onDialogueIndexChange(
+                                                    dialogueIndex
+                                                );
+                                            }}
+                                            onChange={({ target: { value } }) => {
+                                                updateDialogue(
+                                                    'choices',
+                                                    dialogueIndex,
+                                                    value.split('\n')
+                                                );
+                                            }}
+                                            value={entry.choices?.join('\n')}
+                                        ></textarea>
+                                    </td>
+                                    <td>
+                                        <button
+                                            tabIndex={
+                                                dialogueIndex + 1 + dialogCount * 4
+                                            }
+                                            onClick={() => {
+                                                onDialogueAdd(dialogueIndex);
+                                            }}
+                                        >
+                                            Add Below
                                         </button>
-                                    ) : null}
-                                </td>
-                                <td>
-                                    <textarea
-                                        tabIndex={
-                                            dialogueIndex + 1 + dialogCount * 2
-                                        }
-                                        className="editor-text"
-                                        onFocus={() => {
-                                            onDialogueIndexChange(
-                                                dialogueIndex
-                                            );
-                                        }}
-                                        onChange={({ target: { value } }) => {
-                                            updateDialogueText(
-                                                dialogueIndex,
-                                                language,
-                                                value
-                                            );
-                                        }}
-                                        value={entry.text[language]}
-                                    ></textarea>
-                                    <pre
-                                        style={{
-                                            textAlign: 'left',
-                                            padding: '0px',
-                                            margin: '0px',
-                                            color: 'white',
-                                        }}
-                                    >
-                                        <b>{defaultLanguage.toUpperCase()}</b>:{' '}
-                                        {entry.text[defaultLanguage]}
-                                    </pre>
-                                </td>
-                                <td>
-                                    <textarea
-                                        tabIndex={
-                                            dialogueIndex + 1 + dialogCount * 3
-                                        }
-                                        className="editor-choice"
-                                        onFocus={() => {
-                                            onDialogueIndexChange(
-                                                dialogueIndex
-                                            );
-                                        }}
-                                        onChange={({ target: { value } }) => {
-                                            updateDialogue(
-                                                'choices',
-                                                dialogueIndex,
-                                                value.split('\n')
-                                            );
-                                        }}
-                                        value={entry.choices?.join('\n')}
-                                    ></textarea>
-                                </td>
-                                <td>
-                                    <button
-                                        tabIndex={
-                                            dialogueIndex + 1 + dialogCount * 4
-                                        }
-                                        onClick={() => {
-                                            onDialogueAdd(dialogueIndex);
-                                        }}
-                                    >
-                                        Add Below
-                                    </button>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-        </div>
+                                        <button
+                                            tabIndex={
+                                                dialogueIndex + 1 + dialogCount * 5
+                                            }
+                                            onClick={() => {
+                                                onDialogueRemove(dialogueIndex);
+                                            }}
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
+        </>
     );
 };
 

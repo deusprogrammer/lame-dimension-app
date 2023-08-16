@@ -4,7 +4,8 @@ const component = ({
     chapters,
     selectedChapter,
     onChapterSelect,
-    onCreateChapter,
+    onChapterRemove,
+    onChapterCreate,
 }) => {
     const selectedHook = useRef(null);
     if (!chapters) {
@@ -21,27 +22,32 @@ const component = ({
         <div className="chapters">
             <h2>Chapters</h2>
             <div className="scrolling">
-                {Object.keys(chapters).map((chapterName) => (
-                    <div
-                        key={chapterName}
-                        ref={
-                            chapterName === selectedChapter
-                                ? selectedHook
-                                : null
-                        }
-                        className={`selectable ${
-                            selectedChapter === chapterName ? 'selected' : null
-                        }`}
-                        onClick={() => {
-                            onChapterSelect(chapterName);
-                        }}
-                    >
-                        {chapterName}
-                    </div>
-                ))}
+                <table>
+                    <tbody>
+                        {Object.keys(chapters).map((chapterName) => (
+                            <tr
+                                key={chapterName}
+                                ref={
+                                    chapterName === selectedChapter
+                                        ? selectedHook
+                                        : null
+                                }
+                            >
+                                <td className={`selectable ${
+                                    selectedChapter === chapterName ? 'selected' : null
+                                }`} onClick={() => {
+                                    onChapterSelect(chapterName);
+                                }}>{chapterName}</td>
+                                <td className='delete-button' onClick={() => {
+                                    onChapterRemove(chapterName);
+                                }}>X</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
             <div>
-                <button onClick={onCreateChapter}>Add Chapter</button>
+                <button onClick={onChapterCreate}>Add Chapter</button>
             </div>
         </div>
     );

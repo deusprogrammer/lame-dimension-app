@@ -227,6 +227,24 @@ function App() {
         setChapters(copy);
     };
 
+    const removeScene = (sceneKey) => {
+        let copy = { ...chapters };
+        delete copy[chapter].scenes[sceneKey];
+        setChapters(copy);
+    }
+
+    const removeChapter = (chapterKey) => {
+        let copy = { ...chapters };
+        delete copy[chapterKey];
+        setChapters(copy);
+    }
+
+    const removeDialogue = (dialogueIndex) => {
+        let copy = { ...chapters };
+        copy[chapter].scenes[sceneKey].dialogue.splice(dialogueIndex, 1);
+        setChapters(copy);
+    }
+
     return (
         <div className="container">
             <div className="left">
@@ -250,7 +268,8 @@ function App() {
                         setChapter(chapter);
                         setScene(null);
                     }}
-                    onCreateChapter={addChapter}
+                    onChapterCreate={addChapter}
+                    onChapterRemove={removeChapter}
                     selectedChapter={chapter}
                     chapters={chapters}
                 />
@@ -259,6 +278,7 @@ function App() {
                     selectedScene={scene}
                     onSelectScene={setScene}
                     onCreateScene={createScene}
+                    onSceneRemove={removeScene}
                 />
                 <Languages
                     selectedLanguage={language}
@@ -344,6 +364,7 @@ function App() {
                     onDialogueChange={updateDialogue}
                     onDialogueAdd={addDialogue}
                     onDialogueRearrange={storeDialogues}
+                    onDialogueRemove={removeDialogue}
                 />
             </div>
             <div className="right"></div>
