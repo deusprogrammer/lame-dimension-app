@@ -19,7 +19,7 @@ const Component = ({ scene, language, index, characters }) => {
 
     let speakerStyle = new PIXI.TextStyle({
         align: 'left',
-        fontSize: '15pt',
+        fontSize: '16pt',
         fontFamily: 'gameFont',
         fontWeight: 'bolder',
         fill: '#F1AA1C',
@@ -27,11 +27,9 @@ const Component = ({ scene, language, index, characters }) => {
 
     let textStyle = new PIXI.TextStyle({
         align: 'left',
-        fontSize: '14pt',
+        fontSize: '15pt',
         fontFamily: 'gameFont',
-        fontWeight: 'lighter',
-        fill: '#FFFFFF',
-        letterSpacing: 2,
+        fill: '#C6C7C6',
     });
 
     let speaker =
@@ -46,21 +44,22 @@ const Component = ({ scene, language, index, characters }) => {
                     <Graphics x={0} y={0} width={640} height={70} draw={draw} />
                     <Text
                         style={speakerStyle}
-                        x={10}
-                        y={5}
+                        x={11}
+                        y={7}
                         text={speaker}
                         anchor={{ x: 0, y: 0 }}
                     />
                     <Text
                         style={textStyle}
-                        x={10}
-                        y={25}
+                        x={11}
+                        y={29}
                         text={text[language]}
                         anchor={{ x: 0, y: 0 }}
                     />
                 </Container>
             </Stage>
             <br />
+            {/* <img style={{width: "640px"}} src={`${process.env.PUBLIC_URL}/example.png`} /> */}
         </div>
     );
 };

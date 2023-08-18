@@ -229,7 +229,11 @@ a:active {
     width: 100%;
 }
 
-body, button, textarea, input[type=text], select {
+body,
+button,
+textarea,
+input[type='text'],
+select {
     font-family: gameFont;
 }
 
