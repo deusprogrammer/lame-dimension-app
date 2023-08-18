@@ -20,6 +20,7 @@ const Component = ({ scene, language, index, characters }) => {
     let speakerStyle = new PIXI.TextStyle({
         align: 'left',
         fontSize: '15pt',
+        fontFamily: 'gameFont',
         fontWeight: 'bolder',
         fill: '#F1AA1C',
     });
@@ -27,6 +28,7 @@ const Component = ({ scene, language, index, characters }) => {
     let textStyle = new PIXI.TextStyle({
         align: 'left',
         fontSize: '14pt',
+        fontFamily: 'gameFont',
         fontWeight: 'lighter',
         fill: '#FFFFFF',
         letterSpacing: 2,

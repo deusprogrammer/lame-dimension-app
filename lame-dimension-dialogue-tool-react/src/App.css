@@ -228,3 +228,12 @@ a:active {
 .dialogue-table textarea {
     width: 100%;
 }
+
+body, button, textarea, input[type=text], select {
+    font-family: gameFont;
+}
+
+@font-face {
+    font-family: gameFont;
+    src: url(./JF-Dot-Shinonome14.ttf);
+}
