@@ -86,8 +86,8 @@ function App() {
 
     const pull = async () => {
         try {
-            await axios.get(
-                `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}?pull`,
+            let res = await axios.get(
+                `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}?pull=root`,
                 {
                     headers: {
                         Authorization: `Bearer ${jwtToken}`,
@@ -95,6 +95,8 @@ function App() {
                 }
             );
             toast.info('Script Updated from Root');
+            setChapters(res.data.chapters);
+            setScript(res.data);
         } catch (e) {
             console.error(e);
             navigate(`/login`);
