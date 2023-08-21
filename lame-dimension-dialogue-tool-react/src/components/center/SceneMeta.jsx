@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const component = ({ sceneKey, onSceneKeyChange }) => {
+const component = ({ sceneKey, editable, onSceneKeyChange }) => {
     const [newSceneKey, setNewSceneKey] = useState(sceneKey);
 
     useEffect(() => {
@@ -14,6 +14,7 @@ const component = ({ sceneKey, onSceneKeyChange }) => {
             <input
                 type="text"
                 value={newSceneKey}
+                disabled={!editable}
                 onChange={({ target: { value } }) => {
                     setNewSceneKey(value);
                 }}

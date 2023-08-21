@@ -1,12 +1,38 @@
-import React, { createRef, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan, faPenToSquare, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const component = ({
     scenes,
+    editable,
     selectedScene,
     onSelectScene,
     onCreateScene,
     onSceneRemove,
+    onSceneKeyChange
 }) => {
+    const [editing, setEditing] = useState();
+    const [editValue, setEditValue] = useState();
+    const selectedHook = useRef(null);
+
+    useEffect(() => {
+        if (selectedHook.current) {
+            selectedHook.current.scrollIntoView({ block: 'nearest' });
+        }
+    }, [selectedScene]);
+
+    const editSceneName = (sceneName) => {
+        setEditing(sceneName);
+        setEditValue(sceneName);
+    }
+
+    const updateSceneName = (oldSceneName, newSceneName) => {
+        setEditing(null);
+        setEditValue(null);
+        onSceneKeyChange(oldSceneName, newSceneName);
+    }
+
     if (!scenes) {
         return (
             <div className="scenes">
@@ -16,15 +42,6 @@ const component = ({
         );
     }
 
-    let sceneRefs = [];
-    Object.keys(scenes).forEach((scene) => {
-        sceneRefs[scene] = createRef();
-    });
-
-    useEffect(() => {
-        sceneRefs[selectedScene]?.current?.scrollIntoView();
-    }, [selectedScene]);
-
     return (
         <div className="scenes">
             <h2>Scenes</h2>
@@ -33,27 +50,66 @@ const component = ({
                     <tbody>
                         {Object.keys(scenes).map((name) => {
                             return (
-                                <tr key={name} ref={sceneRefs[name]}>
+                                <tr
+                                    key={name}
+                                    ref={
+                                        name === selectedScene
+                                            ? selectedHook
+                                            : null
+                                    }
+                                >
                                     <td
+                                        className={`selectable ${
+                                                selectedScene === name
+                                                    ? 'selected'
+                                                    : null}`}
                                         onClick={() => {
+                                            if (editing) {
+                                                return;
+                                            }
+
                                             onSelectScene(name);
                                         }}
-                                        className={`selectable ${
-                                            selectedScene === name
-                                                ? 'selected'
-                                                : null
-                                        }`}
                                     >
-                                        {name}
+                                        {editing === name ? <input type='text' onChange={({target: {value}}) => {setEditValue(value)}} value={editValue} /> : name}
                                     </td>
-                                    <td
-                                        className="delete-button"
-                                        onClick={() => {
-                                            onSceneRemove(name);
-                                        }}
-                                    >
-                                        X
-                                    </td>
+                                    {editable ? 
+                                    <>
+                                        { editing === name ?
+                                            <td
+                                                className="check-button"
+                                                onClick={() => {
+                                                    updateSceneName(name, editValue);
+                                                }}
+                                            >
+                                                <FontAwesomeIcon icon={faCheck} />
+                                            </td> :
+                                            <td
+                                                className="edit-button"
+                                                onClick={() => {
+                                                    if (editing) {
+                                                        return;
+                                                    }
+                                                    editSceneName(name);
+                                                }}
+                                                style={{opacity: editing ? 0.1 : 1.0, cursor: editing ? 'not-allowed' : 'pointer'}}
+                                            >
+                                                <FontAwesomeIcon icon={faPenToSquare} />
+                                            </td>
+                                        }
+                                        <td
+                                            className="delete-button"
+                                            onClick={() => {
+                                                if (editing) {
+                                                    return;
+                                                }
+                                                onSceneRemove(name);
+                                            }}
+                                            style={{opacity: editing ? 0.1 : 1.0, cursor: editing ? 'not-allowed' : 'pointer'}}
+                                        >
+                                            <FontAwesomeIcon icon={faTrashCan} />
+                                        </td>
+                                    </> : null}
                                 </tr>
                             );
                         })}
@@ -61,7 +117,7 @@ const component = ({
                 </table>
             </div>
             <div>
-                <button onClick={onCreateScene}>Add Scene</button>
+                <button onClick={onCreateScene} disabled={!editable}>Add Scene</button>
             </div>
         </div>
     );

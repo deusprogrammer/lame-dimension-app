@@ -50,7 +50,6 @@ router.get('/:id', async function (req, res, next) {
 
     try {
         if (pull) {
-            console.log("PULLING");
             let script = await Scripts.findOne({ id, editor: pull });
 
             if (!script) {

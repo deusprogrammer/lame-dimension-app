@@ -1,6 +1,6 @@
 import React from 'react';
 
-const component = ({ onOptionsChange, options }) => {
+const component = ({ onOptionsChange, options, editable }) => {
     if (!options) {
         onOptionsChange({
             smallerPortraits: false,
@@ -19,6 +19,7 @@ const component = ({ onOptionsChange, options }) => {
                     <input
                         type="checkbox"
                         checked={options.smallerPortraits}
+                        disabled={!editable}
                         onChange={({ target: { checked } }) => {
                             onOptionsChange({
                                 ...options,
@@ -33,6 +34,7 @@ const component = ({ onOptionsChange, options }) => {
                     <input
                         type="checkbox"
                         checked={options.disabledPortraits}
+                        disabled={!editable}
                         onChange={({ target: { checked } }) => {
                             onOptionsChange({
                                 ...options,
@@ -47,6 +49,7 @@ const component = ({ onOptionsChange, options }) => {
                     <input
                         type="checkbox"
                         checked={options.keepBlackBars}
+                        disabled={!editable}
                         onChange={({ target: { checked } }) => {
                             onOptionsChange({
                                 ...options,

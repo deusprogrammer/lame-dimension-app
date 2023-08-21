@@ -1,6 +1,6 @@
 import React from 'react';
 
-const component = ({ characters, side, scene, index, onPositionChange }) => {
+const component = ({ characters, side, scene, index, editable, onPositionChange }) => {
     if (!scene || !characters) {
         return <div className="characters"></div>;
     }
@@ -55,6 +55,7 @@ const component = ({ characters, side, scene, index, onPositionChange }) => {
                                         value={
                                             positions[position]?.name || 'none'
                                         }
+                                        disabled={!editable}
                                     >
                                         <option value="none">none</option>
                                         {Object.keys(characters).map((key) => {
@@ -80,6 +81,7 @@ const component = ({ characters, side, scene, index, onPositionChange }) => {
                                             positions[position]?.override ||
                                             'none'
                                         }
+                                        disabled={!editable}
                                     />
                                 </div>
                                 <div>Emote</div>
@@ -92,6 +94,7 @@ const component = ({ characters, side, scene, index, onPositionChange }) => {
                                             );
                                         }}
                                         value={positions[position]?.emote}
+                                        disabled={!editable}
                                     >
                                         {characters[
                                             positions[position]?.name
@@ -118,7 +121,7 @@ const component = ({ characters, side, scene, index, onPositionChange }) => {
                                             )
                                                 updateActivePosition(position);
                                         }}
-                                        disabled={!positions[position]?.name}
+                                        disabled={!positions[position]?.name || !editable}
                                     />
                                     Speaking
                                 </div>

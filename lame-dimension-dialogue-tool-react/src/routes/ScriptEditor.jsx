@@ -16,6 +16,7 @@ import Option from '../components/center/Options';
 import userAtom from '../atoms/User.atom';
 
 import { useNavigate, useParams } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
 let dialogCounter = 0;
@@ -29,20 +30,30 @@ function App() {
     const [chapter, setChapter] = useState('');
     const [scene, setScene] = useState(null);
     const [sceneIndex, setSceneIndex] = useState(0);
+    const [editable, setEditable] = useState(false);
+    
     const [user] = useAtom(userAtom);
-    const navigate = useNavigate();
+    
     const { id } = useParams();
+    const [ searchParams ] = useSearchParams();
+    const navigate = useNavigate();
+    
     const jwtToken = localStorage.getItem('jwtToken');
+    const as = searchParams.get('as');
 
     useEffect(() => {
         loadScript();
+
+        console.log("ROLES: " + JSON.stringify(user));
+        console.log("AS:    " + as);
+        setEditable(user.roles.includes('EDITOR') && (!as || as === user.username));
 
         if (interval) {
             clearInterval(interval);
         }
 
         // interval = setInterval(save, 30000);
-    }, []);
+    }, [user, id]);
 
     const save = async () => {
         if (!chapters || chapters === {}) {
@@ -105,8 +116,12 @@ function App() {
 
     const loadScript = async () => {
         try {
+            let url = `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}`;
+            if (as) {
+                url += `?pull=${as}`;
+            }
             let res = await axios.get(
-                `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}`,
+                url,
                 {
                     headers: {
                         Authorization: `Bearer ${jwtToken}`,
@@ -122,17 +137,37 @@ function App() {
         }
     };
 
-    const changeSceneKey = (sceneKey, oldSceneKey) => {
-        let chaptersCopy = { ...chapters };
-        let scenesCopy = { ...chapters[chapter].scenes };
+    const changeChapterName = async (oldChapterName, newChapterName) => {
+        let chaptersCopy = {};
+        for (let key in chapters) {
+            let newKey = key;
+            if (oldChapterName === key) {
+                newKey = newChapterName;
+            }
+            chaptersCopy[newKey] = {...chapters[key]};
+        }
+        if (chapter === oldChapterName) {
+            setChapter(newChapterName);
+        }
+        setChapters(chaptersCopy);
+    }
 
-        if (sceneKey in scenesCopy) {
-            return;
+    const changeSceneKey = (oldSceneKey, newSceneKey) => {
+        let chaptersCopy = { ...chapters };
+        let scenesCopy = {};
+
+        for (let key in chapters[chapter].scenes) {
+            let newKey = key;
+            if (oldSceneKey === key) {
+                newKey = newSceneKey;
+            }
+            scenesCopy[newKey] = {...chapters[chapter].scenes[oldSceneKey]};
         }
 
-        scenesCopy[sceneKey] = scenesCopy[oldSceneKey];
-        delete scenesCopy[oldSceneKey];
         chaptersCopy[chapter].scenes = scenesCopy;
+        if (scene === oldSceneKey) {
+            setScene(newSceneKey);
+        }
         setChapters(chaptersCopy);
     };
 
@@ -262,34 +297,42 @@ function App() {
                                 <td>Editor</td>
                                 <td>{script.editor}</td>
                             </tr>
+                            <tr>
+                                <td>Mode</td>
+                                <td>{editable ? <span style={{color: 'green'}}>Editing</span> : <span style={{color: 'red'}}>Read Only</span>}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
                 <Chapters
+                    selectedChapter={chapter}
+                    chapters={chapters}
+                    editable={editable}
                     onChapterSelect={(chapter) => {
                         setChapter(chapter);
                         setScene(null);
                     }}
                     onChapterCreate={addChapter}
                     onChapterRemove={removeChapter}
-                    selectedChapter={chapter}
-                    chapters={chapters}
+                    onChapterNameChange={changeChapterName}
                 />
                 <Scenes
                     scenes={chapters[chapter]?.scenes}
                     selectedScene={scene}
+                    editable={editable}
                     onSelectScene={setScene}
                     onCreateScene={createScene}
                     onSceneRemove={removeScene}
+                    onSceneKeyChange={changeSceneKey}
                 />
                 <Languages
                     selectedLanguage={language}
-                    onSelectLanguage={setLanguage}
                     defaultLanguage={defaultLanguage}
+                    onSelectLanguage={setLanguage}
                     onSelectDefaultLanguage={setDefaultLanguage}
                 />
                 <h2>Actions</h2>
-                <button onClick={save}>Save</button>
+                <button onClick={save} disabled={!editable}>Save</button>
                 {user?.roles?.includes('ADMIN') ? (
                     <button onClick={merge}>Merge to Root</button>
                 ) : null}
@@ -313,19 +356,14 @@ function App() {
                 </button>
             </div>
             <div className="center" style={{ textAlign: 'center' }}>
-                <SceneMeta
-                    sceneKey={scene}
-                    onSceneKeyChange={(sceneKey, oldSceneKey) => {
-                        changeSceneKey(sceneKey, oldSceneKey);
-                        setScene(sceneKey);
-                    }}
-                />
+                <h2>{scene}</h2>
                 <div className="preview">
                     <Characters
                         side="left"
                         scene={chapters[chapter]?.scenes[scene]}
                         index={sceneIndex}
                         characters={script.characters}
+                        editable={editable}
                         onPositionChange={updateDialogue}
                     />
                     <div>
@@ -346,15 +384,17 @@ function App() {
                         scene={chapters[chapter]?.scenes[scene]}
                         index={sceneIndex}
                         characters={script.characters}
+                        editable={editable}
                         onPositionChange={updateDialogue}
                     />
                 </div>
                 {scene ? (
                     <Option
+                        options={chapters[chapter]?.scenes[scene].options}
+                        editable={editable}
                         onOptionsChange={(options) => {
                             updateOptions(options);
                         }}
-                        options={chapters[chapter]?.scenes[scene].options}
                     />
                 ) : null}
                 <DialogueEditor
@@ -362,6 +402,7 @@ function App() {
                     defaultLanguage={defaultLanguage}
                     scene={chapters[chapter]?.scenes[scene]}
                     index={sceneIndex}
+                    editable={editable}
                     onDialogueIndexChange={setSceneIndex}
                     onDialogueChange={updateDialogue}
                     onDialogueAdd={addDialogue}

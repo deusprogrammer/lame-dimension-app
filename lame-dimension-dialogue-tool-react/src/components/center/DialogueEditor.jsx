@@ -1,10 +1,13 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp, faArrowDown, faTrashCan, faPlus} from '@fortawesome/free-solid-svg-icons';
 
 const Component = ({
     scene,
     language,
     defaultLanguage,
     index,
+    editable,
     onDialogueIndexChange,
     onDialogueChange,
     onDialogueAdd,
@@ -67,8 +70,9 @@ const Component = ({
                                                             dialogueIndex - 1
                                                         );
                                                     }}
+                                                    disabled={!editable}
                                                 >
-                                                    Up
+                                                    <FontAwesomeIcon icon={faArrowUp} />
                                                 </button>
                                                 <br />
                                             </>
@@ -87,8 +91,9 @@ const Component = ({
                                                         dialogueIndex + 1
                                                     );
                                                 }}
+                                                disabled={!editable}
                                             >
-                                                Down
+                                                <FontAwesomeIcon icon={faArrowDown} />
                                             </button>
                                         ) : null}
                                     </td>
@@ -115,6 +120,7 @@ const Component = ({
                                                 );
                                             }}
                                             value={entry.text[language]}
+                                            disabled={!editable}
                                         ></textarea>
                                         <pre
                                             style={{
@@ -153,6 +159,7 @@ const Component = ({
                                                 );
                                             }}
                                             value={entry.choices?.join('\n')}
+                                            disabled={!editable}
                                         ></textarea>
                                     </td>
                                     <td>
@@ -165,8 +172,9 @@ const Component = ({
                                             onClick={() => {
                                                 onDialogueAdd(dialogueIndex);
                                             }}
+                                            disabled={!editable}
                                         >
-                                            Add Below
+                                            <FontAwesomeIcon icon={faPlus} />
                                         </button>
                                         <button
                                             tabIndex={
@@ -177,8 +185,9 @@ const Component = ({
                                             onClick={() => {
                                                 onDialogueRemove(dialogueIndex);
                                             }}
+                                            disabled={!editable}
                                         >
-                                            Delete
+                                            <FontAwesomeIcon icon={faTrashCan} />
                                         </button>
                                     </td>
                                 </tr>

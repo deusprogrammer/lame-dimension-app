@@ -38,7 +38,7 @@ const Component = () => {
             {scripts.map((script) => {
                 return (
                     <div
-                        key={script.name}
+                        key={`${script.name}-${script.editor}`}
                         style={{
                             cursor: 'pointer',
                             backgroundColor:
@@ -47,8 +47,12 @@ const Component = () => {
                                     : 'none',
                         }}
                         onClick={() => {
+                            let url = `${process.env.PUBLIC_URL}/scripts/${script.id}`;
+                            if (user.username !== script.editor) {
+                                url += `?as=${script.editor}`;
+                            }
                             navigate(
-                                `${process.env.PUBLIC_URL}/scripts/${script.id}`
+                                url
                             );
                         }}
                     >

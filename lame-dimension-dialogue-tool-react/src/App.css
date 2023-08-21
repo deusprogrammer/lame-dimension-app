@@ -42,7 +42,16 @@ body {
 }
 
 .chapters {
-    max-height: 300px;
+    max-height: 300px; 
+}
+
+.chapters td:first-child, .scenes td:first-child {
+    width: 200px;
+}
+
+.chapters input, .scenes input {
+    width: 100%;
+    text-align: center;
 }
 
 .scenes {
