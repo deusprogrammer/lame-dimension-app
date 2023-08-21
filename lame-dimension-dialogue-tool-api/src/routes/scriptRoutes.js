@@ -49,7 +49,7 @@ router.get('/:id', async function (req, res, next) {
     }
 
     try {
-        if (pull) {
+        if (pull === '') {
             let script = await Scripts.findOne({ id, editor: pull });
 
             if (!script) {
