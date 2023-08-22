@@ -1,6 +1,12 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp, faArrowDown, faTrashCan, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {
+    faArrowUp,
+    faArrowDown,
+    faTrashCan,
+    faPlus,
+} from '@fortawesome/free-solid-svg-icons';
+import { getDiff } from '../../util/util';
 
 const Component = ({
     scene,
@@ -8,6 +14,8 @@ const Component = ({
     defaultLanguage,
     index,
     editable,
+    diff,
+    path,
     onDialogueIndexChange,
     onDialogueChange,
     onDialogueAdd,
@@ -21,6 +29,12 @@ const Component = ({
     const updateDialogueText = (index, language, value) => {
         let entry = { ...scene.dialogue[index] };
         entry.text[language] = value;
+        onDialogueChange(index, entry);
+    };
+
+    const updateDialogueChoices = (index, language, value) => {
+        let entry = { ...scene.dialogue[index] };
+        entry.choices[language] = value;
         onDialogueChange(index, entry);
     };
 
@@ -40,6 +54,8 @@ const Component = ({
 
     const dialogCount = scene.dialogue.length;
 
+    console.log("PATH: " + path);
+
     return (
         <>
             <h2>Dialogue</h2>
@@ -47,6 +63,27 @@ const Component = ({
                 <table className="dialogue-table">
                     <tbody>
                         {scene.dialogue.map((entry, dialogueIndex) => {
+                            if (!entry.choices) {
+                                entry.choices = {
+                                    en: '',
+                                    es: '',
+                                    jp: '',
+                                    fr: '',
+                                    br: '',
+                                    ch: '',
+                                };
+                            }
+                            let choices = entry.choices[language];
+                            let defaultChoices = entry.choices[defaultLanguage];
+
+                            if (choices) {
+                                choices = choices.join('\n');
+                            }
+
+                            if (defaultChoices) {
+                                defaultChoices = defaultChoices.join('\n')
+                            }
+
                             return (
                                 <tr
                                     key={`dialogue${dialogueIndex}`}
@@ -72,7 +109,9 @@ const Component = ({
                                                     }}
                                                     disabled={!editable}
                                                 >
-                                                    <FontAwesomeIcon icon={faArrowUp} />
+                                                    <FontAwesomeIcon
+                                                        icon={faArrowUp}
+                                                    />
                                                 </button>
                                                 <br />
                                             </>
@@ -93,74 +132,93 @@ const Component = ({
                                                 }}
                                                 disabled={!editable}
                                             >
-                                                <FontAwesomeIcon icon={faArrowDown} />
+                                                <FontAwesomeIcon
+                                                    icon={faArrowDown}
+                                                />
                                             </button>
                                         ) : null}
                                     </td>
-                                    <td className="dialogue-text-col">
-                                        <textarea
-                                            tabIndex={
-                                                dialogueIndex +
-                                                1 +
-                                                dialogCount * 2
-                                            }
-                                            className="editor-text"
-                                            onFocus={() => {
-                                                onDialogueIndexChange(
-                                                    dialogueIndex
-                                                );
-                                            }}
-                                            onChange={({
-                                                target: { value },
-                                            }) => {
-                                                updateDialogueText(
-                                                    dialogueIndex,
-                                                    language,
-                                                    value
-                                                );
-                                            }}
-                                            value={entry.text[language]}
-                                            disabled={!editable}
-                                        ></textarea>
-                                        <pre
-                                            style={{
-                                                textAlign: 'left',
-                                                padding: '0px',
-                                                margin: '0px',
-                                                color: 'white',
-                                            }}
-                                        >
-                                            <b>
-                                                {defaultLanguage.toUpperCase()}
-                                            </b>
-                                            : {entry.text[defaultLanguage]}
-                                        </pre>
+                                    <td>
+                                        <div className="dialogue-text-col">
+                                            <textarea
+                                                tabIndex={
+                                                    dialogueIndex +
+                                                    1 +
+                                                    dialogCount * 2
+                                                }
+                                                className={getDiff(`${path}[${dialogueIndex}].text.${language}`, diff) ? 'editor-text changed' : 'editor-text'}
+                                                onFocus={() => {
+                                                    onDialogueIndexChange(
+                                                        dialogueIndex
+                                                    );
+                                                }}
+                                                onChange={({
+                                                    target: { value },
+                                                }) => {
+                                                    updateDialogueText(
+                                                        dialogueIndex,
+                                                        language,
+                                                        value
+                                                    );
+                                                }}
+                                                value={entry.text[language]}
+                                                disabled={!editable}
+                                            ></textarea>
+                                            <pre
+                                                style={{
+                                                    textAlign: 'left',
+                                                    padding: '0px',
+                                                    margin: '0px',
+                                                    color: 'white',
+                                                }}
+                                            >
+                                                <b>
+                                                    {defaultLanguage.toUpperCase()}
+                                                </b>
+                                                : {entry.text[defaultLanguage]}
+                                            </pre>
+                                        </div>
                                     </td>
                                     <td>
-                                        <textarea
-                                            tabIndex={
-                                                dialogueIndex +
-                                                1 +
-                                                dialogCount * 3
-                                            }
-                                            className="editor-choice"
-                                            onFocus={() => {
-                                                onDialogueIndexChange(
-                                                    dialogueIndex
-                                                );
-                                            }}
-                                            onChange={({
-                                                target: { value },
-                                            }) => {
-                                                updateDialogue(
-                                                    'choices',
-                                                    dialogueIndex,
-                                                    value.split('\n')
-                                                );
-                                            }}
-                                            value={entry.choices?.join('\n')}
-                                            disabled={!editable}
-                                        ></textarea>
+                                        <div className='dialogue-choice-col'>
+                                            <textarea
+                                                tabIndex={
+                                                    dialogueIndex +
+                                                    1 +
+                                                    dialogCount * 3
+                                                }
+                                                className={getDiff(`${path}[${dialogueIndex}].choices.${language}`, diff) ? 'editor-choice changed' : 'editor-choice'}
+                                                onFocus={() => {
+                                                    onDialogueIndexChange(
+                                                        dialogueIndex
+                                                    );
+                                                }}
+                                                onChange={({
+                                                    target: { value },
+                                                }) => {
+                                                    updateDialogueChoices(
+                                                        dialogueIndex,
+                                                        language,
+                                                        value.split('\n')
+                                                    );
+                                                }}
+                                                value={choices}
+                                                disabled={!editable}
+                                            ></textarea>
+                                            <pre
+                                                style={{
+                                                    textAlign: 'left',
+                                                    padding: '0px',
+                                                    margin: '0px',
+                                                    color: 'white',
+                                                }}
+                                            >
+                                                <b>
+                                                    {defaultLanguage.toUpperCase()}
+                                                </b>
+                                                : {defaultChoices}
+                                            </pre>
+                                        </div>
                                     </td>
                                     <td>
                                         <button
@@ -187,7 +245,9 @@ const Component = ({
                                             }}
                                             disabled={!editable}
                                         >
-                                            <FontAwesomeIcon icon={faTrashCan} />
+                                            <FontAwesomeIcon
+                                                icon={faTrashCan}
+                                            />
                                         </button>
                                     </td>
                                 </tr>

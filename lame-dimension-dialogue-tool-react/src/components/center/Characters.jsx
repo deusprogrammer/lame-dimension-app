@@ -1,6 +1,16 @@
 import React from 'react';
+import { getDiff } from '../../util/util';
 
-const component = ({ characters, side, scene, index, editable, onPositionChange }) => {
+const component = ({
+    characters,
+    side,
+    scene,
+    index,
+    editable,
+    diff,
+    path,
+    onPositionChange,
+}) => {
     if (!scene || !characters) {
         return <div className="characters"></div>;
     }
@@ -49,6 +59,7 @@ const component = ({ characters, side, scene, index, editable, onPositionChange 
                                 <div>{position.toUpperCase()}</div>
                                 <div>
                                     <select
+                                        className={getDiff(`${path}.${position}.name`, diff) ? 'changed' : null}
                                         onChange={({ target: { value } }) =>
                                             updatePositionName(position, value)
                                         }
@@ -71,6 +82,7 @@ const component = ({ characters, side, scene, index, editable, onPositionChange 
                                 <div>
                                     <input
                                         type="text"
+                                        className={getDiff(`${path}.${position}.override`, diff) ? 'changed' : null}
                                         onChange={({ target: { value } }) => {
                                             updatePositionOverride(
                                                 position,
@@ -87,6 +99,7 @@ const component = ({ characters, side, scene, index, editable, onPositionChange 
                                 <div>Emote</div>
                                 <div>
                                     <select
+                                        className={getDiff(`${path}.${position}.emote`, diff) ? 'changed' : null}
                                         onChange={({ target: { value } }) => {
                                             updatePositionEmote(
                                                 position,
@@ -113,6 +126,7 @@ const component = ({ characters, side, scene, index, editable, onPositionChange 
                                 <div>
                                     <input
                                         type="checkbox"
+                                        className={getDiff(`${path}.${position}.active`, diff)}
                                         checked={active === position}
                                         onChange={({ target: { checked } }) => {
                                             if (
@@ -121,7 +135,10 @@ const component = ({ characters, side, scene, index, editable, onPositionChange 
                                             )
                                                 updateActivePosition(position);
                                         }}
-                                        disabled={!positions[position]?.name || !editable}
+                                        disabled={
+                                            !positions[position]?.name ||
+                                            !editable
+                                        }
                                     />
                                     Speaking
                                 </div>

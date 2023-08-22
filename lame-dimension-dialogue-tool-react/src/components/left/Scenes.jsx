@@ -1,16 +1,24 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan, faPenToSquare, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+    faTrashCan,
+    faPenToSquare,
+    faCheck,
+} from '@fortawesome/free-solid-svg-icons';
+
+import { getDiff } from '../../util/util';
 
 const component = ({
+    path,
     scenes,
     editable,
+    diff,
     selectedScene,
     onSelectScene,
     onCreateScene,
     onSceneRemove,
-    onSceneKeyChange
+    onSceneKeyChange,
 }) => {
     const [editing, setEditing] = useState();
     const [editValue, setEditValue] = useState();
@@ -25,13 +33,13 @@ const component = ({
     const editSceneName = (sceneName) => {
         setEditing(sceneName);
         setEditValue(sceneName);
-    }
+    };
 
     const updateSceneName = (oldSceneName, newSceneName) => {
         setEditing(null);
         setEditValue(null);
         onSceneKeyChange(oldSceneName, newSceneName);
-    }
+    };
 
     if (!scenes) {
         return (
@@ -57,12 +65,14 @@ const component = ({
                                             ? selectedHook
                                             : null
                                     }
+                                    className={getDiff(`${path}.${name}`, diff) ? 'changed' : null}
                                 >
                                     <td
                                         className={`selectable ${
-                                                selectedScene === name
-                                                    ? 'selected'
-                                                    : null}`}
+                                            selectedScene === name
+                                                ? 'selected'
+                                                : null
+                                        }`}
                                         onClick={() => {
                                             if (editing) {
                                                 return;
@@ -71,45 +81,82 @@ const component = ({
                                             onSelectScene(name);
                                         }}
                                     >
-                                        {editing === name ? <input type='text' onChange={({target: {value}}) => {setEditValue(value)}} value={editValue} /> : name}
-                                    </td>
-                                    {editable ? 
-                                    <>
-                                        { editing === name ?
-                                            <td
-                                                className="check-button"
-                                                onClick={() => {
-                                                    updateSceneName(name, editValue);
+                                        {editing === name ? (
+                                            <input
+                                                type="text"
+                                                onChange={({
+                                                    target: { value },
+                                                }) => {
+                                                    setEditValue(value);
                                                 }}
-                                            >
-                                                <FontAwesomeIcon icon={faCheck} />
-                                            </td> :
+                                                value={editValue}
+                                            />
+                                        ) : (
+                                            name
+                                        )}
+                                    </td>
+                                    {editable ? (
+                                        <>
+                                            {editing === name ? (
+                                                <td
+                                                    className="check-button"
+                                                    onClick={() => {
+                                                        updateSceneName(
+                                                            name,
+                                                            editValue
+                                                        );
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={faCheck}
+                                                    />
+                                                </td>
+                                            ) : (
+                                                <td
+                                                    className="edit-button"
+                                                    onClick={() => {
+                                                        if (editing) {
+                                                            return;
+                                                        }
+                                                        editSceneName(name);
+                                                    }}
+                                                    style={{
+                                                        opacity: editing
+                                                            ? 0.1
+                                                            : 1.0,
+                                                        cursor: editing
+                                                            ? 'not-allowed'
+                                                            : 'pointer',
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={faPenToSquare}
+                                                    />
+                                                </td>
+                                            )}
                                             <td
-                                                className="edit-button"
+                                                className="delete-button"
                                                 onClick={() => {
                                                     if (editing) {
                                                         return;
                                                     }
-                                                    editSceneName(name);
+                                                    onSceneRemove(name);
                                                 }}
-                                                style={{opacity: editing ? 0.1 : 1.0, cursor: editing ? 'not-allowed' : 'pointer'}}
+                                                style={{
+                                                    opacity: editing
+                                                        ? 0.1
+                                                        : 1.0,
+                                                    cursor: editing
+                                                        ? 'not-allowed'
+                                                        : 'pointer',
+                                                }}
                                             >
-                                                <FontAwesomeIcon icon={faPenToSquare} />
+                                                <FontAwesomeIcon
+                                                    icon={faTrashCan}
+                                                />
                                             </td>
-                                        }
-                                        <td
-                                            className="delete-button"
-                                            onClick={() => {
-                                                if (editing) {
-                                                    return;
-                                                }
-                                                onSceneRemove(name);
-                                            }}
-                                            style={{opacity: editing ? 0.1 : 1.0, cursor: editing ? 'not-allowed' : 'pointer'}}
-                                        >
-                                            <FontAwesomeIcon icon={faTrashCan} />
-                                        </td>
-                                    </> : null}
+                                        </>
+                                    ) : null}
                                 </tr>
                             );
                         })}
@@ -117,7 +164,9 @@ const component = ({
                 </table>
             </div>
             <div>
-                <button onClick={onCreateScene} disabled={!editable}>Add Scene</button>
+                <button onClick={onCreateScene} disabled={!editable}>
+                    Add Scene
+                </button>
             </div>
         </div>
     );

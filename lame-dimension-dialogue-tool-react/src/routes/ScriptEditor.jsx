@@ -9,7 +9,6 @@ import Scenes from '../components/left/Scenes';
 import CharacterSprites from '../components/center/CharacterSprites';
 import TextBox from '../components/center/TextBox';
 import Characters from '../components/center/Characters';
-import SceneMeta from '../components/center/SceneMeta';
 import DialogueEditor from '../components/center/DialogueEditor';
 
 import Option from '../components/center/Options';
@@ -19,6 +18,8 @@ import { useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
+import deepDiff from 'deep-diff-pizza';
+
 let dialogCounter = 0;
 let interval;
 
@@ -26,27 +27,29 @@ function App() {
     const [language, setLanguage] = useState('en');
     const [defaultLanguage, setDefaultLanguage] = useState('en');
     const [script, setScript] = useState({});
+    const [rootScript, setRootScript] = useState({});
+    const [diff, setDiff] = useState([]);
     const [chapters, setChapters] = useState({});
     const [chapter, setChapter] = useState('');
     const [scene, setScene] = useState(null);
     const [sceneIndex, setSceneIndex] = useState(0);
     const [editable, setEditable] = useState(false);
-    
+
     const [user] = useAtom(userAtom);
-    
+
     const { id } = useParams();
-    const [ searchParams ] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    
+
     const jwtToken = localStorage.getItem('jwtToken');
     const as = searchParams.get('as');
 
     useEffect(() => {
         loadScript();
 
-        console.log("ROLES: " + JSON.stringify(user));
-        console.log("AS:    " + as);
-        setEditable(user.roles.includes('EDITOR') && (!as || as === user.username));
+        setEditable(
+            user.roles.includes('EDITOR') && (!as || as === user.username)
+        );
 
         if (interval) {
             clearInterval(interval);
@@ -54,6 +57,11 @@ function App() {
 
         // interval = setInterval(save, 30000);
     }, [user, id]);
+
+    useEffect(() => {
+        let newDiff = deepDiff(rootScript, script).filter(({path, operation}) => !path.startsWith('characters') && !['editor', '_id'].includes(path) && !path.includes('_id') && operation !== 'UNCHANGED');
+        setDiff(newDiff);
+    }, [script, rootScript]);
 
     const save = async () => {
         if (!chapters || chapters === {}) {
@@ -120,17 +128,23 @@ function App() {
             if (as) {
                 url += `?pull=${as}`;
             }
-            let res = await axios.get(
-                url,
-                {
-                    headers: {
-                        Authorization: `Bearer ${jwtToken}`,
-                    },
-                }
-            );
+            let res = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
 
             setChapters(res.data.chapters);
             setScript(res.data);
+
+            url = `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}?pull=root`;
+            res = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
+
+            setRootScript(res.data);
         } catch (e) {
             console.error(e);
             navigate(`/login`);
@@ -141,16 +155,19 @@ function App() {
         let chaptersCopy = {};
         for (let key in chapters) {
             let newKey = key;
+            let updated;
             if (oldChapterName === key) {
                 newKey = newChapterName;
+                updated = Date.now();
             }
-            chaptersCopy[newKey] = {...chapters[key]};
+            chaptersCopy[newKey] = { ...chapters[key], updated};
         }
         if (chapter === oldChapterName) {
             setChapter(newChapterName);
         }
+        setScript({ ...script, chapters: chaptersCopy });
         setChapters(chaptersCopy);
-    }
+    };
 
     const changeSceneKey = (oldSceneKey, newSceneKey) => {
         let chaptersCopy = { ...chapters };
@@ -158,28 +175,33 @@ function App() {
 
         for (let key in chapters[chapter].scenes) {
             let newKey = key;
+            let updated;
             if (oldSceneKey === key) {
                 newKey = newSceneKey;
+                updated = Date.now();
             }
-            scenesCopy[newKey] = {...chapters[chapter].scenes[oldSceneKey]};
+            scenesCopy[newKey] = { ...chapters[chapter].scenes[oldSceneKey], updated };
         }
 
         chaptersCopy[chapter].scenes = scenesCopy;
         if (scene === oldSceneKey) {
             setScene(newSceneKey);
         }
+        setScript({ ...script, chapters: chaptersCopy });
         setChapters(chaptersCopy);
     };
 
     const updateOptions = (options) => {
         let chaptersCopy = { ...chapters };
         chaptersCopy[chapter].scenes[scene].options = options;
+        setScript({ ...script, chapters: chaptersCopy });
         setChapters(chaptersCopy);
     };
 
     const updateDialogue = (index, entry) => {
         let copy = { ...chapters };
         copy[chapter].scenes[scene].dialogue[index] = entry;
+        setScript({ ...script, chapters: copy });
         setChapters(copy);
     };
 
@@ -204,11 +226,12 @@ function App() {
             emote: null,
         });
         setSceneIndex(afterIndex + 1);
+        setScript({ ...script, chapters: copy });
         setChapters(copy);
     };
 
     const addChapter = () => {
-        let chapterName = `Chapter ${Object.keys(chapters).length}`;
+        let chapterName = `Chapter${Object.keys(chapters).length}`;
         if (chapters.length === 0) {
             chapterName = 'Prologue';
         }
@@ -216,17 +239,20 @@ function App() {
         copy[chapterName.toLocaleLowerCase()] = {
             name: chapterName,
             scenes: [],
+            updated: Date.now()
         };
         setChapters(copy);
         setScene(null);
         setSceneIndex(0);
         setChapter(chapterName.toLowerCase());
+        setScript({ ...script, chapters: copy });
     };
 
     const storeDialogues = (newDialogs) => {
         let copy = { ...chapters };
         copy[chapter].scenes[scene].dialogue = newDialogs;
         setChapters(copy);
+        setScript({ ...script, chapters: copy });
     };
 
     const createScene = () => {
@@ -254,6 +280,14 @@ function App() {
                         br: '',
                         ch: '',
                     },
+                    choices: {
+                        en: '',
+                        es: '',
+                        jp: '',
+                        fr: '',
+                        br: '',
+                        ch: '',
+                    },
                     active: 'left',
                     emote: null,
                 },
@@ -262,24 +296,28 @@ function App() {
         setSceneIndex(0);
         setScene(newSceneKey);
         setChapters(copy);
+        setScript({ ...script, chapters: copy });
     };
 
     const removeScene = (sceneKey) => {
         let copy = { ...chapters };
         delete copy[chapter].scenes[sceneKey];
         setChapters(copy);
+        setScript({ ...script, chapters: copy });
     };
 
     const removeChapter = (chapterKey) => {
         let copy = { ...chapters };
         delete copy[chapterKey];
         setChapters(copy);
+        setScript({ ...script, chapters: copy });
     };
 
     const removeDialogue = (dialogueIndex) => {
         let copy = { ...chapters };
         copy[chapter].scenes[scene].dialogue.splice(dialogueIndex, 1);
         setChapters(copy);
+        setScript({ ...script, chapters: copy });
     };
 
     return (
@@ -299,7 +337,17 @@ function App() {
                             </tr>
                             <tr>
                                 <td>Mode</td>
-                                <td>{editable ? <span style={{color: 'green'}}>Editing</span> : <span style={{color: 'red'}}>Read Only</span>}</td>
+                                <td>
+                                    {editable ? (
+                                        <span style={{ color: 'green' }}>
+                                            Editing
+                                        </span>
+                                    ) : (
+                                        <span style={{ color: 'red' }}>
+                                            Read Only
+                                        </span>
+                                    )}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -308,6 +356,8 @@ function App() {
                     selectedChapter={chapter}
                     chapters={chapters}
                     editable={editable}
+                    diff={diff}
+                    path={'chapters'}
                     onChapterSelect={(chapter) => {
                         setChapter(chapter);
                         setScene(null);
@@ -320,6 +370,8 @@ function App() {
                     scenes={chapters[chapter]?.scenes}
                     selectedScene={scene}
                     editable={editable}
+                    diff={diff}
+                    path={`chapters.${chapter}.scenes`}
                     onSelectScene={setScene}
                     onCreateScene={createScene}
                     onSceneRemove={removeScene}
@@ -332,7 +384,9 @@ function App() {
                     onSelectDefaultLanguage={setDefaultLanguage}
                 />
                 <h2>Actions</h2>
-                <button onClick={save} disabled={!editable}>Save</button>
+                <button onClick={save} disabled={!editable}>
+                    Save
+                </button>
                 {user?.roles?.includes('ADMIN') ? (
                     <button onClick={merge}>Merge to Root</button>
                 ) : null}
@@ -364,6 +418,8 @@ function App() {
                         index={sceneIndex}
                         characters={script.characters}
                         editable={editable}
+                        diff={diff}
+                        path={`chapters.${chapter}.scenes.${scene}.dialogue[${sceneIndex}].positions`}
                         onPositionChange={updateDialogue}
                     />
                     <div>
@@ -385,6 +441,8 @@ function App() {
                         index={sceneIndex}
                         characters={script.characters}
                         editable={editable}
+                        diff={diff}
+                        path={`chapters.${chapter}.scenes.${scene}.dialogue[${sceneIndex}].positions`}
                         onPositionChange={updateDialogue}
                     />
                 </div>
@@ -392,6 +450,8 @@ function App() {
                     <Option
                         options={chapters[chapter]?.scenes[scene].options}
                         editable={editable}
+                        diff={diff}
+                        path={`chapters.${chapter}.scenes.${scene}.options`}
                         onOptionsChange={(options) => {
                             updateOptions(options);
                         }}
@@ -403,6 +463,8 @@ function App() {
                     scene={chapters[chapter]?.scenes[scene]}
                     index={sceneIndex}
                     editable={editable}
+                    diff={diff}
+                    path={`chapters.${chapter}.scenes.${scene}.dialogue`}
                     onDialogueIndexChange={setSceneIndex}
                     onDialogueChange={updateDialogue}
                     onDialogueAdd={addDialogue}

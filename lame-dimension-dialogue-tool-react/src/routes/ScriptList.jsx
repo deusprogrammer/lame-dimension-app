@@ -51,9 +51,7 @@ const Component = () => {
                             if (user.username !== script.editor) {
                                 url += `?as=${script.editor}`;
                             }
-                            navigate(
-                                url
-                            );
+                            navigate(url);
                         }}
                     >
                         {user.username === script.editor ? '>' : null}

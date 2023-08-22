@@ -42,23 +42,22 @@ body {
 }
 
 .chapters {
-    max-height: 300px; 
+    max-height: 300px;
 }
 
-.chapters td:first-child, .scenes td:first-child {
+.chapters td:first-child,
+.scenes td:first-child {
     width: 200px;
 }
 
-.chapters input, .scenes input {
+.chapters input,
+.scenes input {
     width: 100%;
     text-align: center;
 }
 
 .scenes {
     max-height: 300px;
-}
-
-.languages {
 }
 
 .options {
@@ -215,10 +214,6 @@ a:active {
     cursor: pointer;
 }
 
-.editor-choice {
-    height: 80px;
-}
-
 .dialogue-table tr {
     height: 80px;
 }
@@ -231,6 +226,17 @@ a:active {
 }
 
 .dialogue-text-col > * {
+    height: 40px;
+}
+
+.dialogue-choice-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80px;
+}
+
+.dialogue-choice-col > * {
     height: 40px;
 }
 
@@ -249,4 +255,18 @@ select {
 @font-face {
     font-family: gameFont;
     src: url(./JF-Dot-Shinonome14.ttf);
+}
+
+.changed td:first-child, label.changed {
+    color: green;
+}
+
+select.changed, input.changed, textarea.changed {
+    background-color: green;
+    color: white;
+}
+
+.changed td:first-child.selected {
+    background-color: green;
+    color: white;
 }

@@ -6,6 +6,15 @@ let position = new mongoose.Schema({
     emote: String,
 });
 
+let multilingualTexts = new mongoose.Schema({
+    en: String,
+    es: String,
+    jp: String,
+    fr: String,
+    br: String,
+    ch: String,
+});
+
 let dialogue = new mongoose.Schema({
     positions: {
         left: position,
@@ -14,12 +23,26 @@ let dialogue = new mongoose.Schema({
         right: position,
     },
     text: {
-        en: String,
-        es: String,
-        jp: String,
-        fr: String,
-        br: String,
-        ch: String,
+        type: multilingualTexts,
+        default: {
+            en: '',
+            es: '',
+            jp: '',
+            fr: '',
+            br: '',
+            ch: '',
+        }
+    },
+    choices: {
+        type: multilingualTexts,
+        default: {
+            en: '',
+            es: '',
+            jp: '',
+            fr: '',
+            br: '',
+            ch: '',
+        }
     },
     active: String,
 });

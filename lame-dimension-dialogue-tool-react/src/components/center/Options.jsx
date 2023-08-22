@@ -1,6 +1,7 @@
 import React from 'react';
+import { getDiff } from '../../util/util';
 
-const component = ({ onOptionsChange, options, editable }) => {
+const component = ({ onOptionsChange, options, editable, diff, path }) => {
     if (!options) {
         onOptionsChange({
             smallerPortraits: false,
@@ -27,7 +28,7 @@ const component = ({ onOptionsChange, options, editable }) => {
                             });
                         }}
                     />
-                    <label>Smaller Portraits</label>
+                    <label className={getDiff(`${path}.smallerPortraits`, diff) ? 'changed' : null}>Smaller Portraits</label>
                 </div>
 
                 <div>
@@ -42,7 +43,7 @@ const component = ({ onOptionsChange, options, editable }) => {
                             });
                         }}
                     />
-                    <label>Disable Portraits</label>
+                    <label className={getDiff(`${path}.disabledPortraits`, diff) ? 'changed' : null}>Disable Portraits</label>
                 </div>
 
                 <div>
@@ -57,7 +58,7 @@ const component = ({ onOptionsChange, options, editable }) => {
                             });
                         }}
                     />
-                    <label>Keep Black Bars</label>
+                    <label className={getDiff(`${path}.keepBlackBars`, diff) ? 'changed' : null}>Keep Black Bars</label>
                 </div>
             </div>
         </div>
