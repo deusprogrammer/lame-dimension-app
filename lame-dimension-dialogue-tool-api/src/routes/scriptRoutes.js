@@ -6,10 +6,17 @@ const router = express.Router();
 
 //recursively remove _id fields
 function cleanId(obj) {
-    if (Array.isArray(obj)) obj.forEach(cleanId);
-    else {
+    if (Array.isArray(obj)) {
+        obj.forEach(cleanId);
+    } else if (obj) {
         delete obj['_id'];
-        for (let key in obj) if (typeof obj[key] == 'object') cleanId(obj[key]);
+        for (let key in obj) { 
+            if (typeof obj[key] == 'object') { 
+                cleanId(obj[key]);
+            }
+        }
+    } else {
+        return;
     }
 
     return obj;
@@ -111,7 +118,10 @@ router.put('/:id', async function (req, res, next) {
                 }();
             }
 
-            await Scripts.updateOne({ id, editor: 'root' }, req.body);
+            let updated = cleanId(req.body);
+            updated.editor = 'root';
+
+            await Scripts.updateOne({ id, editor: 'root' }, updated);
             script.editor = 'root';
             return res.json(script);
         }
@@ -130,6 +140,7 @@ router.put('/:id', async function (req, res, next) {
         res.json(script);
         return res.send();
     } catch (e) {
+        console.error(e);
         res.statusCode = e.statusCode || 500;
         return res.send();
     }

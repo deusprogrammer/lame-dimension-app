@@ -53,7 +53,11 @@ const component = ({
                         {Object.keys(chapters).map((chapterName) => (
                             <tr
                                 key={chapterName}
-                                className={getDiff(`${path}.${chapterName}`, diff) ? 'changed' : null}
+                                className={
+                                    getDiff(`${path}.${chapterName}`, diff)
+                                        ? 'changed'
+                                        : null
+                                }
                                 ref={
                                     chapterName === selectedChapter
                                         ? selectedHook

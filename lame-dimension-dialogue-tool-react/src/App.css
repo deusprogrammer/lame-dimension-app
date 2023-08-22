@@ -257,11 +257,14 @@ select {
     src: url(./JF-Dot-Shinonome14.ttf);
 }
 
-.changed td:first-child, label.changed {
+.changed td:first-child,
+label.changed {
     color: green;
 }
 
-select.changed, input.changed, textarea.changed {
+select.changed,
+input.changed,
+textarea.changed {
     background-color: green;
     color: white;
 }

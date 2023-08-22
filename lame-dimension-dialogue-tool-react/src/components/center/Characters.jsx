@@ -59,7 +59,14 @@ const component = ({
                                 <div>{position.toUpperCase()}</div>
                                 <div>
                                     <select
-                                        className={getDiff(`${path}.${position}.name`, diff) ? 'changed' : null}
+                                        className={
+                                            getDiff(
+                                                `${path}.${position}.name`,
+                                                diff
+                                            )
+                                                ? 'changed'
+                                                : null
+                                        }
                                         onChange={({ target: { value } }) =>
                                             updatePositionName(position, value)
                                         }
@@ -82,7 +89,14 @@ const component = ({
                                 <div>
                                     <input
                                         type="text"
-                                        className={getDiff(`${path}.${position}.override`, diff) ? 'changed' : null}
+                                        className={
+                                            getDiff(
+                                                `${path}.${position}.override`,
+                                                diff
+                                            )
+                                                ? 'changed'
+                                                : null
+                                        }
                                         onChange={({ target: { value } }) => {
                                             updatePositionOverride(
                                                 position,
@@ -99,7 +113,14 @@ const component = ({
                                 <div>Emote</div>
                                 <div>
                                     <select
-                                        className={getDiff(`${path}.${position}.emote`, diff) ? 'changed' : null}
+                                        className={
+                                            getDiff(
+                                                `${path}.${position}.emote`,
+                                                diff
+                                            )
+                                                ? 'changed'
+                                                : null
+                                        }
                                         onChange={({ target: { value } }) => {
                                             updatePositionEmote(
                                                 position,
@@ -126,7 +147,10 @@ const component = ({
                                 <div>
                                     <input
                                         type="checkbox"
-                                        className={getDiff(`${path}.${position}.active`, diff)}
+                                        className={getDiff(
+                                            `${path}.${position}.active`,
+                                            diff
+                                        )}
                                         checked={active === position}
                                         onChange={({ target: { checked } }) => {
                                             if (

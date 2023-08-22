@@ -54,7 +54,7 @@ const Component = ({
 
     const dialogCount = scene.dialogue.length;
 
-    console.log("PATH: " + path);
+    console.log('PATH: ' + path);
 
     return (
         <>
@@ -63,16 +63,6 @@ const Component = ({
                 <table className="dialogue-table">
                     <tbody>
                         {scene.dialogue.map((entry, dialogueIndex) => {
-                            if (!entry.choices) {
-                                entry.choices = {
-                                    en: '',
-                                    es: '',
-                                    jp: '',
-                                    fr: '',
-                                    br: '',
-                                    ch: '',
-                                };
-                            }
                             let choices = entry.choices[language];
                             let defaultChoices = entry.choices[defaultLanguage];
 
@@ -81,7 +71,7 @@ const Component = ({
                             }
 
                             if (defaultChoices) {
-                                defaultChoices = defaultChoices.join('\n')
+                                defaultChoices = defaultChoices.join('\n');
                             }
 
                             return (
@@ -146,7 +136,14 @@ const Component = ({
                                                     1 +
                                                     dialogCount * 2
                                                 }
-                                                className={getDiff(`${path}[${dialogueIndex}].text.${language}`, diff) ? 'editor-text changed' : 'editor-text'}
+                                                className={
+                                                    getDiff(
+                                                        `${path}[${dialogueIndex}].text.${language}`,
+                                                        diff
+                                                    )
+                                                        ? 'editor-text changed'
+                                                        : 'editor-text'
+                                                }
                                                 onFocus={() => {
                                                     onDialogueIndexChange(
                                                         dialogueIndex
@@ -180,14 +177,21 @@ const Component = ({
                                         </div>
                                     </td>
                                     <td>
-                                        <div className='dialogue-choice-col'>
+                                        <div className="dialogue-choice-col">
                                             <textarea
                                                 tabIndex={
                                                     dialogueIndex +
                                                     1 +
                                                     dialogCount * 3
                                                 }
-                                                className={getDiff(`${path}[${dialogueIndex}].choices.${language}`, diff) ? 'editor-choice changed' : 'editor-choice'}
+                                                className={
+                                                    getDiff(
+                                                        `${path}[${dialogueIndex}].choices.${language}`,
+                                                        diff
+                                                    )
+                                                        ? 'editor-choice changed'
+                                                        : 'editor-choice'
+                                                }
                                                 onFocus={() => {
                                                     onDialogueIndexChange(
                                                         dialogueIndex
@@ -213,10 +217,7 @@ const Component = ({
                                                     color: 'white',
                                                 }}
                                             >
-                                                <b>
-                                                    {defaultLanguage.toUpperCase()}
-                                                </b>
-                                                : {defaultChoices}
+                                                {defaultChoices}
                                             </pre>
                                         </div>
                                     </td>

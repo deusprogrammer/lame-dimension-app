@@ -19,6 +19,7 @@ import './App.css';
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 function App() {
     const [user, setUser] = useAtom(userAtom);
@@ -38,6 +39,7 @@ function App() {
 
             setUser(res.data);
         } catch (e) {
+            toast.error('Unable  to fetch user profile');
             console.error(e);
         }
     };

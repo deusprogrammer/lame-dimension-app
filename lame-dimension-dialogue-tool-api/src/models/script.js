@@ -6,6 +6,15 @@ let position = new mongoose.Schema({
     emote: String,
 });
 
+let multilingualChoices = new mongoose.Schema({
+    en: [String],
+    es: [String],
+    jp: [String],
+    fr: [String],
+    br: [String],
+    ch: [String],
+});
+
 let multilingualTexts = new mongoose.Schema({
     en: String,
     es: String,
@@ -31,18 +40,18 @@ let dialogue = new mongoose.Schema({
             fr: '',
             br: '',
             ch: '',
-        }
+        },
     },
     choices: {
-        type: multilingualTexts,
+        type: multilingualChoices,
         default: {
-            en: '',
-            es: '',
-            jp: '',
-            fr: '',
-            br: '',
-            ch: '',
-        }
+            en: [],
+            es: [],
+            jp: [],
+            fr: [],
+            br: [],
+            ch: [],
+        },
     },
     active: String,
 });

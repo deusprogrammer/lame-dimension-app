@@ -28,7 +28,15 @@ const component = ({ onOptionsChange, options, editable, diff, path }) => {
                             });
                         }}
                     />
-                    <label className={getDiff(`${path}.smallerPortraits`, diff) ? 'changed' : null}>Smaller Portraits</label>
+                    <label
+                        className={
+                            getDiff(`${path}.smallerPortraits`, diff)
+                                ? 'changed'
+                                : null
+                        }
+                    >
+                        Smaller Portraits
+                    </label>
                 </div>
 
                 <div>
@@ -43,7 +51,15 @@ const component = ({ onOptionsChange, options, editable, diff, path }) => {
                             });
                         }}
                     />
-                    <label className={getDiff(`${path}.disabledPortraits`, diff) ? 'changed' : null}>Disable Portraits</label>
+                    <label
+                        className={
+                            getDiff(`${path}.disabledPortraits`, diff)
+                                ? 'changed'
+                                : null
+                        }
+                    >
+                        Disable Portraits
+                    </label>
                 </div>
 
                 <div>
@@ -58,7 +74,15 @@ const component = ({ onOptionsChange, options, editable, diff, path }) => {
                             });
                         }}
                     />
-                    <label className={getDiff(`${path}.keepBlackBars`, diff) ? 'changed' : null}>Keep Black Bars</label>
+                    <label
+                        className={
+                            getDiff(`${path}.keepBlackBars`, diff)
+                                ? 'changed'
+                                : null
+                        }
+                    >
+                        Keep Black Bars
+                    </label>
                 </div>
             </div>
         </div>

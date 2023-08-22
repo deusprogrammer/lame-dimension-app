@@ -3,13 +3,13 @@ import { useAtom } from 'jotai';
 import userAtom from '../atoms/User.atom';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 const Component = () => {
     const [user, setUser] = useAtom(userAtom);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [code, setCode] = useState('');
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const login = async () => {
@@ -27,7 +27,7 @@ const Component = () => {
             localStorage.setItem('jwtToken', res.data.jwtToken);
             navigate(`${process.env.PUBLIC_URL}/scripts`);
         } catch (e) {
-            setError('Incorrect credentials');
+            toast.error('Incorrect credentials');
             return;
         }
 
@@ -43,7 +43,7 @@ const Component = () => {
 
             setUser(res.data);
         } catch (e) {
-            console.error(e);
+            toast.error('Unable to fetch profile');
             return;
         }
     };
@@ -69,7 +69,7 @@ const Component = () => {
             localStorage.setItem('jwtToken', res.data.jwtToken);
             navigate(`${process.env.PUBLIC_URL}/scripts`);
         } catch (e) {
-            setError('User creation failed');
+            toast.error('Unable to create user');
         }
 
         try {
@@ -100,17 +100,6 @@ const Component = () => {
                     margin: 'auto',
                 }}
             >
-                {error ? (
-                    <div
-                        style={{
-                            backgroundColor: 'red',
-                            color: 'white',
-                            textAlign: 'center',
-                        }}
-                    >
-                        {error}
-                    </div>
-                ) : null}
                 <label>Username</label>
                 <input
                     type="text"

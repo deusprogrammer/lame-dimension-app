@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const component = () => {
     const [user, setUser] = useState({ password: '' });
@@ -23,6 +24,7 @@ const component = () => {
             navigate(`${process.env.PUBLIC_URL}/`);
         } catch (e) {
             console.error(e);
+            toast.error("Unable to update user");
             return;
         }
     };
@@ -41,6 +43,7 @@ const component = () => {
             setUser(res.data);
         } catch (e) {
             console.error(e);
+            toast.error("Unable to get user");
             return;
         }
     };

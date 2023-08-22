@@ -59,7 +59,13 @@ function App() {
     }, [user, id]);
 
     useEffect(() => {
-        let newDiff = deepDiff(rootScript, script).filter(({path, operation}) => !path.startsWith('characters') && !['editor', '_id'].includes(path) && !path.includes('_id') && operation !== 'UNCHANGED');
+        let newDiff = deepDiff(rootScript, script).filter(
+            ({ path, operation }) =>
+                !path.startsWith('characters') &&
+                !['editor', '_id'].includes(path) &&
+                !path.includes('_id') &&
+                operation !== 'UNCHANGED'
+        );
         setDiff(newDiff);
     }, [script, rootScript]);
 
@@ -81,7 +87,7 @@ function App() {
             toast.info('Script Saved');
         } catch (e) {
             console.error(e);
-            navigate(`${process.env.PUBLIC_URL}/login`);
+            toast.error('Save Failed');
         }
     };
 
@@ -96,10 +102,11 @@ function App() {
                     },
                 }
             );
+            loadScript();
             toast.info('Script Saved on Root');
         } catch (e) {
             console.error(e);
-            navigate(`/login`);
+            toast.error('Merge Failed');
         }
     };
 
@@ -118,7 +125,7 @@ function App() {
             setScript(res.data);
         } catch (e) {
             console.error(e);
-            navigate(`/login`);
+            toast.error('Pull Failed');
         }
     };
 
@@ -147,7 +154,7 @@ function App() {
             setRootScript(res.data);
         } catch (e) {
             console.error(e);
-            navigate(`/login`);
+            toast.error('Load Failed');
         }
     };
 
@@ -160,7 +167,7 @@ function App() {
                 newKey = newChapterName;
                 updated = Date.now();
             }
-            chaptersCopy[newKey] = { ...chapters[key], updated};
+            chaptersCopy[newKey] = { ...chapters[key], updated };
         }
         if (chapter === oldChapterName) {
             setChapter(newChapterName);
@@ -180,7 +187,10 @@ function App() {
                 newKey = newSceneKey;
                 updated = Date.now();
             }
-            scenesCopy[newKey] = { ...chapters[chapter].scenes[oldSceneKey], updated };
+            scenesCopy[newKey] = {
+                ...chapters[chapter].scenes[oldSceneKey],
+                updated,
+            };
         }
 
         chaptersCopy[chapter].scenes = scenesCopy;
@@ -222,6 +232,14 @@ function App() {
                 br: '',
                 ch: '',
             },
+            choices: {
+                en: [],
+                es: [],
+                jp: [],
+                fr: [],
+                br: [],
+                ch: [],
+            },
             active: 'left',
             emote: null,
         });
@@ -239,7 +257,7 @@ function App() {
         copy[chapterName.toLocaleLowerCase()] = {
             name: chapterName,
             scenes: [],
-            updated: Date.now()
+            updated: Date.now(),
         };
         setChapters(copy);
         setScene(null);
@@ -281,12 +299,12 @@ function App() {
                         ch: '',
                     },
                     choices: {
-                        en: '',
-                        es: '',
-                        jp: '',
-                        fr: '',
-                        br: '',
-                        ch: '',
+                        en: [],
+                        es: [],
+                        jp: [],
+                        fr: [],
+                        br: [],
+                        ch: [],
                     },
                     active: 'left',
                     emote: null,

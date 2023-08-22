@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom } from 'jotai';
 import userAtom from '../atoms/User.atom';
+import { toast } from 'react-toastify';
 
 const Component = () => {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Component = () => {
             setScripts(res.data || []);
         } catch (e) {
             console.error(e);
-            navigate(`${process.env.PUBLIC_URL}/login`);
+            toast.error("Unable to load scripts");
         }
     };
 

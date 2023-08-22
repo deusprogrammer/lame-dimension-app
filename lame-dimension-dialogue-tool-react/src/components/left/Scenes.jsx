@@ -65,7 +65,11 @@ const component = ({
                                             ? selectedHook
                                             : null
                                     }
-                                    className={getDiff(`${path}.${name}`, diff) ? 'changed' : null}
+                                    className={
+                                        getDiff(`${path}.${name}`, diff)
+                                            ? 'changed'
+                                            : null
+                                    }
                                 >
                                     <td
                                         className={`selectable ${
