@@ -14,10 +14,9 @@ export const getDiff = (elementPath, diff) => {
     return found.length > 0;
 };
 
-
 export const byString = (o, s) => {
     s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-    s = s.replace(/^\./, '');           // strip a leading dot
+    s = s.replace(/^\./, ''); // strip a leading dot
     var a = s.split('.');
     for (var i = 0, n = a.length; i < n; ++i) {
         var k = a[i];
@@ -28,23 +27,22 @@ export const byString = (o, s) => {
         }
     }
     return o;
-}
+};
 
 export const mergePulled = (mine, theirs, snapshot) => {
     let diff = deepDiff(snapshot, mine).filter(
         ({ path, operation }) =>
             !path.startsWith('characters') &&
-            !['editor', '_id'].includes(path) &&
+            !['editor', 'type', '_id'].includes(path) &&
             !path.includes('_id') &&
             operation !== 'UNCHANGED'
     );
 
-    diff.forEach(({operation, path, was, is}) => {
+    diff.forEach(({ operation, path, was, is }) => {
         if (operation === 'UPDATED') {
-            console.log("UPDATED: " + path + ": " + was + " => " + is);
-            //byString(mine, path);
+            eval(`theirs.${path} = mine.${path}`);
         }
     });
 
-    return mine;
-}
+    return theirs;
+};

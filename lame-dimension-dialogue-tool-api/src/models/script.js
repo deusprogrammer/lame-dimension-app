@@ -93,7 +93,7 @@ let scriptSchema = new mongoose.Schema({
     editor: String,
     type: {
         type: String,
-        default: 'script'
+        default: 'script',
     },
     name: {
         type: String,
