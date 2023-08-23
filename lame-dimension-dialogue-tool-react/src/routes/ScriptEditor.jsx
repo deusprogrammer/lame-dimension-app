@@ -19,6 +19,7 @@ import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
 import deepDiff from 'deep-diff-pizza';
+import { mergePulled } from '../util/util';
 
 let dialogCounter = 0;
 let interval;
@@ -120,9 +121,20 @@ function App() {
                     },
                 }
             );
+            let theirs = res.data;
+            res = await axios.get(
+                `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}/snapshot`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                }
+            );
+            let snapshot = res.data;
             toast.info('Script Updated from Root');
-            setChapters(res.data.chapters);
-            setScript(res.data);
+            // setChapters(res.data.chapters);
+            // setScript(res.data);
+            mergePulled(script, theirs, snapshot);
         } catch (e) {
             console.error(e);
             toast.error('Pull Failed');

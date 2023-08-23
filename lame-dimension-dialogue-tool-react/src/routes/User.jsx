@@ -24,7 +24,7 @@ const component = () => {
             navigate(`${process.env.PUBLIC_URL}/`);
         } catch (e) {
             console.error(e);
-            toast.error("Unable to update user");
+            toast.error('Unable to update user');
             return;
         }
     };
@@ -43,7 +43,7 @@ const component = () => {
             setUser(res.data);
         } catch (e) {
             console.error(e);
-            toast.error("Unable to get user");
+            toast.error('Unable to get user');
             return;
         }
     };

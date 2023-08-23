@@ -6,19 +6,22 @@ import reportWebVitals from './reportWebVitals';
 
 import axios from 'axios';
 
-axios.interceptors.response.use(function (response) {
-    return response;
-}, function (error) {
-    if (error.response && error.response.status === 401) {
-        if (window.location.toString().endsWith('/login')) {
-            console.log("ON LOGIN PAGE ALREADY");
+axios.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    function (error) {
+        if (error.response && error.response.status === 401) {
+            if (window.location.toString().endsWith('/login')) {
+                console.log('ON LOGIN PAGE ALREADY');
+                return;
+            }
+            window.location = `${process.env.PUBLIC_URL}/login`;
             return;
         }
-        window.location = `${process.env.PUBLIC_URL}/login`;
-        return;
+        return Promise.reject(error);
     }
-    return Promise.reject(error);
-});
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

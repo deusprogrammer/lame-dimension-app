@@ -91,6 +91,10 @@ let character = new mongoose.Schema({
 let scriptSchema = new mongoose.Schema({
     id: String,
     editor: String,
+    type: {
+        type: String,
+        default: 'script'
+    },
     name: {
         type: String,
         default: 'Script',

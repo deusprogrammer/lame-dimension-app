@@ -25,7 +25,7 @@ const Component = () => {
             setScripts(res.data || []);
         } catch (e) {
             console.error(e);
-            toast.error("Unable to load scripts");
+            toast.error('Unable to load scripts');
         }
     };
 
