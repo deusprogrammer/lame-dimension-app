@@ -70,7 +70,7 @@ router.get('/', async function (req, res, next) {
         return res.send();
     }
 
-    let scripts = await Scripts.find({type: 'script'});
+    let scripts = await Scripts.find({ type: 'script' });
 
     res.json(scripts);
     return res.send();

@@ -65,6 +65,7 @@ const Component = ({
                         {scene.dialogue.map((entry, dialogueIndex) => {
                             let choices = entry.choices[language];
                             let defaultChoices = entry.choices[defaultLanguage];
+                            let notes = entry.notes;
 
                             if (choices) {
                                 choices = choices.join('\n');
@@ -131,6 +132,7 @@ const Component = ({
                                     <td>
                                         <div className="dialogue-text-col">
                                             <textarea
+                                                placeholder='Dialogue'
                                                 tabIndex={
                                                     dialogueIndex +
                                                     1 +
@@ -179,6 +181,7 @@ const Component = ({
                                     <td>
                                         <div className="dialogue-choice-col">
                                             <textarea
+                                                placeholder='Choices'
                                                 tabIndex={
                                                     dialogueIndex +
                                                     1 +
@@ -222,11 +225,47 @@ const Component = ({
                                         </div>
                                     </td>
                                     <td>
+                                        <div className="dialogue-notes-col">
+                                            <textarea
+                                                placeholder='Notes'
+                                                tabIndex={
+                                                    dialogueIndex +
+                                                    1 +
+                                                    dialogCount * 4
+                                                }
+                                                className={
+                                                    getDiff(
+                                                        `${path}[${dialogueIndex}].notes`,
+                                                        diff
+                                                    )
+                                                        ? 'editor-notes changed'
+                                                        : 'editor-notes'
+                                                }
+                                                onFocus={() => {
+                                                    onDialogueIndexChange(
+                                                        dialogueIndex
+                                                    );
+                                                }}
+                                                onChange={({
+                                                    target: { value },
+                                                }) => {
+                                                    updateDialogue(
+                                                        'notes',
+                                                        dialogueIndex,
+                                                        value
+                                                    );
+                                                }}
+                                                value={notes}
+                                                disabled={!editable}
+                                            ></textarea>
+                                        </div>
+                                    </td>
+                                    <td>
                                         <button
                                             tabIndex={
                                                 dialogueIndex +
                                                 1 +
-                                                dialogCount * 4
+                                                dialogCount * 5
                                             }
                                             onClick={() => {
                                                 onDialogueAdd(dialogueIndex);

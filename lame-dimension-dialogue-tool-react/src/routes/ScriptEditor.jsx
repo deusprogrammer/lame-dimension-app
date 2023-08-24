@@ -132,7 +132,7 @@ function App() {
             );
             let snapshot = res.data;
             toast.info('Script Updated from Root');
-            
+
             let merged = mergePulled(script, theirs, snapshot);
             setChapters(merged.chapters);
             setScript(merged);
@@ -174,7 +174,9 @@ function App() {
     const changeChapterName = async (oldChapterName, newChapterName) => {
         let chaptersCopy = {};
 
-        newChapterName = newChapterName.replace(' ', '_').replace(/[^a-zA-Z0-9_]/, '');
+        newChapterName = newChapterName
+            .replace(' ', '_')
+            .replace(/[^a-zA-Z0-9_]/, '');
 
         for (let key in chapters) {
             let newKey = key;
@@ -196,7 +198,9 @@ function App() {
         let chaptersCopy = { ...chapters };
         let scenesCopy = {};
 
-        newSceneKey = newSceneKey.replace(' ', '_').replace(/[^a-zA-Z0-9_]/g, '');
+        newSceneKey = newSceneKey
+            .replace(' ', '_')
+            .replace(/[^a-zA-Z0-9_]/g, '');
 
         for (let key in chapters[chapter].scenes) {
             let newKey = key;

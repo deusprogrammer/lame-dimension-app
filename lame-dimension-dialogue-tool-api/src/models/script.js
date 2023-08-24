@@ -54,6 +54,10 @@ let dialogue = new mongoose.Schema({
         },
     },
     active: String,
+    notes: {
+        type: String,
+        default: '',
+    },
 });
 
 let scene = new mongoose.Schema({

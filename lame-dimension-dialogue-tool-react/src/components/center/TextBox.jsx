@@ -3,6 +3,99 @@ import React, { useCallback } from 'react';
 import { Stage, Container, Text, Graphics } from '@pixi/react';
 import * as PIXI from 'pixi.js';
 
+let styleMap = {
+    en: {
+        speaker: {
+            align: 'left',
+            fontSize: '16pt',
+            fontFamily: 'gameFont',
+            fontWeight: 'bolder',
+            fill: '#F1AA1C',
+        },
+        text: {
+            align: 'left',
+            fontSize: '15pt',
+            fontFamily: 'gameFont',
+            fill: '#C6C7C6',
+        }
+    },
+    es: {
+        speaker: {
+            align: 'left',
+            fontSize: '16pt',
+            fontFamily: 'gameFont',
+            fontWeight: 'bolder',
+            fill: '#F1AA1C',
+        },
+        text: {
+            align: 'left',
+            fontSize: '15pt',
+            fontFamily: 'gameFont',
+            fill: '#C6C7C6',
+        }
+    },
+    jp: {
+        speaker: {
+            align: 'left',
+            fontSize: '16pt',
+            fontFamily: 'gameFont',
+            fontWeight: 'bolder',
+            fill: '#F1AA1C',
+        },
+        text: {
+            align: 'left',
+            fontSize: '13pt',
+            fontFamily: 'gameFont',
+            fill: '#C6C7C6',
+        }
+    },
+    fr: {
+        speaker: {
+            align: 'left',
+            fontSize: '16pt',
+            fontFamily: 'gameFont',
+            fontWeight: 'bolder',
+            fill: '#F1AA1C',
+        },
+        text: {
+            align: 'left',
+            fontSize: '15pt',
+            fontFamily: 'gameFont',
+            fill: '#C6C7C6',
+        }
+    },
+    br: {
+        speaker: {
+            align: 'left',
+            fontSize: '16pt',
+            fontFamily: 'gameFont',
+            fontWeight: 'bolder',
+            fill: '#F1AA1C',
+        },
+        text: {
+            align: 'left',
+            fontSize: '15pt',
+            fontFamily: 'gameFont',
+            fill: '#C6C7C6',
+        }
+    },
+    ch: {
+        speaker: {
+            align: 'left',
+            fontSize: '16pt',
+            fontFamily: 'gameFont',
+            fontWeight: 'bolder',
+            fill: '#F1AA1C',
+        },
+        text: {
+            align: 'left',
+            fontSize: '15pt',
+            fontFamily: 'gameFont',
+            fill: '#C6C7C6',
+        }
+    }
+}
+
 const Component = ({ scene, language, index, characters }) => {
     const draw = useCallback((g) => {
         g.clear();
@@ -17,20 +110,8 @@ const Component = ({ scene, language, index, characters }) => {
 
     let { active, text } = scene.dialogue[index];
 
-    let speakerStyle = new PIXI.TextStyle({
-        align: 'left',
-        fontSize: '16pt',
-        fontFamily: 'gameFont',
-        fontWeight: 'bolder',
-        fill: '#F1AA1C',
-    });
-
-    let textStyle = new PIXI.TextStyle({
-        align: 'left',
-        fontSize: '15pt',
-        fontFamily: 'gameFont',
-        fill: '#C6C7C6',
-    });
+    let speakerStyle = new PIXI.TextStyle(styleMap[language].speaker);
+    let textStyle = new PIXI.TextStyle(styleMap[language].text);
 
     let speaker =
         scene.dialogue[index].positions[active]?.override ||
