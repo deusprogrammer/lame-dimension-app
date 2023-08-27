@@ -43,7 +43,7 @@ const Component = () => {
                             <div
                                 key={`${script.id}-root`}
                                 style={{
-                                    cursor: 'pointer'
+                                    cursor: 'pointer',
                                 }}
                                 onClick={() => {
                                     let url = `${process.env.PUBLIC_URL}/scripts/${script.id}?as=root`;
@@ -58,7 +58,7 @@ const Component = () => {
                                 style={{
                                     cursor: 'pointer',
                                     backgroundColor: 'green',
-                                    fontWeight: 'bolder'
+                                    fontWeight: 'bolder',
                                 }}
                                 onClick={() => {
                                     let url = `${process.env.PUBLIC_URL}/scripts/${script.id}`;
@@ -68,7 +68,7 @@ const Component = () => {
                                 {script.name}({script.id})[{user.username}]
                             </div>
                         </>
-                    )
+                    );
                 } else if (script.editor === user.username) {
                     return null;
                 }
@@ -77,7 +77,7 @@ const Component = () => {
                     <div
                         key={`${script.name}-${script.editor}`}
                         style={{
-                            cursor: 'pointer'
+                            cursor: 'pointer',
                         }}
                         onClick={() => {
                             let url = `${process.env.PUBLIC_URL}/scripts/${script.id}`;
