@@ -132,7 +132,7 @@ const Component = ({
                                     <td>
                                         <div className="dialogue-text-col">
                                             <textarea
-                                                placeholder='Dialogue'
+                                                placeholder="Dialogue"
                                                 tabIndex={
                                                     dialogueIndex +
                                                     1 +
@@ -181,7 +181,7 @@ const Component = ({
                                     <td>
                                         <div className="dialogue-choice-col">
                                             <textarea
-                                                placeholder='Choices'
+                                                placeholder="Choices"
                                                 tabIndex={
                                                     dialogueIndex +
                                                     1 +
@@ -227,7 +227,7 @@ const Component = ({
                                     <td>
                                         <div className="dialogue-notes-col">
                                             <textarea
-                                                placeholder='Notes'
+                                                placeholder="Notes"
                                                 tabIndex={
                                                     dialogueIndex +
                                                     1 +

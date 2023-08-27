@@ -412,7 +412,7 @@ function App() {
                     editable={editable}
                     diff={diff}
                     path={`chapters.${chapter}.scenes`}
-                    onSelectScene={setScene}
+                    onSelectScene={(key) => {setScene(key); setSceneIndex(0);}}
                     onCreateScene={createScene}
                     onSceneRemove={removeScene}
                     onSceneKeyChange={changeSceneKey}

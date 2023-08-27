@@ -17,7 +17,7 @@ let styleMap = {
             fontSize: '15pt',
             fontFamily: 'gameFont',
             fill: '#C6C7C6',
-        }
+        },
     },
     es: {
         speaker: {
@@ -32,7 +32,7 @@ let styleMap = {
             fontSize: '15pt',
             fontFamily: 'gameFont',
             fill: '#C6C7C6',
-        }
+        },
     },
     jp: {
         speaker: {
@@ -47,7 +47,7 @@ let styleMap = {
             fontSize: '13pt',
             fontFamily: 'gameFont',
             fill: '#C6C7C6',
-        }
+        },
     },
     fr: {
         speaker: {
@@ -62,7 +62,7 @@ let styleMap = {
             fontSize: '15pt',
             fontFamily: 'gameFont',
             fill: '#C6C7C6',
-        }
+        },
     },
     br: {
         speaker: {
@@ -77,7 +77,7 @@ let styleMap = {
             fontSize: '15pt',
             fontFamily: 'gameFont',
             fill: '#C6C7C6',
-        }
+        },
     },
     ch: {
         speaker: {
@@ -92,9 +92,9 @@ let styleMap = {
             fontSize: '15pt',
             fontFamily: 'gameFont',
             fill: '#C6C7C6',
-        }
-    }
-}
+        },
+    },
+};
 
 const Component = ({ scene, language, index, characters }) => {
     const draw = useCallback((g) => {
