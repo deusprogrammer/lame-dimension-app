@@ -84,6 +84,13 @@ const Component = ({ position, dialogue, active }) => {
         x = adjustments.x;
     }
 
+    // If position is null
+    if (!dialogue.positions[position] || dialogue.positions[position].name === 'none') {
+        return (
+            <></>
+        )
+    }
+
     return (
         <div
             style={{
