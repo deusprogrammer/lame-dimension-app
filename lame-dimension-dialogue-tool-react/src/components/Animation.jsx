@@ -50,7 +50,7 @@ const Animation = ({
         return (
             <img
                 alt="animation frame"
-                style={{ transform: `scaleX(${flip ? -1 : 1})`, opacity: 0.5}}
+                style={{ transform: `scaleX(${flip ? -1 : 1})`, opacity: 0.5 }}
                 src={`${images[0]}`}
                 width={width}
                 height={height}
