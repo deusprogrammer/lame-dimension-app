@@ -25,17 +25,17 @@ const Component = ({ scene, index }) => {
                 active={active}
             />
             <CharacterSprite
+                position="right"
+                dialogue={scene.dialogue[index]}
+                active={active}
+            />
+            <CharacterSprite
                 position="leftFront"
                 dialogue={scene.dialogue[index]}
                 active={active}
             />
             <CharacterSprite
                 position="rightFront"
-                dialogue={scene.dialogue[index]}
-                active={active}
-            />
-            <CharacterSprite
-                position="right"
                 dialogue={scene.dialogue[index]}
                 active={active}
             />
