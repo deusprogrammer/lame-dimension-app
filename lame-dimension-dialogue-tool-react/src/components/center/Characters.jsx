@@ -23,8 +23,12 @@ const component = ({
         if (!copy[position]) {
             copy[position] = {};
         }
-        copy[position].name = characterKey;
-        copy[position].emote = 'neutral';
+
+        copy[position] = null;
+        if (characterKey !== "none") {
+            copy[position].name = characterKey;
+            copy[position].emote = 'neutral';
+        }
         dialogueCopy.positions = copy;
         onPositionChange(index, dialogueCopy);
     };
