@@ -51,7 +51,7 @@ const component = ({
     return (
         <div>
             <div className="characters">
-                {['left', 'leftfront', 'right', 'rightfront']
+                {['left', 'leftFront', 'right', 'rightFront']
                     .filter((position) => position.toLowerCase().includes(side))
                     .map((position) => {
                         return (
