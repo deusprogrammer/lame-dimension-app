@@ -85,10 +85,11 @@ const Component = ({ position, dialogue, active }) => {
     }
 
     // If position is null
-    if (!dialogue.positions[position] || dialogue.positions[position].name === 'none') {
-        return (
-            <></>
-        )
+    if (
+        !dialogue.positions[position] ||
+        dialogue.positions[position].name === 'none'
+    ) {
+        return <></>;
     }
 
     return (
