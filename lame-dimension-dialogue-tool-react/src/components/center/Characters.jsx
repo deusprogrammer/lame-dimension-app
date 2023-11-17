@@ -20,6 +20,9 @@ const component = ({
     const updatePositionName = (position, characterKey) => {
         let dialogueCopy = { ...scene.dialogue[index] };
         let copy = { ...dialogueCopy.positions };
+        if (!copy[position]) {
+            copy[position] = {};
+        }
         copy[position].name = characterKey;
         copy[position].emote = 'neutral';
         dialogueCopy.positions = copy;
@@ -29,6 +32,9 @@ const component = ({
     const updatePositionEmote = (position, emote) => {
         let dialogueCopy = { ...scene.dialogue[index] };
         let copy = { ...dialogueCopy.positions };
+        if (!copy[position]) {
+            copy[position] = {};
+        }
         copy[position].emote = emote;
         dialogueCopy.positions = copy;
         onPositionChange(index, dialogueCopy);
@@ -37,6 +43,9 @@ const component = ({
     const updatePositionOverride = (position, override) => {
         let dialogueCopy = { ...scene.dialogue[index] };
         let copy = { ...dialogueCopy.positions };
+        if (!copy[position]) {
+            copy[position] = {};
+        }
         copy[position].override = override;
         dialogueCopy.positions = copy;
         onPositionChange(index, dialogueCopy);
