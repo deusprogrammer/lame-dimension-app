@@ -38,8 +38,9 @@ export const mergePulled = (mine, theirs, snapshot) => {
             operation !== 'UNCHANGED'
     );
 
-    diff.forEach(({ operation, path, was, is }) => {
-        if (operation === 'UPDATED' && theirs && mine) {
+    diff.forEach(({ operation, path }) => {
+        if (operation === 'UPDATED' && theirs[path] && mine[path]) {
+            console.log("FARTS: " + path);
             eval(`theirs.${path} = mine.${path}`);
         }
     });
