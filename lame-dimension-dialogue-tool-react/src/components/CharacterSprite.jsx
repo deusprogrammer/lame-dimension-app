@@ -9,12 +9,12 @@ const positionAdjustments = {
         from: 'left',
     },
     leftFront: {
-        x: 20,
+        x: 150,
         y: 0,
         from: 'left',
     },
     rightFront: {
-        x: 20,
+        x: 150,
         y: 0,
         from: 'right',
     },

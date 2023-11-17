@@ -210,7 +210,7 @@ function App() {
                 updated = Date.now();
             }
             scenesCopy[newKey] = {
-                ...chapters[chapter].scenes[oldSceneKey],
+                ...chapters[chapter].scenes[key],
                 updated,
             };
         }
