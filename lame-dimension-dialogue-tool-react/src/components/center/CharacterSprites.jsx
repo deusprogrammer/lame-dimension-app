@@ -3,7 +3,7 @@ import React from 'react';
 import CharacterSprite from '../CharacterSprite';
 
 const Component = ({ scene, index }) => {
-    if (!scene) {
+    if (!scene || !scene.dialogue[index]) {
         return <></>;
     }
 

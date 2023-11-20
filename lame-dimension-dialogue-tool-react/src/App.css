@@ -99,7 +99,7 @@ body {
 }
 
 .dialogue-text {
-    height: 700px;
+    height: calc(86px * 4);
     overflow-y: auto;
 }
 

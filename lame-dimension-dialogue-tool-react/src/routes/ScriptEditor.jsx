@@ -71,8 +71,24 @@ function App() {
     }, [script, rootScript]);
 
     const save = async () => {
-        if (!chapters || chapters === {}) {
+        if (!chapters || chapters == {}) {
             return;
+        }
+
+        for (let chapterIndex in chapters) {
+            for (let sceneIndex in chapters[chapterIndex].scenes) {
+                for (let dialogueIndex in chapters[chapterIndex].scenes[sceneIndex].dialogue) {
+                    let positions = chapters[chapterIndex].scenes[sceneIndex].dialogue[dialogueIndex].positions;
+                    positions["leftFront"] = positions["leftfront"] || positions["leftFront"];
+                    positions["rightFront"] = positions["rightfront"] || positions["rightFront"];
+
+                    for (let positionIndex in positions) {
+                        positions[positionIndex] = positions[positionIndex]?.name ? positions[positionIndex] : null;
+                    }
+
+                    chapters[chapterIndex].scenes[sceneIndex].dialogue[dialogueIndex].positions = positions;
+                }
+            }
         }
 
         try {
@@ -239,13 +255,20 @@ function App() {
 
     const addDialogue = (afterIndex) => {
         let copy = { ...chapters };
+        let positions = {
+            left: {},
+            leftFront: {},
+            rightFront: {},
+            right: {},
+        }
+        let active = 'left';
+
+        if (afterIndex >= 0) {
+            ({positions, active} = copy[chapter].scenes[scene].dialogue[afterIndex]);
+        }
+
         copy[chapter].scenes[scene].dialogue.splice(afterIndex + 1, 0, {
-            positions: {
-                left: {},
-                leftFront: {},
-                rightFront: {},
-                right: {},
-            },
+            positions,
             text: {
                 en: '',
                 es: '',
@@ -262,7 +285,7 @@ function App() {
                 br: [],
                 ch: [],
             },
-            active: 'left',
+            active,
             emote: null,
         });
         setSceneIndex(afterIndex + 1);
