@@ -83,6 +83,11 @@ const Component = ({
                                             ? 'selected'
                                             : null
                                     }`}
+                                    onClick={() => {
+                                        onDialogueIndexChange(
+                                            dialogueIndex
+                                        );
+                                    }}
                                 >
                                     <td>
                                         {dialogueIndex > 0 ? (
@@ -92,11 +97,13 @@ const Component = ({
                                                         dialogueIndex +
                                                         dialogCount
                                                     }
-                                                    onClick={() => {
+                                                    onClick={(e) => {
                                                         swapDialogues(
                                                             dialogueIndex,
                                                             dialogueIndex - 1
                                                         );
+                                                        e.stopPropagation();
+                                                        e.preventDefault();
                                                     }}
                                                     disabled={!editable}
                                                 >
@@ -115,11 +122,13 @@ const Component = ({
                                                     1 +
                                                     dialogCount
                                                 }
-                                                onClick={() => {
+                                                onClick={(e) => {
                                                     swapDialogues(
                                                         dialogueIndex,
                                                         dialogueIndex + 1
                                                     );
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
                                                 }}
                                                 disabled={!editable}
                                             >
@@ -146,11 +155,6 @@ const Component = ({
                                                         ? 'editor-text changed'
                                                         : 'editor-text'
                                                 }
-                                                onFocus={() => {
-                                                    onDialogueIndexChange(
-                                                        dialogueIndex
-                                                    );
-                                                }}
                                                 onChange={({
                                                     target: { value },
                                                 }) => {
@@ -267,8 +271,10 @@ const Component = ({
                                                 1 +
                                                 dialogCount * 5
                                             }
-                                            onClick={() => {
+                                            onClick={(e) => {
                                                 onDialogueAdd(dialogueIndex);
+                                                e.stopPropagation();
+                                                e.preventDefault();
                                             }}
                                             disabled={!editable}
                                         >
@@ -280,7 +286,7 @@ const Component = ({
                                                 1 +
                                                 dialogCount * 5
                                             }
-                                            onClick={() => {
+                                            onClick={(e) => {
                                                 onDialogueRemove(dialogueIndex);
                                                 onDialogueIndexChange(
                                                     Math.max(
@@ -288,6 +294,8 @@ const Component = ({
                                                         dialogueIndex - 1
                                                     )
                                                 );
+                                                e.stopPropagation();
+                                                e.preventDefault();
                                             }}
                                             disabled={!editable}
                                         >
