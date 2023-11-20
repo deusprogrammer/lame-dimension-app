@@ -262,7 +262,7 @@ select {
 
 @font-face {
     font-family: gameFont;
-    src: url(/JF-Dot-Shinonome14.ttf);
+    src: url(./fonts/JF-Dot-Shinonome14.ttf);
 }
 
 .changed td:first-child,
