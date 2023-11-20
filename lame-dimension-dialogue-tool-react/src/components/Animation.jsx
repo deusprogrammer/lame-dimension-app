@@ -21,6 +21,9 @@ const Animation = ({
         setCurrentIndex(0);
         intervals[label] = setInterval(() => {
             setCurrentIndex((oldIndex) => {
+                if (images.length === 1) {
+                    return 0;
+                }
                 return (oldIndex + 1) % (images.length - 1);
             });
         }, speed);
