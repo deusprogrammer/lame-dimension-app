@@ -282,7 +282,12 @@ const Component = ({
                                             }
                                             onClick={() => {
                                                 onDialogueRemove(dialogueIndex);
-                                                onDialogueIndexChange(Math.max(0, dialogueIndex - 1));
+                                                onDialogueIndexChange(
+                                                    Math.max(
+                                                        0,
+                                                        dialogueIndex - 1
+                                                    )
+                                                );
                                             }}
                                             disabled={!editable}
                                         >

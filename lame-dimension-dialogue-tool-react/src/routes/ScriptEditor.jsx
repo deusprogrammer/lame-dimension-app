@@ -77,16 +77,28 @@ function App() {
 
         for (let chapterIndex in chapters) {
             for (let sceneIndex in chapters[chapterIndex].scenes) {
-                for (let dialogueIndex in chapters[chapterIndex].scenes[sceneIndex].dialogue) {
-                    let positions = chapters[chapterIndex].scenes[sceneIndex].dialogue[dialogueIndex].positions;
-                    positions["leftFront"] = positions["leftfront"] || positions["leftFront"];
-                    positions["rightFront"] = positions["rightfront"] || positions["rightFront"];
+                for (let dialogueIndex in chapters[chapterIndex].scenes[
+                    sceneIndex
+                ].dialogue) {
+                    let positions =
+                        chapters[chapterIndex].scenes[sceneIndex].dialogue[
+                            dialogueIndex
+                        ].positions;
+                    positions['leftFront'] =
+                        positions['leftfront'] || positions['leftFront'];
+                    positions['rightFront'] =
+                        positions['rightfront'] || positions['rightFront'];
 
                     for (let positionIndex in positions) {
-                        positions[positionIndex] = positions[positionIndex]?.name ? positions[positionIndex] : null;
+                        positions[positionIndex] = positions[positionIndex]
+                            ?.name
+                            ? positions[positionIndex]
+                            : null;
                     }
 
-                    chapters[chapterIndex].scenes[sceneIndex].dialogue[dialogueIndex].positions = positions;
+                    chapters[chapterIndex].scenes[sceneIndex].dialogue[
+                        dialogueIndex
+                    ].positions = positions;
                 }
             }
         }
@@ -260,11 +272,12 @@ function App() {
             leftFront: {},
             rightFront: {},
             right: {},
-        }
+        };
         let active = 'left';
 
         if (afterIndex >= 0) {
-            ({positions, active} = copy[chapter].scenes[scene].dialogue[afterIndex]);
+            ({ positions, active } =
+                copy[chapter].scenes[scene].dialogue[afterIndex]);
         }
 
         copy[chapter].scenes[scene].dialogue.splice(afterIndex + 1, 0, {
