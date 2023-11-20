@@ -282,6 +282,8 @@ textarea.changed {
     color: white;
 }
 
-input[disabled], textarea[disabled], button[disabled] {
+input[disabled],
+textarea[disabled],
+button[disabled] {
     pointer-events: none;
 }

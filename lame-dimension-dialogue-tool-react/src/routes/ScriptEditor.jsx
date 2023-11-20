@@ -20,6 +20,7 @@ import axios from 'axios';
 
 import deepDiff from 'deep-diff-pizza';
 import { mergePulled } from '../util/util';
+import characters from '../data/characters';
 
 let dialogCounter = 0;
 let interval;
@@ -163,7 +164,7 @@ function App() {
 
             let merged = mergePulled(script, theirs, snapshot);
             setChapters(merged.chapters);
-            setScript(merged);
+            setScript({...merged, characters});
         } catch (e) {
             console.error(e);
             toast.error('Pull Failed');
@@ -183,7 +184,7 @@ function App() {
             });
 
             setChapters(res.data.chapters);
-            setScript(res.data);
+            setScript({...res.data, characters});
 
             url = `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}?pull=root`;
             res = await axios.get(url, {

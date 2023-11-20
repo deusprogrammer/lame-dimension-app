@@ -2,7 +2,7 @@ import React from 'react';
 import { getDiff } from '../../util/util';
 
 const component = ({ onOptionsChange, options, editable, diff, path }) => {
-    if (!options) {
+    if (!options || options == {}) {
         onOptionsChange({
             smallerPortraits: false,
             disabledPortraits: false,
@@ -42,18 +42,18 @@ const component = ({ onOptionsChange, options, editable, diff, path }) => {
                 <div>
                     <input
                         type="checkbox"
-                        checked={options.disabledPortraits}
+                        checked={options.disablePortraits}
                         disabled={!editable}
                         onChange={({ target: { checked } }) => {
                             onOptionsChange({
                                 ...options,
-                                disabledPortraits: checked,
+                                disablePortraits: checked,
                             });
                         }}
                     />
                     <label
                         className={
-                            getDiff(`${path}.disabledPortraits`, diff)
+                            getDiff(`${path}.disablePortraits`, diff)
                                 ? 'changed'
                                 : null
                         }
