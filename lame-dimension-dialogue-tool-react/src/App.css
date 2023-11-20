@@ -281,3 +281,5 @@ textarea.changed {
     background-color: green;
     color: white;
 }
+
+input[disabled] {pointer-events: none}

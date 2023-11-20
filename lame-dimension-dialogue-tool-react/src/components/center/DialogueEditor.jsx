@@ -84,9 +84,7 @@ const Component = ({
                                             : null
                                     }`}
                                     onClick={() => {
-                                        onDialogueIndexChange(
-                                            dialogueIndex
-                                        );
+                                        onDialogueIndexChange(dialogueIndex);
                                     }}
                                 >
                                     <td>
