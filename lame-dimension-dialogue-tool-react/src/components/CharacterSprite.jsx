@@ -31,7 +31,7 @@ const getBase64 = async (url) => {
     let response = await axios.get(url, {
         responseType: 'arraybuffer',
     });
-    return btoa(String.fromCharCode(...new Uint8Array(response.data)));;
+    return btoa(String.fromCharCode(...new Uint8Array(response.data)));
 };
 
 const Component = ({ position, dialogue, active }) => {
@@ -65,10 +65,12 @@ const Component = ({ position, dialogue, active }) => {
 
             let height = response.data.height;
             let width = response.data.width;
-            let files = await Promise.all(response.data.frames.map(async ({name}) => {
-                const base64 = await getBase64(`${directory}/${name}.png`);
-                return `data://image/png;base64,${base64}`;
-            }));
+            let files = await Promise.all(
+                response.data.frames.map(async ({ name }) => {
+                    const base64 = await getBase64(`${directory}/${name}.png`);
+                    return `data://image/png;base64,${base64}`;
+                })
+            );
 
             let characterCacheCopy = { ...characterCache };
             characterCacheCopy[`${character}:${emote}`] = {

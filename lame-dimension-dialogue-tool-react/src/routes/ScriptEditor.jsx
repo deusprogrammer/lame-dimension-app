@@ -18,6 +18,8 @@ import { useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
+import update from 'immutability-helper';
+
 import deepDiff from 'deep-diff-pizza';
 import { mergePulled } from '../util/util';
 import characters from '../data/characters';
@@ -228,7 +230,7 @@ function App() {
     };
 
     const changeSceneKey = (oldSceneKey, newSceneKey) => {
-        let chaptersCopy = deepCopyObject(chapters);
+        let chaptersCopy = { ...chapters };
         let scenesCopy = {};
 
         newSceneKey = newSceneKey
@@ -257,15 +259,13 @@ function App() {
     };
 
     const updateOptions = (options) => {
-        let chaptersCopy = deepCopyObject(chapters);
-        chaptersCopy[chapter].scenes[scene].options = options;
-        setScript({ ...script, chapters: chaptersCopy });
-        setChapters(chaptersCopy);
+        let copy = update(chapters, {[chapter]: {scenes: {[scene]: {options: {$set: options}}}}});
+        setScript({ ...script, chapters: copy });
+        setChapters(copy);
     };
 
     const updateDialogue = (index, entry) => {
-        let copy = deepCopyObject(chapters);
-        copy[chapter].scenes[scene].dialogue[index] = entry;
+        let copy = update(chapters, {[chapter]: {scenes: {[scene]: {dialogue: {[index]: {$set: entry}}}}}});
         setScript({ ...script, chapters: copy });
         setChapters(copy);
     };
@@ -286,7 +286,12 @@ function App() {
         }
 
         copy[chapter].scenes[scene].dialogue.splice(afterIndex + 1, 0, {
-            positions,
+            positions: {
+                left: {...positions?.left},
+                right: {...positions?.right},
+                leftFront: {...positions?.leftFront},
+                rightFront: {...positions?.rightFront}
+            },
             text: {
                 en: '',
                 es: '',
@@ -316,7 +321,7 @@ function App() {
         if (chapters.length === 0) {
             chapterName = 'Prologue';
         }
-        let copy = deepCopyObject(chapters);
+        let copy = { ...chapters };
         copy[chapterName.toLocaleLowerCase()] = {
             name: chapterName,
             scenes: [],
@@ -330,16 +335,14 @@ function App() {
     };
 
     const storeDialogues = (newDialogs) => {
-        let copy = deepCopyObject(chapters);
-        copy[chapter].scenes[scene].dialogue = newDialogs;
+        let copy = update(chapters, {[chapter]: {scenes: {[scene]: {dialogue: {$set: newDialogs}}}}});
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
 
     const createScene = () => {
         let newSceneKey = `scene${dialogCounter++}`;
-        let copy = deepCopyObject(chapters);
-        copy[chapter].scenes[newSceneKey] = {
+        let newScene = {
             dialogue: [
                 {
                     options: {
@@ -374,6 +377,7 @@ function App() {
                 },
             ],
         };
+        let copy = update(chapters, {[chapter]: {scenes: {[newSceneKey]: {$set: newScene}}}});
         setSceneIndex(0);
         setScene(newSceneKey);
         setChapters(copy);
@@ -381,22 +385,19 @@ function App() {
     };
 
     const removeScene = (sceneKey) => {
-        let copy = deepCopyObject(chapters);
-        delete copy[chapter].scenes[sceneKey];
+        let copy = update(chapters, {[chapter]: {scenes: {$unset: [sceneKey]}}});
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
 
     const removeChapter = (chapterKey) => {
-        let copy = deepCopyObject(chapters);
-        delete copy[chapterKey];
+        let copy = update(chapters, {$unset: [chapterKey]});
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
 
     const removeDialogue = (dialogueIndex) => {
-        let copy = deepCopyObject(chapters);
-        copy[chapter].scenes[scene].dialogue.splice(dialogueIndex, 1);
+        let copy = update(chapters, {[chapter]: {scenes: {[scene]: {dialogue: {$splice: [[dialogueIndex, 1]]}}}}});
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
