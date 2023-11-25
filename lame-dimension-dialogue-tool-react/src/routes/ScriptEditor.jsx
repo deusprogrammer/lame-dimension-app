@@ -71,6 +71,10 @@ function App() {
         setDiff(newDiff);
     }, [script, rootScript]);
 
+    const deepCopyObject = (object) => {
+        return JSON.parse(JSON.stringify(object));
+    }
+
     const save = async () => {
         if (!chapters || chapters == {}) {
             return;
@@ -164,7 +168,7 @@ function App() {
 
             let merged = mergePulled(script, theirs, snapshot);
             setChapters(merged.chapters);
-            setScript({...merged, characters});
+            setScript({ ...merged, characters });
         } catch (e) {
             console.error(e);
             toast.error('Pull Failed');
@@ -184,7 +188,7 @@ function App() {
             });
 
             setChapters(res.data.chapters);
-            setScript({...res.data, characters});
+            setScript({ ...res.data, characters });
 
             url = `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}?pull=root`;
             res = await axios.get(url, {
@@ -267,7 +271,7 @@ function App() {
     };
 
     const addDialogue = (afterIndex) => {
-        let copy = { ...chapters };
+        let copy = deepCopyObject(chapters);
         let positions = {
             left: {},
             leftFront: {},
@@ -552,7 +556,6 @@ function App() {
                     onDialogueRemove={removeDialogue}
                 />
             </div>
-            <div className="right"></div>
         </div>
     );
 }

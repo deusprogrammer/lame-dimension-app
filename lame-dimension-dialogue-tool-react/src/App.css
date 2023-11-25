@@ -10,7 +10,7 @@ body {
 .container {
     display: flex;
     flex-direction: row;
-    height: 100vh - 39px;
+    height: calc(100vh - 39px);
     width: 80%;
     justify-content: center;
     margin: auto;
@@ -18,31 +18,33 @@ body {
 
 .container > div {
     height: 100%;
-    padding: 10px;
+    padding: 0px 10px;
 }
 
 .left {
     display: flex;
     flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
     justify-content: flex-start;
     width: 300px;
     text-align: center;
 }
 
-.right {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 300px;
-    text-align: center;
+.center {
+    position: relative;
+    top: -39px;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.center h2 {
+    margin-top: 0px;
+    padding-top: 0px;
 }
 
 .left table {
     margin: auto;
-}
-
-.chapters {
-    max-height: 300px;
 }
 
 .chapters td:first-child,
@@ -54,10 +56,6 @@ body {
 .scenes input {
     width: 100%;
     text-align: center;
-}
-
-.scenes {
-    max-height: 300px;
 }
 
 .options {
@@ -124,7 +122,7 @@ body {
 
 .scrolling {
     overflow-y: auto;
-    height: 200px;
+    height: 100px;
 }
 
 .language-grid {
