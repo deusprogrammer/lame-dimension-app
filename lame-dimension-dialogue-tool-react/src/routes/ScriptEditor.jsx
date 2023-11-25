@@ -73,7 +73,7 @@ function App() {
 
     const deepCopyObject = (object) => {
         return JSON.parse(JSON.stringify(object));
-    }
+    };
 
     const save = async () => {
         if (!chapters || chapters == {}) {
@@ -228,7 +228,7 @@ function App() {
     };
 
     const changeSceneKey = (oldSceneKey, newSceneKey) => {
-        let chaptersCopy = { ...chapters };
+        let chaptersCopy = deepCopyObject(chapters);
         let scenesCopy = {};
 
         newSceneKey = newSceneKey
@@ -257,14 +257,14 @@ function App() {
     };
 
     const updateOptions = (options) => {
-        let chaptersCopy = { ...chapters };
+        let chaptersCopy = deepCopyObject(chapters);
         chaptersCopy[chapter].scenes[scene].options = options;
         setScript({ ...script, chapters: chaptersCopy });
         setChapters(chaptersCopy);
     };
 
     const updateDialogue = (index, entry) => {
-        let copy = { ...chapters };
+        let copy = deepCopyObject(chapters);
         copy[chapter].scenes[scene].dialogue[index] = entry;
         setScript({ ...script, chapters: copy });
         setChapters(copy);
@@ -316,7 +316,7 @@ function App() {
         if (chapters.length === 0) {
             chapterName = 'Prologue';
         }
-        let copy = { ...chapters };
+        let copy = deepCopyObject(chapters);
         copy[chapterName.toLocaleLowerCase()] = {
             name: chapterName,
             scenes: [],
@@ -330,7 +330,7 @@ function App() {
     };
 
     const storeDialogues = (newDialogs) => {
-        let copy = { ...chapters };
+        let copy = deepCopyObject(chapters);
         copy[chapter].scenes[scene].dialogue = newDialogs;
         setChapters(copy);
         setScript({ ...script, chapters: copy });
@@ -338,7 +338,7 @@ function App() {
 
     const createScene = () => {
         let newSceneKey = `scene${dialogCounter++}`;
-        let copy = { ...chapters };
+        let copy = deepCopyObject(chapters);
         copy[chapter].scenes[newSceneKey] = {
             dialogue: [
                 {
@@ -381,21 +381,21 @@ function App() {
     };
 
     const removeScene = (sceneKey) => {
-        let copy = { ...chapters };
+        let copy = deepCopyObject(chapters);
         delete copy[chapter].scenes[sceneKey];
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
 
     const removeChapter = (chapterKey) => {
-        let copy = { ...chapters };
+        let copy = deepCopyObject(chapters);
         delete copy[chapterKey];
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
 
     const removeDialogue = (dialogueIndex) => {
-        let copy = { ...chapters };
+        let copy = deepCopyObject(chapters);
         copy[chapter].scenes[scene].dialogue.splice(dialogueIndex, 1);
         setChapters(copy);
         setScript({ ...script, chapters: copy });
