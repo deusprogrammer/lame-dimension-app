@@ -1,6 +1,8 @@
 import Animation from './Animation';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useAtom } from 'jotai';
+import characterCacheAtom from '../atoms/Characters.atom';
 
 const positionAdjustments = {
     left: {
@@ -25,13 +27,33 @@ const positionAdjustments = {
     },
 };
 
+const getBase64 = async (url) => {
+    let response = await axios
+      .get(url, {
+        responseType: 'arraybuffer'
+      });
+    return Buffer.from(response.data, 'binary').toString('base64');
+}
+
 const Component = ({ position, dialogue, active }) => {
     const [fileList, setFileList] = useState([]);
     const [height, setHeight] = useState(0);
     const [width, setWidth] = useState(0);
     const [isSpeaking, setIsSpeaking] = useState(false);
+    const [characterCache, setCharacterCache] = useAtom(characterCacheAtom);
 
     const loadTextures = async (character, emote) => {
+        let cached = characterCache[`${character}:${emote}`];
+
+        // If cached, don't pull again
+        if (cached) {
+            setHeight(cached.height);
+            setWidth(cached.width);
+            setFileList(cached.files);
+            return;
+        }
+
+        // Otherwise, continue
         let directory = `${process.env.REACT_APP_API_DOMAIN}/assets/sprites/${emote}/spr_${character}${emote}`;
         let spriteFile = `${directory}/spr_${character}${emote}.yy`;
 
@@ -47,6 +69,13 @@ const Component = ({ position, dialogue, active }) => {
             let files = response.data.frames.map(
                 ({ name }) => `${directory}/${name}.png`
             );
+            let characterCacheCopy = {...characterCache};
+            characterCacheCopy[`${character}:${emote}`] = {
+                height,
+                width,
+                files
+            }
+            setCharacterCache(characterCacheCopy);
             setHeight(height);
             setWidth(width);
 
