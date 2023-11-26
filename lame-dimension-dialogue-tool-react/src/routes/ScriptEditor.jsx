@@ -259,13 +259,19 @@ function App() {
     };
 
     const updateOptions = (options) => {
-        let copy = update(chapters, {[chapter]: {scenes: {[scene]: {options: {$set: options}}}}});
+        let copy = update(chapters, {
+            [chapter]: { scenes: { [scene]: { options: { $set: options } } } },
+        });
         setScript({ ...script, chapters: copy });
         setChapters(copy);
     };
 
     const updateDialogue = (index, entry) => {
-        let copy = update(chapters, {[chapter]: {scenes: {[scene]: {dialogue: {[index]: {$set: entry}}}}}});
+        let copy = update(chapters, {
+            [chapter]: {
+                scenes: { [scene]: { dialogue: { [index]: { $set: entry } } } },
+            },
+        });
         setScript({ ...script, chapters: copy });
         setChapters(copy);
     };
@@ -287,10 +293,10 @@ function App() {
 
         copy[chapter].scenes[scene].dialogue.splice(afterIndex + 1, 0, {
             positions: {
-                left: {...positions?.left},
-                right: {...positions?.right},
-                leftFront: {...positions?.leftFront},
-                rightFront: {...positions?.rightFront}
+                left: { ...positions?.left },
+                right: { ...positions?.right },
+                leftFront: { ...positions?.leftFront },
+                rightFront: { ...positions?.rightFront },
             },
             text: {
                 en: '',
@@ -335,7 +341,11 @@ function App() {
     };
 
     const storeDialogues = (newDialogs) => {
-        let copy = update(chapters, {[chapter]: {scenes: {[scene]: {dialogue: {$set: newDialogs}}}}});
+        let copy = update(chapters, {
+            [chapter]: {
+                scenes: { [scene]: { dialogue: { $set: newDialogs } } },
+            },
+        });
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
@@ -377,7 +387,9 @@ function App() {
                 },
             ],
         };
-        let copy = update(chapters, {[chapter]: {scenes: {[newSceneKey]: {$set: newScene}}}});
+        let copy = update(chapters, {
+            [chapter]: { scenes: { [newSceneKey]: { $set: newScene } } },
+        });
         setSceneIndex(0);
         setScene(newSceneKey);
         setChapters(copy);
@@ -385,19 +397,27 @@ function App() {
     };
 
     const removeScene = (sceneKey) => {
-        let copy = update(chapters, {[chapter]: {scenes: {$unset: [sceneKey]}}});
+        let copy = update(chapters, {
+            [chapter]: { scenes: { $unset: [sceneKey] } },
+        });
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
 
     const removeChapter = (chapterKey) => {
-        let copy = update(chapters, {$unset: [chapterKey]});
+        let copy = update(chapters, { $unset: [chapterKey] });
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
 
     const removeDialogue = (dialogueIndex) => {
-        let copy = update(chapters, {[chapter]: {scenes: {[scene]: {dialogue: {$splice: [[dialogueIndex, 1]]}}}}});
+        let copy = update(chapters, {
+            [chapter]: {
+                scenes: {
+                    [scene]: { dialogue: { $splice: [[dialogueIndex, 1]] } },
+                },
+            },
+        });
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
