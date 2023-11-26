@@ -1,5 +1,6 @@
 import Users from '../models/user.js';
 import Codes from '../models/codes.js';
+import Scripts from '../models/script.js';
 import { checkRoles } from '../helpers/SecurityHelper.js';
 
 export default {
@@ -102,7 +103,14 @@ export default {
             res.status(403);
             return res.send();
         }
+
+        if (req.params.id === 'root') {
+            res.status(400);
+            return res.send();
+        }
+
         await Users.deleteOne({ username: req.params.id });
+        await Scripts.deleteMany({editor: req.params.id});
         return res.send();
     },
 };
