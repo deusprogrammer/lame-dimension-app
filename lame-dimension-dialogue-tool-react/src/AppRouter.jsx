@@ -30,6 +30,7 @@ function App() {
         if (!jwtToken) {
             return;
         }
+        
         try {
             let res = await axios.get(
                 `${process.env.REACT_APP_API_DOMAIN}/profiles/self`,
@@ -55,7 +56,16 @@ function App() {
         <>
             <div>
                 <div>
-                    {!user.username && jwtToken ? <button style={{color: 'white', backgroundColor: 'red'}} onClick={() => {localStorage.removeItem("jwtToken")}}>Clear Login Data</button> : null}
+                    {!user.username && jwtToken ? (
+                        <button
+                            style={{ color: 'white', backgroundColor: 'red' }}
+                            onClick={() => {
+                                localStorage.removeItem('jwtToken');
+                            }}
+                        >
+                            Clear Login Data
+                        </button>
+                    ) : null}
                     {user.username ? (
                         <>
                             Welcome{' '}

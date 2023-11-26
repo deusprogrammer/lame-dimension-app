@@ -400,12 +400,15 @@ function App() {
         let copy = update(chapters, {
             [chapter]: { scenes: { $unset: [sceneKey] } },
         });
+        setScene(null);
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
 
     const removeChapter = (chapterKey) => {
         let copy = update(chapters, { $unset: [chapterKey] });
+        setScene(null);
+        setChapter(null);
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
