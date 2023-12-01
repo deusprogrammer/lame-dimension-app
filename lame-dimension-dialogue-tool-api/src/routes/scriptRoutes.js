@@ -70,20 +70,13 @@ router.get('/', async function (req, res, next) {
         return res.send();
     }
 
-    let scripts = await Scripts.find({ type: 'script' });
-
-    if ("headersOnly" in req.query) {
-        let scriptHeaders = scripts.map(({ editor, id, name }) => {
-            return {
-                id,
-                editor,
-                name,
-            };
-        });
-        res.json(scriptHeaders);
+    if ('headersOnly' in req.query) {
+        let scripts = await Scripts.find({ type: 'script' }, 'id editor name');
+        res.json(scripts);
         return res.send();
     }
 
+    let scripts = await Scripts.find({ type: 'script' });
     res.json(scripts);
     return res.send();
 });
