@@ -52,6 +52,10 @@ function App() {
         getUser();
     }, []);
 
+    if (!user) {
+        return <></>;
+    }
+
     return (
         <>
             <div>
@@ -88,7 +92,7 @@ function App() {
                 <div>
                     <button
                         onClick={() => {
-                            navigate(`${process.env.PUBLIC_URL}/`);
+                            navigate(`${process.env.PUBLIC_URL}/scripts`);
                         }}
                     >
                         Home
