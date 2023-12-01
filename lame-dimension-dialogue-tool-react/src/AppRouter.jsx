@@ -30,7 +30,7 @@ function App() {
         if (!jwtToken) {
             return;
         }
-        
+
         try {
             let res = await axios.get(
                 `${process.env.REACT_APP_API_DOMAIN}/profiles/self`,

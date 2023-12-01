@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faArrowUp,
@@ -20,9 +20,9 @@ const Component = ({
     onDialogueChange,
     onDialogueAdd,
     onDialogueRemove,
-    onDialogueRearrange,
+    onDialogueRearrange
 }) => {
-    if (!scene) {
+    if (!scene?.dialogue) {
         return <></>;
     }
 

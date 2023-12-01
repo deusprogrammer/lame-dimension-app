@@ -37,6 +37,7 @@ function App() {
     const [chapter, setChapter] = useState('');
     const [scene, setScene] = useState(null);
     const [sceneIndex, setSceneIndex] = useState(0);
+    const [sceneCache, setSceneCache] = useState(null);
     const [editable, setEditable] = useState(false);
 
     const [user] = useAtom(userAtom);
@@ -82,13 +83,16 @@ function App() {
             return;
         }
 
-        for (let chapterIndex in chapters) {
-            for (let sceneIndex in chapters[chapterIndex].scenes) {
-                for (let dialogueIndex in chapters[chapterIndex].scenes[
+        // Attempt to store scene cache once more before saving
+        let updatedChapters = storeScene();
+
+        for (let chapterIndex in updatedChapters) {
+            for (let sceneIndex in updatedChapters[chapterIndex].scenes) {
+                for (let dialogueIndex in updatedChapters[chapterIndex].scenes[
                     sceneIndex
                 ].dialogue) {
                     let positions =
-                        chapters[chapterIndex].scenes[sceneIndex].dialogue[
+                    updatedChapters[chapterIndex].scenes[sceneIndex].dialogue[
                             dialogueIndex
                         ].positions;
                     positions['leftFront'] =
@@ -103,7 +107,7 @@ function App() {
                             : null;
                     }
 
-                    chapters[chapterIndex].scenes[sceneIndex].dialogue[
+                    updatedChapters[chapterIndex].scenes[sceneIndex].dialogue[
                         dialogueIndex
                     ].positions = positions;
                 }
@@ -113,7 +117,7 @@ function App() {
         try {
             await axios.put(
                 `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}`,
-                { ...script, chapters },
+                { ...script, updatedChapters },
                 {
                     headers: {
                         Authorization: `Bearer ${jwtToken}`,
@@ -259,25 +263,21 @@ function App() {
     };
 
     const updateOptions = (options) => {
-        let copy = update(chapters, {
-            [chapter]: { scenes: { [scene]: { options: { $set: options } } } },
+        let copy = update(sceneCache, {
+            options: { $set: options }
         });
-        setScript({ ...script, chapters: copy });
-        setChapters(copy);
+        setSceneCache(copy);
     };
 
     const updateDialogue = (index, entry) => {
-        let copy = update(chapters, {
-            [chapter]: {
-                scenes: { [scene]: { dialogue: { [index]: { $set: entry } } } },
-            },
+        let copy = update(sceneCache, {
+            dialogue: { [index]: {$set: entry }}
         });
-        setScript({ ...script, chapters: copy });
-        setChapters(copy);
+        setSceneCache(copy);
     };
 
     const addDialogue = (afterIndex) => {
-        let copy = deepCopyObject(chapters);
+        let copy = deepCopyObject(sceneCache);
         let positions = {
             left: {},
             leftFront: {},
@@ -288,10 +288,10 @@ function App() {
 
         if (afterIndex >= 0) {
             ({ positions, active } =
-                copy[chapter].scenes[scene].dialogue[afterIndex]);
+                copy.dialogue[afterIndex]);
         }
 
-        copy[chapter].scenes[scene].dialogue.splice(afterIndex + 1, 0, {
+        copy.dialogue.splice(afterIndex + 1, 0, {
             positions: {
                 left: { ...positions?.left },
                 right: { ...positions?.right },
@@ -318,8 +318,7 @@ function App() {
             emote: null,
         });
         setSceneIndex(afterIndex + 1);
-        setScript({ ...script, chapters: copy });
-        setChapters(copy);
+        setSceneCache(copy);
     };
 
     const addChapter = () => {
@@ -341,14 +340,22 @@ function App() {
     };
 
     const storeDialogues = (newDialogs) => {
+        let copy = update(sceneCache, {
+            dialogue: { $set: newDialogs}
+        });
+        setSceneCache(copy);
+    };
+
+    const storeScene = () => {
         let copy = update(chapters, {
             [chapter]: {
-                scenes: { [scene]: { dialogue: { $set: newDialogs } } },
+                scenes: { [scene]: { $set: sceneCache } },
             },
         });
         setChapters(copy);
         setScript({ ...script, chapters: copy });
-    };
+        return copy;
+    }
 
     const createScene = () => {
         let newSceneKey = `scene${dialogCounter++}`;
@@ -392,6 +399,7 @@ function App() {
         });
         setSceneIndex(0);
         setScene(newSceneKey);
+        setSceneCache(newScene);
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
@@ -401,6 +409,7 @@ function App() {
             [chapter]: { scenes: { $unset: [sceneKey] } },
         });
         setScene(null);
+        setSceneCache(null);
         setChapters(copy);
         setScript({ ...script, chapters: copy });
     };
@@ -414,15 +423,10 @@ function App() {
     };
 
     const removeDialogue = (dialogueIndex) => {
-        let copy = update(chapters, {
-            [chapter]: {
-                scenes: {
-                    [scene]: { dialogue: { $splice: [[dialogueIndex, 1]] } },
-                },
-            },
+        let copy = update(sceneCache, {
+            dialogue: { $splice: [[dialogueIndex, 1]]}
         });
-        setChapters(copy);
-        setScript({ ...script, chapters: copy });
+        setSceneCache(copy);
     };
 
     return (
@@ -464,8 +468,12 @@ function App() {
                     diff={diff}
                     path={'chapters'}
                     onChapterSelect={(chapter) => {
+                        if (sceneCache) {
+                            storeScene();
+                        }
                         setChapter(chapter);
                         setScene(null);
+                        setSceneCache(null);
                     }}
                     onChapterCreate={addChapter}
                     onChapterRemove={removeChapter}
@@ -478,8 +486,12 @@ function App() {
                     diff={diff}
                     path={`chapters.${chapter}.scenes`}
                     onSelectScene={(key) => {
+                        if (sceneCache) {
+                            storeScene();
+                        }
                         setScene(key);
                         setSceneIndex(0);
+                        setSceneCache({...chapters[chapter].scenes[key]});
                     }}
                     onCreateScene={createScene}
                     onSceneRemove={removeScene}
@@ -522,7 +534,7 @@ function App() {
                 <div className="preview">
                     <Characters
                         side="left"
-                        scene={chapters[chapter]?.scenes[scene]}
+                        scene={sceneCache}
                         index={sceneIndex}
                         characters={script.characters}
                         editable={editable}
@@ -532,20 +544,20 @@ function App() {
                     />
                     <div>
                         <CharacterSprites
-                            scene={chapters[chapter]?.scenes[scene]}
+                            scene={sceneCache}
                             index={sceneIndex}
                         />
                         <TextBox
                             language={language}
                             defaultLanguage={defaultLanguage}
-                            scene={chapters[chapter]?.scenes[scene]}
+                            scene={sceneCache}
                             index={sceneIndex}
                             characters={script.characters}
                         />
                     </div>
                     <Characters
                         side="right"
-                        scene={chapters[chapter]?.scenes[scene]}
+                        scene={sceneCache}
                         index={sceneIndex}
                         characters={script.characters}
                         editable={editable}
@@ -556,7 +568,7 @@ function App() {
                 </div>
                 {scene ? (
                     <Option
-                        options={chapters[chapter]?.scenes[scene].options}
+                        options={sceneCache.options}
                         editable={editable}
                         diff={diff}
                         path={`chapters.${chapter}.scenes.${scene}.options`}
@@ -568,8 +580,9 @@ function App() {
                 <DialogueEditor
                     language={language}
                     defaultLanguage={defaultLanguage}
-                    scene={chapters[chapter]?.scenes[scene]}
+                    scene={sceneCache}
                     index={sceneIndex}
+                    sceneKey={scene}
                     editable={editable}
                     diff={diff}
                     path={`chapters.${chapter}.scenes.${scene}.dialogue`}

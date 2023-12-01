@@ -11,7 +11,7 @@ const component = ({
     path,
     onPositionChange,
 }) => {
-    if (!scene || !characters || !scene.dialogue[index]) {
+    if (!characters || !scene?.dialogue?.[index]) {
         return <div className="characters"></div>;
     }
 

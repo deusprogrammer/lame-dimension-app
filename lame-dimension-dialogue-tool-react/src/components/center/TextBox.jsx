@@ -104,7 +104,7 @@ const Component = ({ scene, language, index, characters }) => {
         g.endFill();
     }, []);
 
-    if (!scene || !scene.dialogue[index]) {
+    if (!scene?.dialogue?.[index]) {
         return <></>;
     }
 
