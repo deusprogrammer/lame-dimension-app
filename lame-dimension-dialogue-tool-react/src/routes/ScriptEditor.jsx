@@ -215,6 +215,10 @@ function App() {
     };
 
     const storeScene = () => {
+        if (!sceneCache) {
+            return chapters;
+        }
+
         let copy = update(chapters, {
             [chapter]: {
                 scenes: { [scene]: { $set: sceneCache } },
