@@ -14,7 +14,7 @@ const Component = () => {
     const loadScripts = async () => {
         try {
             let res = await axios.get(
-                `${process.env.REACT_APP_API_DOMAIN}/scripts`,
+                `${process.env.REACT_APP_API_DOMAIN}/scripts?headersOnly`,
                 {
                     headers: {
                         Authorization: `Bearer ${jwtToken}`,

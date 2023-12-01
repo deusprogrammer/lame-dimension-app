@@ -20,7 +20,7 @@ const Component = ({
     onDialogueChange,
     onDialogueAdd,
     onDialogueRemove,
-    onDialogueRearrange
+    onDialogueRearrange,
 }) => {
     if (!scene?.dialogue) {
         return <></>;

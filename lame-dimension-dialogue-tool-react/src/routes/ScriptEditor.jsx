@@ -92,9 +92,8 @@ function App() {
                     sceneIndex
                 ].dialogue) {
                     let positions =
-                    updatedChapters[chapterIndex].scenes[sceneIndex].dialogue[
-                            dialogueIndex
-                        ].positions;
+                        updatedChapters[chapterIndex].scenes[sceneIndex]
+                            .dialogue[dialogueIndex].positions;
                     positions['leftFront'] =
                         positions['leftfront'] || positions['leftFront'];
                     positions['rightFront'] =
@@ -264,14 +263,14 @@ function App() {
 
     const updateOptions = (options) => {
         let copy = update(sceneCache, {
-            options: { $set: options }
+            options: { $set: options },
         });
         setSceneCache(copy);
     };
 
     const updateDialogue = (index, entry) => {
         let copy = update(sceneCache, {
-            dialogue: { [index]: {$set: entry }}
+            dialogue: { [index]: { $set: entry } },
         });
         setSceneCache(copy);
     };
@@ -287,8 +286,7 @@ function App() {
         let active = 'left';
 
         if (afterIndex >= 0) {
-            ({ positions, active } =
-                copy.dialogue[afterIndex]);
+            ({ positions, active } = copy.dialogue[afterIndex]);
         }
 
         copy.dialogue.splice(afterIndex + 1, 0, {
@@ -341,7 +339,7 @@ function App() {
 
     const storeDialogues = (newDialogs) => {
         let copy = update(sceneCache, {
-            dialogue: { $set: newDialogs}
+            dialogue: { $set: newDialogs },
         });
         setSceneCache(copy);
     };
@@ -355,7 +353,7 @@ function App() {
         setChapters(copy);
         setScript({ ...script, chapters: copy });
         return copy;
-    }
+    };
 
     const createScene = () => {
         let newSceneKey = `scene${dialogCounter++}`;
@@ -424,7 +422,7 @@ function App() {
 
     const removeDialogue = (dialogueIndex) => {
         let copy = update(sceneCache, {
-            dialogue: { $splice: [[dialogueIndex, 1]]}
+            dialogue: { $splice: [[dialogueIndex, 1]] },
         });
         setSceneCache(copy);
     };
@@ -491,7 +489,7 @@ function App() {
                         }
                         setScene(key);
                         setSceneIndex(0);
-                        setSceneCache({...chapters[chapter].scenes[key]});
+                        setSceneCache({ ...chapters[chapter].scenes[key] });
                     }}
                     onCreateScene={createScene}
                     onSceneRemove={removeScene}

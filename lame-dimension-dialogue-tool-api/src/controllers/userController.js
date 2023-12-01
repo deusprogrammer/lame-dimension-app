@@ -110,7 +110,7 @@ export default {
         }
 
         await Users.deleteOne({ username: req.params.id });
-        await Scripts.deleteMany({editor: req.params.id});
+        await Scripts.deleteMany({ editor: req.params.id });
         return res.send();
     },
 };
