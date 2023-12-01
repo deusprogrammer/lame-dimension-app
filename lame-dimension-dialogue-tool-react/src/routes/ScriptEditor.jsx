@@ -30,21 +30,26 @@ let interval;
 function App() {
     const [language, setLanguage] = useState('en');
     const [defaultLanguage, setDefaultLanguage] = useState('en');
+
     const [script, setScript] = useState({});
     const [rootScript, setRootScript] = useState({});
+
     const [diff, setDiff] = useState([]);
+
     const [chapters, setChapters] = useState({});
     const [chapter, setChapter] = useState('');
+
     const [scene, setScene] = useState(null);
-    const [sceneIndex, setSceneIndex] = useState(0);
     const [sceneCache, setSceneCache] = useState(null);
+
+    const [dialogueIndex, setDialogueIndex] = useState(0);
+
     const [editable, setEditable] = useState(false);
 
     const [user] = useAtom(userAtom);
 
     const { id } = useParams();
     const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
 
     const jwtToken = localStorage.getItem('jwtToken');
     const as = searchParams.get('as');
@@ -116,7 +121,7 @@ function App() {
         try {
             await axios.put(
                 `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}`,
-                { ...script, updatedChapters },
+                { ...script, chapters: updatedChapters },
                 {
                     headers: {
                         Authorization: `Bearer ${jwtToken}`,
@@ -207,6 +212,17 @@ function App() {
             console.error(e);
             toast.error('Load Failed');
         }
+    };
+
+    const storeScene = () => {
+        let copy = update(chapters, {
+            [chapter]: {
+                scenes: { [scene]: { $set: sceneCache } },
+            },
+        });
+        setChapters(copy);
+        setScript({ ...script, chapters: copy });
+        return copy;
     };
 
     const changeChapterName = async (oldChapterName, newChapterName) => {
@@ -315,7 +331,7 @@ function App() {
             active,
             emote: null,
         });
-        setSceneIndex(afterIndex + 1);
+        setDialogueIndex(afterIndex + 1);
         setSceneCache(copy);
     };
 
@@ -332,7 +348,7 @@ function App() {
         };
         setChapters(copy);
         setScene(null);
-        setSceneIndex(0);
+        setDialogueIndex(0);
         setChapter(chapterName.toLowerCase());
         setScript({ ...script, chapters: copy });
     };
@@ -342,17 +358,6 @@ function App() {
             dialogue: { $set: newDialogs },
         });
         setSceneCache(copy);
-    };
-
-    const storeScene = () => {
-        let copy = update(chapters, {
-            [chapter]: {
-                scenes: { [scene]: { $set: sceneCache } },
-            },
-        });
-        setChapters(copy);
-        setScript({ ...script, chapters: copy });
-        return copy;
     };
 
     const createScene = () => {
@@ -395,7 +400,7 @@ function App() {
         let copy = update(chapters, {
             [chapter]: { scenes: { [newSceneKey]: { $set: newScene } } },
         });
-        setSceneIndex(0);
+        setDialogueIndex(0);
         setScene(newSceneKey);
         setSceneCache(newScene);
         setChapters(copy);
@@ -488,7 +493,7 @@ function App() {
                             storeScene();
                         }
                         setScene(key);
-                        setSceneIndex(0);
+                        setDialogueIndex(0);
                         setSceneCache({ ...chapters[chapter].scenes[key] });
                     }}
                     onCreateScene={createScene}
@@ -533,34 +538,34 @@ function App() {
                     <Characters
                         side="left"
                         scene={sceneCache}
-                        index={sceneIndex}
+                        index={dialogueIndex}
                         characters={script.characters}
                         editable={editable}
                         diff={diff}
-                        path={`chapters.${chapter}.scenes.${scene}.dialogue[${sceneIndex}].positions`}
+                        path={`chapters.${chapter}.scenes.${scene}.dialogue[${dialogueIndex}].positions`}
                         onPositionChange={updateDialogue}
                     />
                     <div>
                         <CharacterSprites
                             scene={sceneCache}
-                            index={sceneIndex}
+                            index={dialogueIndex}
                         />
                         <TextBox
                             language={language}
                             defaultLanguage={defaultLanguage}
                             scene={sceneCache}
-                            index={sceneIndex}
+                            index={dialogueIndex}
                             characters={script.characters}
                         />
                     </div>
                     <Characters
                         side="right"
                         scene={sceneCache}
-                        index={sceneIndex}
+                        index={dialogueIndex}
                         characters={script.characters}
                         editable={editable}
                         diff={diff}
-                        path={`chapters.${chapter}.scenes.${scene}.dialogue[${sceneIndex}].positions`}
+                        path={`chapters.${chapter}.scenes.${scene}.dialogue[${dialogueIndex}].positions`}
                         onPositionChange={updateDialogue}
                     />
                 </div>
@@ -579,12 +584,12 @@ function App() {
                     language={language}
                     defaultLanguage={defaultLanguage}
                     scene={sceneCache}
-                    index={sceneIndex}
+                    index={dialogueIndex}
                     sceneKey={scene}
                     editable={editable}
                     diff={diff}
                     path={`chapters.${chapter}.scenes.${scene}.dialogue`}
-                    onDialogueIndexChange={setSceneIndex}
+                    onDialogueIndexChange={setDialogueIndex}
                     onDialogueChange={updateDialogue}
                     onDialogueAdd={addDialogue}
                     onDialogueRearrange={storeDialogues}
