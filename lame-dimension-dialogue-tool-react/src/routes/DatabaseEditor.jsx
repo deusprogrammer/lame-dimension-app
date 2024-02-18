@@ -13,6 +13,8 @@ import userAtom from '../atoms/User.atom';
 
 let interval;
 export default () => {
+    const [category, setCategory] = useState();
+
     const [language, setLanguage] = useState('en');
     const [defaultLanguage, setDefaultLanguage] = useState('en');
     const [script, setScript] = useState({});
@@ -98,6 +100,44 @@ export default () => {
                         </tbody>
                     </table>
                 </div>
+                <h2>Categories</h2>
+                    <div class="scrolling">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="selectable null">Characters</td>
+                                </tr>
+                                <tr>
+                                    <td class="selectable null">Moves</td>
+                                </tr>
+                                <tr>
+                                    <td class="selectable null">Weapons</td>
+                                </tr>
+                                <tr>
+                                    <td class="selectable null">Armors</td>
+                                </tr>
+                                <tr>
+                                    <td class="selectable null">Accessories</td>
+                                </tr>
+                                <tr>
+                                    <td class="selectable null">Key-Items</td>
+                                </tr>
+                                <tr>
+                                    <td class="selectable null">Pre-Battle</td>
+                                </tr>
+                                <tr>
+                                    <td class="selectable null">Locations</td>
+                                </tr>
+                                <tr>
+                                    <td class="selectable null">UI</td>
+                                </tr>
+                                <tr>
+                                    <td class="selectable null">Others</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                
                 <Languages
                     selectedLanguage={language}
                     defaultLanguage={defaultLanguage}
