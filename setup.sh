@@ -1,0 +1,1 @@
+export LD_API_DOMAIN=https://deusprogrammer.com/api/lamedimension
