@@ -1,1 +1,1 @@
-export LD_API_DOMAIN=https://deusprogrammer.com/api/lamedimension
+export REACT_APP_API_DOMAIN=https://deusprogrammer.com/api/lamedimension
