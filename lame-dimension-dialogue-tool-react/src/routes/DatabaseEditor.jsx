@@ -13,7 +13,7 @@ import userAtom from '../atoms/User.atom';
 
 let interval;
 export default () => {
-    const [category, setCategory] = useState();
+    const [selectedCategory, setSelectedCategory] = useState();
 
     const [language, setLanguage] = useState('en');
     const [defaultLanguage, setDefaultLanguage] = useState('en');
@@ -25,6 +25,23 @@ export default () => {
     const jwtToken = localStorage.getItem('jwtToken');
     const as = searchParams.get('as');
     const [user] = useAtom(userAtom);
+
+    const categories = [
+        "Characters",
+        "Enemies",
+        "Moves",
+        "Move Descriptions",
+        "Weapons",
+        "Armors",
+        "Accessories",
+        "Items",
+        "Key-Items",
+        "Pre-Battle",
+        "Locations",
+        "UI",
+        "Notebook",
+        "Other"
+    ]
 
     useEffect(() => {
         loadScript();
@@ -104,36 +121,13 @@ export default () => {
                     <div class="scrolling">
                         <table>
                             <tbody>
-                                <tr>
-                                    <td class="selectable null">Characters</td>
-                                </tr>
-                                <tr>
-                                    <td class="selectable null">Moves</td>
-                                </tr>
-                                <tr>
-                                    <td class="selectable null">Weapons</td>
-                                </tr>
-                                <tr>
-                                    <td class="selectable null">Armors</td>
-                                </tr>
-                                <tr>
-                                    <td class="selectable null">Accessories</td>
-                                </tr>
-                                <tr>
-                                    <td class="selectable null">Key-Items</td>
-                                </tr>
-                                <tr>
-                                    <td class="selectable null">Pre-Battle</td>
-                                </tr>
-                                <tr>
-                                    <td class="selectable null">Locations</td>
-                                </tr>
-                                <tr>
-                                    <td class="selectable null">UI</td>
-                                </tr>
-                                <tr>
-                                    <td class="selectable null">Others</td>
-                                </tr>
+                                {categories.map((category) => {
+                                    return (
+                                        <tr>
+                                            <td onClick={() => setSelectedCategory(category.toLowerCase())} class={`selectable ${selectedCategory === category.toLowerCase() ? 'selected' : null}`}>{category}</td>
+                                        </tr>
+                                    )
+                                })}
                             </tbody>
                         </table>
                     </div>
