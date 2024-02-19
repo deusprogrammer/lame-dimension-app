@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
 import Languages from '../components/left/Languages';
+import categories from '../components/center/database/Categories';
 
 import characters from '../data/characters';
 import userAtom from '../atoms/User.atom';
@@ -25,23 +26,6 @@ export default () => {
     const jwtToken = localStorage.getItem('jwtToken');
     const as = searchParams.get('as');
     const [user] = useAtom(userAtom);
-
-    const categories = [
-        "Characters",
-        "Enemies",
-        "Moves",
-        "Move Descriptions",
-        "Weapons",
-        "Armors",
-        "Accessories",
-        "Items",
-        "Key-Items",
-        "Pre-Battle",
-        "Locations",
-        "UI",
-        "Notebook",
-        "Other"
-    ]
 
     useEffect(() => {
         loadScript();
@@ -121,10 +105,11 @@ export default () => {
                     <div class="scrolling">
                         <table>
                             <tbody>
-                                {categories.map((category) => {
+                                {Object.keys(categories).map((category) => {
+                                    let {title} = categories[category];
                                     return (
                                         <tr>
-                                            <td onClick={() => setSelectedCategory(category.toLowerCase())} class={`selectable ${selectedCategory === category.toLowerCase() ? 'selected' : null}`}>{category}</td>
+                                            <td onClick={() => setSelectedCategory(category)} class={`selectable ${selectedCategory === category ? 'selected' : null}`}>{title}</td>
                                         </tr>
                                     )
                                 })}
@@ -139,7 +124,9 @@ export default () => {
                     onSelectDefaultLanguage={setDefaultLanguage}
                 />
             </div>
-            <div className="center" style={{ textAlign: 'center' }}></div>
+            <div className="center" style={{ textAlign: 'center' }}>
+                {selectedCategory && categories[selectedCategory] ? categories[selectedCategory].component : null}
+            </div>
         </div>
     );
 };
