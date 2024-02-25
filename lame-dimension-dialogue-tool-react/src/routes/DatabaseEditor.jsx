@@ -11,11 +11,13 @@ import categories from '../components/center/database/Categories';
 
 import characters from '../data/characters';
 import userAtom from '../atoms/User.atom';
+import categoryDataList from '../data/categoryData';
 
 let interval;
 export default () => {
     const [selectedCategory, setSelectedCategory] = useState();
 
+    const [categoryData, setCategoryData] = useState(categoryDataList);
     const [language, setLanguage] = useState('en');
     const [defaultLanguage, setDefaultLanguage] = useState('en');
     const [script, setScript] = useState({});

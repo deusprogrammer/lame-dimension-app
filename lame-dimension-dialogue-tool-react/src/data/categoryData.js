@@ -10,8 +10,7 @@ export default {
             size: 0,
             target: 0,
             condition: 0,
-        }
-    ], enemies: [
-        {}
-    ]
-}
+        },
+    ],
+    enemies: [{}],
+};
