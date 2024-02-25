@@ -21,9 +21,7 @@ export default ({ template, categoryItemData: entry }) => {
                 <tbody>
                     {template.map(({ header, key, type }) => (
                         <tr>
-                            <td>
-                                {header}
-                            </td>
+                            <td>{header}</td>
                             <td>
                                 <input
                                     onChange={({ target: { value } }) => {

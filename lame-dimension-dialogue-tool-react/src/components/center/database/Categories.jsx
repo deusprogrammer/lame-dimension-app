@@ -5,50 +5,50 @@ import moveTemplate from './templates/move.template';
 export default {
     characters: {
         title: 'Characters',
-        template: moveTemplate
+        template: moveTemplate,
     },
     enemies: {
         title: 'Enemies',
-        template: moveTemplate
+        template: moveTemplate,
     },
     moves: {
         title: 'Moves',
-        template: moveTemplate
+        template: moveTemplate,
     },
     weapons: {
         title: 'Weapons',
-        template: moveTemplate
+        template: moveTemplate,
     },
     armors: {
         title: 'Armors',
-        template: moveTemplate
+        template: moveTemplate,
     },
     items: {
         title: 'Items',
-        template: moveTemplate
+        template: moveTemplate,
     },
     keyItems: {
         title: 'Key-Items',
-        template: moveTemplate
+        template: moveTemplate,
     },
     preBattle: {
         title: 'Pre-Battle',
-        template: moveTemplate
+        template: moveTemplate,
     },
     locations: {
         title: 'Locations',
-        template: moveTemplate
+        template: moveTemplate,
     },
     ui: {
         title: 'UI',
-        template: moveTemplate
+        template: moveTemplate,
     },
     locations: {
         title: 'Locations',
-        template: moveTemplate
+        template: moveTemplate,
     },
     other: {
         title: 'Other',
-        template: moveTemplate
+        template: moveTemplate,
     },
 };

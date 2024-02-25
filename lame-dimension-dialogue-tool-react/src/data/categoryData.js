@@ -12,9 +12,5 @@ export default {
             condition: 0,
         },
     ],
-    enemies: [
-        {
-
-        }
-    ],
+    enemies: [{}],
 };

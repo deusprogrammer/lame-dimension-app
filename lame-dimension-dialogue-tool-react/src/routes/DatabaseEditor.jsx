@@ -75,9 +75,11 @@ export default () => {
 
     let selectedCategoryItemComponent;
     if (categories[selectedCategory] && selectedCategoryItem) {
-        let categoryItemData = categoryData[selectedCategory].find((({id}) => id === selectedCategoryItem))
+        let categoryItemData = categoryData[selectedCategory].find(
+            ({ id }) => id === selectedCategoryItem
+        );
         selectedCategoryItemComponent = (
-            <DataTable 
+            <DataTable
                 template={categories[selectedCategory].template}
                 categoryItemData={categoryItemData}
             />
@@ -142,35 +144,41 @@ export default () => {
                         </tbody>
                     </table>
                 </div>
-                {selectedCategory ? 
-                <>
-                    <h2>Items</h2>
-                    <div class="scrolling">
-                        <table>
-                            <tbody>
-                                {categoryData[selectedCategory].map((categoryItem) => {
-                                    const {name, id} = categoryItem;
-                                    return (
-                                        <tr>
-                                            <td
-                                                onClick={() =>
-                                                    setSelectedCategoryItem(id)
-                                                }
-                                                class={`selectable ${
-                                                    selectedCategoryItem === id
-                                                        ? 'selected'
-                                                        : null
-                                                }`}
-                                            >
-                                                {name}
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                </> : null}
+                {selectedCategory ? (
+                    <>
+                        <h2>Items</h2>
+                        <div class="scrolling">
+                            <table>
+                                <tbody>
+                                    {categoryData[selectedCategory].map(
+                                        (categoryItem) => {
+                                            const { name, id } = categoryItem;
+                                            return (
+                                                <tr>
+                                                    <td
+                                                        onClick={() =>
+                                                            setSelectedCategoryItem(
+                                                                id
+                                                            )
+                                                        }
+                                                        class={`selectable ${
+                                                            selectedCategoryItem ===
+                                                            id
+                                                                ? 'selected'
+                                                                : null
+                                                        }`}
+                                                    >
+                                                        {name}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        }
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                ) : null}
                 <Languages
                     selectedLanguage={language}
                     defaultLanguage={defaultLanguage}
