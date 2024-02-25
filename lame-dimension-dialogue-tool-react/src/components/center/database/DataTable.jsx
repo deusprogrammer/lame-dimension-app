@@ -1,11 +1,8 @@
-export default ({ template, categoryItemData: entry }) => {
+export default ({ template, language, defaultLanguage, categoryItemData: entry }) => {
     const updateField = (index, fieldName, fieldValue) => {
         let copy = [...entries];
         let rowCopy = { ...entries[index] };
         rowCopy[fieldName] = fieldValue;
-        if (fieldName === 'name') {
-            rowCopy['id'] = fieldValue.toLowerCase().replace(/\s/g, '_');
-        }
         copy[index] = rowCopy;
         setEntries(copy);
     };
@@ -16,23 +13,25 @@ export default ({ template, categoryItemData: entry }) => {
 
     return (
         <>
-            <h2>{entry.name}</h2>
+            <h2>{entry.name[language]}</h2>
             <table>
                 <tbody>
-                    {template.map(({ header, key, type }) => (
-                        <tr>
-                            <td>{header}</td>
-                            <td>
-                                <input
-                                    onChange={({ target: { value } }) => {
-                                        updateField(index, key, value);
-                                    }}
-                                    type={type}
-                                    value={entry[key]}
-                                />
-                            </td>
-                        </tr>
-                    ))}
+                    {template.map(({ label, key, type, localized }) => {
+                        return (
+                            <tr>
+                                <td>{label}</td>
+                                <td>
+                                    <input
+                                        onChange={({ target: { value } }) => {
+                                            updateField(index, key, value);
+                                        }}
+                                        type={type}
+                                        value={localized ? entry[key][language] : entry[key]}
+                                    />
+                                </td>
+                            </tr>
+                        )
+                    })}
                 </tbody>
             </table>
         </>

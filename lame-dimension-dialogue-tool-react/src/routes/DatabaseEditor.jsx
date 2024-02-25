@@ -82,6 +82,8 @@ export default () => {
             <DataTable
                 template={categories[selectedCategory].template}
                 categoryItemData={categoryItemData}
+                defaultLanguage={defaultLanguage}
+                language={language}
             />
         );
     }
@@ -136,7 +138,7 @@ export default () => {
                                                     : null
                                             }`}
                                         >
-                                            {title}
+                                            {title[language]}
                                         </td>
                                     </tr>
                                 );
@@ -152,7 +154,9 @@ export default () => {
                                 <tbody>
                                     {categoryData[selectedCategory].map(
                                         (categoryItem) => {
-                                            const { name, id } = categoryItem;
+                                            const { nameField } = categories[selectedCategory];
+                                            const { id } = categoryItem;
+
                                             return (
                                                 <tr>
                                                     <td
@@ -168,7 +172,7 @@ export default () => {
                                                                 : null
                                                         }`}
                                                     >
-                                                        {name}
+                                                        {categoryItem[nameField][language]}
                                                     </td>
                                                 </tr>
                                             );

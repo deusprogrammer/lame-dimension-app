@@ -178,7 +178,7 @@ export default {
             prices: 0,
         }
     ],
-    armor: [
+    armors: [
         {
             id: "longsleeves",
             name: {
@@ -209,7 +209,7 @@ export default {
             prices: 0,
         }
     ],
-    accessory: [
+    accessories: [
         {
             id: "pocketlint",
             name: {
@@ -240,7 +240,7 @@ export default {
             prices: 0,
         }
     ],
-    item: [
+    items: [
         {
             id: "taco",
             name: {
@@ -284,7 +284,7 @@ export default {
             overworld: 1,
         }
     ],
-    keyitem: [
+    keyItems: [
         {
             id: "taco",
             name: {
@@ -363,7 +363,7 @@ export default {
             },
         }
     ],
-    Other: [
+    other: [
         {
             id: "Example",
             display: {

@@ -1,13 +1,14 @@
 export default [
     {
         key: 'name',
-        header: 'Name',
+        label: 'Name',
         type: 'text',
+        localized: true,
         defaultValue: 'New Move',
     },
     {
         key: 'power',
-        header: 'Power',
+        label: 'Power',
         type: 'number',
         defaultValue: 0,
         min: 0,
@@ -15,7 +16,7 @@ export default [
     },
     {
         key: 'charge',
-        header: 'Charge',
+        label: 'Charge',
         type: 'number',
         defaultValue: 0,
         min: 0,
@@ -23,7 +24,7 @@ export default [
     },
     {
         key: 'wait',
-        header: 'Wait',
+        label: 'Wait',
         type: 'number',
         defaultValue: 0,
         min: 0,
@@ -31,7 +32,7 @@ export default [
     },
     {
         key: 'form',
-        header: 'Form',
+        label: 'Form',
         type: 'number',
         defaultValue: 0,
         min: 0,
@@ -39,7 +40,7 @@ export default [
     },
     {
         key: 'size',
-        header: 'Size',
+        label: 'Size',
         type: 'number',
         defaultValue: 0,
         min: 0,
@@ -47,7 +48,7 @@ export default [
     },
     {
         key: 'target',
-        header: 'Target',
+        label: 'Target',
         type: 'number',
         defaultValue: 0,
         min: 0,
@@ -55,7 +56,7 @@ export default [
     },
     {
         key: 'condition',
-        header: 'Condition',
+        label: 'Condition',
         type: 'number',
         defaultValue: 0,
         min: 0,
