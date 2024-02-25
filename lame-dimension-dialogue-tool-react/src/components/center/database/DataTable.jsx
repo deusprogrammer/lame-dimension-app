@@ -1,20 +1,4 @@
-import { useState } from 'react';
-
-export default ({ title, template, initialData }) => {
-    const [entries, setEntries] = useState(initialData);
-
-    const addNewRow = () => {
-        let newRow = {};
-        template.forEach(({ key, defaultValue }) => {
-            newRow[key] = defaultValue;
-        });
-        newRow.id = newRow.name.toLowerCase().replace(/\s/g, '_');
-
-        setEntries((oldRows) => {
-            return [...oldRows, newRow];
-        });
-    };
-
+export default ({ template, categoryItemData: entry }) => {
     const updateField = (index, fieldName, fieldValue) => {
         let copy = [...entries];
         let rowCopy = { ...entries[index] };
@@ -26,42 +10,31 @@ export default ({ title, template, initialData }) => {
         setEntries(copy);
     };
 
+    if (!entry) {
+        return null;
+    }
+
     return (
         <>
-            <h2>{title}</h2>
-            <table className="data-table">
-                <thead>
-                    <tr>
-                        <th style={{ width: '25%' }}>ID</th>
-                        {template.map(({ header }) => (
-                            <th>{header}</th>
-                        ))}
-                    </tr>
-                </thead>
+            <h2>{entry.name}</h2>
+            <table>
                 <tbody>
-                    {entries.map((entry, index) => (
+                    {template.map(({ header, key, type }) => (
                         <tr>
-                            <td>{entry.id}</td>
-                            {template.map(({ key, type }) => (
-                                <td>
-                                    <input
-                                        onChange={({ target: { value } }) => {
-                                            updateField(index, key, value);
-                                        }}
-                                        type={type}
-                                        value={entry[key]}
-                                    />
-                                </td>
-                            ))}
+                            <td>
+                                {header}
+                            </td>
+                            <td>
+                                <input
+                                    onChange={({ target: { value } }) => {
+                                        updateField(index, key, value);
+                                    }}
+                                    type={type}
+                                    value={entry[key]}
+                                />
+                            </td>
                         </tr>
                     ))}
-                    <tr>
-                        <td colSpan={9}>
-                            <button type="button" onClick={addNewRow}>
-                                Add New
-                            </button>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </>

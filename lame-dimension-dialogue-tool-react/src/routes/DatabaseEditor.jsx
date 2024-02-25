@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -12,10 +12,12 @@ import categories from '../components/center/database/Categories';
 import characters from '../data/characters';
 import userAtom from '../atoms/User.atom';
 import categoryDataList from '../data/categoryData';
+import DataTable from '../components/center/database/DataTable';
 
 let interval;
 export default () => {
     const [selectedCategory, setSelectedCategory] = useState();
+    const [selectedCategoryItem, setSelectedCategoryItem] = useState();
 
     const [categoryData, setCategoryData] = useState(categoryDataList);
     const [language, setLanguage] = useState('en');
@@ -70,6 +72,17 @@ export default () => {
             toast.error('Load Failed');
         }
     };
+
+    let selectedCategoryItemComponent;
+    if (categories[selectedCategory] && selectedCategoryItem) {
+        let categoryItemData = categoryData[selectedCategory].find((({id}) => id === selectedCategoryItem))
+        selectedCategoryItemComponent = (
+            <DataTable 
+                template={categories[selectedCategory].template}
+                categoryItemData={categoryItemData}
+            />
+        );
+    }
 
     return (
         <div className="container">
@@ -129,32 +142,35 @@ export default () => {
                         </tbody>
                     </table>
                 </div>
-                <h2>Items</h2>
-                <div class="scrolling">
-                    <table>
-                        <tbody>
-                            {Object.keys(categories).map((category) => {
-                                let { title } = categories[category];
-                                return (
-                                    <tr>
-                                        <td
-                                            onClick={() =>
-                                                setSelectedCategory(category)
-                                            }
-                                            class={`selectable ${
-                                                selectedCategory === category
-                                                    ? 'selected'
-                                                    : null
-                                            }`}
-                                        >
-                                            {title}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                {selectedCategory ? 
+                <>
+                    <h2>Items</h2>
+                    <div class="scrolling">
+                        <table>
+                            <tbody>
+                                {categoryData[selectedCategory].map((categoryItem) => {
+                                    const {name, id} = categoryItem;
+                                    return (
+                                        <tr>
+                                            <td
+                                                onClick={() =>
+                                                    setSelectedCategoryItem(id)
+                                                }
+                                                class={`selectable ${
+                                                    selectedCategoryItem === id
+                                                        ? 'selected'
+                                                        : null
+                                                }`}
+                                            >
+                                                {name}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </> : null}
                 <Languages
                     selectedLanguage={language}
                     defaultLanguage={defaultLanguage}
@@ -163,9 +179,7 @@ export default () => {
                 />
             </div>
             <div className="center" style={{ textAlign: 'center' }}>
-                {selectedCategory && categories[selectedCategory]
-                    ? categories[selectedCategory].component
-                    : null}
+                {selectedCategoryItemComponent}
             </div>
         </div>
     );
