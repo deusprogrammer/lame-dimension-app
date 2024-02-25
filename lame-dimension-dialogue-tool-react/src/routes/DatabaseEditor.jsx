@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -102,21 +102,57 @@ export default () => {
                     </table>
                 </div>
                 <h2>Categories</h2>
-                    <div class="scrolling">
-                        <table>
-                            <tbody>
-                                {Object.keys(categories).map((category) => {
-                                    let {title} = categories[category];
-                                    return (
-                                        <tr>
-                                            <td onClick={() => setSelectedCategory(category)} class={`selectable ${selectedCategory === category ? 'selected' : null}`}>{title}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                
+                <div class="scrolling">
+                    <table>
+                        <tbody>
+                            {Object.keys(categories).map((category) => {
+                                let { title } = categories[category];
+                                return (
+                                    <tr>
+                                        <td
+                                            onClick={() =>
+                                                setSelectedCategory(category)
+                                            }
+                                            class={`selectable ${
+                                                selectedCategory === category
+                                                    ? 'selected'
+                                                    : null
+                                            }`}
+                                        >
+                                            {title}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+                <h2>Items</h2>
+                <div class="scrolling">
+                    <table>
+                        <tbody>
+                            {Object.keys(categories).map((category) => {
+                                let { title } = categories[category];
+                                return (
+                                    <tr>
+                                        <td
+                                            onClick={() =>
+                                                setSelectedCategory(category)
+                                            }
+                                            class={`selectable ${
+                                                selectedCategory === category
+                                                    ? 'selected'
+                                                    : null
+                                            }`}
+                                        >
+                                            {title}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
                 <Languages
                     selectedLanguage={language}
                     defaultLanguage={defaultLanguage}
@@ -125,7 +161,9 @@ export default () => {
                 />
             </div>
             <div className="center" style={{ textAlign: 'center' }}>
-                {selectedCategory && categories[selectedCategory] ? categories[selectedCategory].component : null}
+                {selectedCategory && categories[selectedCategory]
+                    ? categories[selectedCategory].component
+                    : null}
             </div>
         </div>
     );
