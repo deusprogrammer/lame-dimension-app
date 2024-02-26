@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
 import Languages from '../components/left/Languages';
-import categories from '../components/center/database/Categories';
+import categories from '../data/categories';
 
 import characters from '../data/characters';
 import userAtom from '../atoms/User.atom';
@@ -80,7 +80,7 @@ export default () => {
         );
         selectedCategoryItemComponent = (
             <DataTable
-                template={categories[selectedCategory].template}
+                category={categories[selectedCategory]}
                 categoryItemData={categoryItemData}
                 defaultLanguage={defaultLanguage}
                 language={language}

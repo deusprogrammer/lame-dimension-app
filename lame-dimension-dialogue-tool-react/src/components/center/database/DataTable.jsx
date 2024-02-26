@@ -1,9 +1,11 @@
 export default ({
-    template,
     language,
     defaultLanguage,
+    category,
     categoryItemData: entry,
 }) => {
+    const {template, nameField} = category;
+
     const updateField = (index, fieldName, fieldValue) => {
         let copy = [...entries];
         let rowCopy = { ...entries[index] };
@@ -18,7 +20,7 @@ export default ({
 
     return (
         <>
-            <h2>{entry.name[language]}</h2>
+            <h2>{entry[nameField][language]}</h2>
             <table>
                 <tbody>
                     {template.map(({ label, key, type, localized }) => {
