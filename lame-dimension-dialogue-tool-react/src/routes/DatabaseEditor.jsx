@@ -154,7 +154,8 @@ export default () => {
                                 <tbody>
                                     {categoryData[selectedCategory].map(
                                         (categoryItem) => {
-                                            const { nameField } = categories[selectedCategory];
+                                            const { nameField } =
+                                                categories[selectedCategory];
                                             const { id } = categoryItem;
 
                                             return (
@@ -172,7 +173,11 @@ export default () => {
                                                                 : null
                                                         }`}
                                                     >
-                                                        {categoryItem[nameField][language]}
+                                                        {
+                                                            categoryItem[
+                                                                nameField
+                                                            ][language]
+                                                        }
                                                     </td>
                                                 </tr>
                                             );

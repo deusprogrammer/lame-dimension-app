@@ -1,4 +1,9 @@
-export default ({ template, language, defaultLanguage, categoryItemData: entry }) => {
+export default ({
+    template,
+    language,
+    defaultLanguage,
+    categoryItemData: entry,
+}) => {
     const updateField = (index, fieldName, fieldValue) => {
         let copy = [...entries];
         let rowCopy = { ...entries[index] };
@@ -26,11 +31,15 @@ export default ({ template, language, defaultLanguage, categoryItemData: entry }
                                             updateField(index, key, value);
                                         }}
                                         type={type}
-                                        value={localized ? entry[key][language] : entry[key]}
+                                        value={
+                                            localized
+                                                ? entry[key][language]
+                                                : entry[key]
+                                        }
                                     />
                                 </td>
                             </tr>
-                        )
+                        );
                     })}
                 </tbody>
             </table>
