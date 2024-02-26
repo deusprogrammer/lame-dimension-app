@@ -75,9 +75,7 @@ export default () => {
 
     let selectedCategoryItemComponent;
     if (categories[selectedCategory] && selectedCategoryItem) {
-        let categoryItemData = categoryData[selectedCategory].find(
-            ({ id }) => id === selectedCategoryItem
-        );
+        let categoryItemData = categoryData[selectedCategory][selectedCategoryItem];
         selectedCategoryItemComponent = (
             <DataTable
                 category={categories[selectedCategory]}
@@ -152,10 +150,11 @@ export default () => {
                         <div class="scrolling">
                             <table>
                                 <tbody>
-                                    {categoryData[selectedCategory].map(
-                                        (categoryItem) => {
+                                    {Object.keys(categoryData[selectedCategory]).map(
+                                        (key) => {
                                             const { nameField } =
                                                 categories[selectedCategory];
+                                            const categoryItem = categoryData[selectedCategory][key];
                                             const { id } = categoryItem;
 
                                             return (

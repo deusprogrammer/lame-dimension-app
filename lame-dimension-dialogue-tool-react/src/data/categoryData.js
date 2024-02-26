@@ -1,6 +1,6 @@
 export default {
-    moves: [
-        {
+    moves: {
+        eviction: {
             id: 'eviction',
             name: {
                 en: 'Eviction',
@@ -35,9 +35,9 @@ export default {
             forbidden: 0,
             item: 0,
         },
-    ],
-    enemies: [
-        {
+    },
+    enemies: {
+        mafia: {
             id: 'mafia',
             characterName: {
                 en: 'Mad Meats Grunt',
@@ -99,9 +99,9 @@ export default {
                 ru: ['', '', ''],
             },
         },
-    ],
-    weapons: [
-        {
+    },
+    weapons: {
+        dentedclub: {
             id: 'dentedclub',
             name: {
                 en: 'Dented Club',
@@ -131,9 +131,9 @@ export default {
             compatibility: 0,
             price: 0,
         },
-    ],
-    armors: [
-        {
+    },
+    armors: {
+        longsleeves: {
             id: 'longsleeves',
             name: {
                 en: 'Long Sleeves',
@@ -163,9 +163,9 @@ export default {
             compatibility: 0,
             price: 0,
         },
-    ],
-    accessories: [
-        {
+    },
+    accessories: {
+        pocketlint: {
             id: 'pocketlint',
             name: {
                 en: 'Pocket Lint',
@@ -195,9 +195,9 @@ export default {
             compatibility: 0,
             price: 0,
         },
-    ],
-    items: [
-        {
+    },
+    items: {
+        taco: {
             id: 'taco',
             name: {
                 en: 'Taco',
@@ -240,9 +240,9 @@ export default {
             price: 0,
             overworld: 1,
         },
-    ],
-    keyItems: [
-        {
+    },
+    keyItems: {
+        sewerkey: {
             id: 'sewerkey',
             name: {
                 en: 'Sewer Key',
@@ -285,9 +285,9 @@ export default {
             price: 0,
             overworld: 0,
         },
-    ],
-    locations: [
-        {
+    },
+    locations: {
+        falltowntaco: {
             id: 'falltowntaco',
             room: 'rm_falltowntaco',
             section: {
@@ -315,9 +315,9 @@ export default {
             color: 'orange',
             shape: 0,
         },
-    ],
-    ui: [
-        {
+    },
+    ui: {
+        language: {
             id: 'language',
             display: {
                 en: 'English',
@@ -330,10 +330,10 @@ export default {
                 ru: '',
             },
         },
-    ],
-    other: [
-        {
-            id: 'Example',
+    },
+    other: {
+        example: {
+            id: 'example',
             display: {
                 en: 'Example',
                 es: '',
@@ -345,9 +345,9 @@ export default {
                 ru: '',
             },
         },
-    ],
-    characterDialogueNames: [
-        {
+    },
+    characterDialogueNames: {
+        hazuki: {
             id: 'hazuki',
             display: {
                 en: 'Hazuki',
@@ -360,5 +360,5 @@ export default {
                 ru: 'Hazuki',
             },
         },
-    ],
+    },
 };
