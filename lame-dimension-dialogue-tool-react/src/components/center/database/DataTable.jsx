@@ -4,7 +4,7 @@ export default ({
     category,
     categoryItemData: entry,
 }) => {
-    const {template, nameField} = category;
+    const { template, nameField } = category;
 
     const updateField = (index, fieldName, fieldValue) => {
         let copy = [...entries];
@@ -38,6 +38,17 @@ export default ({
                                                 ? entry[key][language]
                                                 : entry[key]
                                         }
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type={type}
+                                        value={
+                                            localized
+                                                ? entry[key][defaultLanguage]
+                                                : null
+                                        }
+                                        disabled
                                     />
                                 </td>
                             </tr>
