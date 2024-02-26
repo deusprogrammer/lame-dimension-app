@@ -49,6 +49,7 @@ export default {
                 de: '',
                 ru: '',
             },
+            level: 5,
             hp: 25,
             hpMax: 25,
             strength: 1,
@@ -58,9 +59,15 @@ export default {
             moneyHeld: 2,
             experienceHeld: 10,
             behaviorType: 0,
-            turnIcon: 'spr_mafiaicon',
-            battleMoveName: ['pipeswing'],
-            hurtVoice: ['snd_mafiahurt1', 'snd_mafiahurt2'],
+            sequentialTalk: 0,
+            turnIcon: "spr_mafiaicon",
+            battleMoveName: [
+                "pipeswing",
+            ],
+            hurtVoice: [
+                "snd_mafiahurt1",
+                "snd_mafiahurt2",
+            ],
             talkLine: {
                 en: [
                     'Are you resisting Mad Meats?',
@@ -79,17 +86,17 @@ export default {
                 de: ['', '', ''],
                 ru: ['', '', ''],
             },
-            talkLine: {
+            introLine: {
                 en: [
-                    'Are you resisting Mad Meats?',
-                    "Don't eat anywhere else!",
-                    'This is perfectly ethical!',
+                    "Eat at Mad Meats or else!",
+                    "We got a special deal at Mad Meats!",
+                    "Only eat at Mad Meats!",
                 ],
                 es: ['', '', ''],
                 jp: [
-                    'マッドミートに盾突くのか？',
-                    'よその店でで食うなよ！',
-                    '倫理的にもOKってな！',
+                    "よそで食ったら承知しねえぞオラァ！",
+                    "マッドミートは大特価だ！",
+                    "マッドミートでしか食うなよ！",
                 ],
                 fr: ['', '', ''],
                 br: ['', '', ''],
@@ -121,13 +128,14 @@ export default {
                 de: '',
                 ru: '',
             },
+            icon: "spr_golfclub",
             strength: 5,
             defense: 0,
             bonus: 'None',
             type: 0,
             compatibility: 0,
-            prices: 0,
-        },
+            price: 0,
+        }
     ],
     armors: [
         {
@@ -152,13 +160,14 @@ export default {
                 de: '',
                 ru: '',
             },
+            icon: "spr_paperbag",
             strength: 0,
             defense: 5,
             bonus: 'None',
             type: 1,
             compatibility: 0,
-            prices: 0,
-        },
+            price: 0,
+        }
     ],
     accessories: [
         {
@@ -183,13 +192,14 @@ export default {
                 de: '',
                 ru: '',
             },
+            icon: "spr_paperbag",
             strength: 0,
             defense: 5,
             bonus: 'None',
             type: 1,
             compatibility: 0,
-            prices: 0,
-        },
+            price: 0,
+        }
     ],
     items: [
         {
@@ -224,6 +234,7 @@ export default {
                 de: '',
                 ru: '',
             },
+            icon: "spr_paperbag",
             effect: 0,
             healHP: 30,
             healLife: 0,
@@ -231,22 +242,22 @@ export default {
             bonus: 'None',
             type: 1,
             compatibility: 0,
-            prices: 0,
+            price: 0,
             overworld: 1,
         },
     ],
     keyItems: [
         {
-            id: 'taco',
+            id: "sewerkey",
             name: {
-                en: 'Taco',
-                es: '',
-                jp: 'タコス',
-                fr: '',
-                br: '',
-                ch: '',
-                de: '',
-                ru: '',
+                en: "Sewer Key",
+                es: "",
+                jp: "下水道の鍵",
+                fr: "",
+                br: "",
+                ch: "",
+                de: "",
+                ru: "",
             },
             description: {
                 en: 'Heals 30 HP.',
@@ -258,6 +269,7 @@ export default {
                 de: '',
                 ru: '',
             },
+            icon: "spr_paperbag",
             effect: 0,
             healHP: 0,
             healLife: 0,
@@ -265,7 +277,7 @@ export default {
             bonus: 'None',
             type: 1,
             compatibility: 0,
-            prices: 0,
+            price: 0,
             overworld: 0,
         },
     ],
@@ -316,17 +328,32 @@ export default {
     ],
     other: [
         {
-            id: 'Example',
+            id: "Example",
             display: {
-                en: 'Example',
-                es: '',
-                jp: '',
-                fr: '',
-                br: '',
-                ch: '',
-                de: '',
-                ru: '',
+                en: "Example",
+                es: "",
+                jp: "",
+                fr: "",
+                br: "",
+                ch: "",
+                de: "",
+                ru: "",
             },
-        },
+        }
+    ],
+    characterDialogueNames: [
+        {
+            id: "hazuki",
+            display: {
+                en: "Hazuki",
+                es: "Hazuki",
+                jp: "ハヅキ",
+                fr: "Hazuki",
+                br: "Hazuki",
+                ch: "Hazuki",
+                de: "Hazuki",
+                ru: "Hazuki",
+            },
+        }
     ],
 };
