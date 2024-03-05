@@ -47,7 +47,7 @@ passport.use(jwtAuthStrategy);
 
 app.use(express.json({ limit: '50Mb' }));
 app.use(cors());
-app.use('/assets', express.static(__dirname + '/assets'));
+app.use('/assets', express.static(process.env.LD_ASSET_DIRECTORY + '/assets'));
 
 app.use(passport.initialize());
 
