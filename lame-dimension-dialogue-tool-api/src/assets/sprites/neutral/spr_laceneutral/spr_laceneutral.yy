@@ -1,11 +1,11 @@
 {
     "resourceType": "GMSprite",
     "resourceVersion": "1.0",
-    "name": "spr_geezerneutral",
-    "bbox_bottom": 224,
-    "bbox_left": 0,
-    "bbox_right": 164,
-    "bbox_top": 0,
+    "name": "spr_laceneutral",
+    "bbox_bottom": 269,
+    "bbox_left": 28,
+    "bbox_right": 153,
+    "bbox_top": 3,
     "bboxMode": 0,
     "collisionKind": 1,
     "collisionTolerance": 0,
@@ -16,28 +16,38 @@
         {
             "resourceType": "GMSpriteFrame",
             "resourceVersion": "1.1",
-            "name": "971753e5-d219-4de2-9c2e-4a24e78ccdf3"
+            "name": "d8c37673-2df5-4f7f-aeeb-ad570405b97a"
         },
         {
             "resourceType": "GMSpriteFrame",
             "resourceVersion": "1.1",
-            "name": "82cce618-a7c6-467c-954b-f529e462bb9c"
+            "name": "8fdf6c32-6a67-485b-aa36-617f7173af8d"
         },
         {
             "resourceType": "GMSpriteFrame",
             "resourceVersion": "1.1",
-            "name": "73c0a715-e883-4891-af05-342efa8225e9"
+            "name": "982d8c32-b4e5-42a0-850d-ab715c88d4c6"
+        },
+        {
+            "resourceType": "GMSpriteFrame",
+            "resourceVersion": "1.1",
+            "name": "5a632bb5-7f1e-44e9-8343-251a957a7ef8"
+        },
+        {
+            "resourceType": "GMSpriteFrame",
+            "resourceVersion": "1.1",
+            "name": "7a3df7b1-5f92-4140-97c4-c5ea685e6d11"
         }
     ],
     "gridX": 0,
     "gridY": 0,
-    "height": 225,
+    "height": 270,
     "HTile": false,
     "layers": [
         {
             "resourceType": "GMImageLayer",
             "resourceVersion": "1.0",
-            "name": "68d41477-c41d-48dc-9666-cf4e9abb6b14",
+            "name": "1405fe4b-6cfb-472b-9628-24ab01071f89",
             "blendMode": 0,
             "displayName": "default",
             "isLocked": false,
@@ -46,16 +56,16 @@
         }
     ],
     "nineSlice": null,
-    "origin": 9,
+    "origin": 0,
     "parent": {
-        "name": "geezer",
-        "path": "folders/Sprites/characters/npc/geezer.yy"
+        "name": "lace",
+        "path": "folders/Sprites/characters/npc/lace.yy"
     },
     "preMultiplyAlpha": false,
     "sequence": {
         "resourceType": "GMSequence",
         "resourceVersion": "1.4",
-        "name": "spr_geezerneutral",
+        "name": "spr_laceneutral",
         "autoRecord": true,
         "backdropHeight": 768,
         "backdropImageOpacity": 0.5,
@@ -70,7 +80,7 @@
         },
         "eventStubScript": null,
         "eventToFunction": {},
-        "length": 3.0,
+        "length": 5.0,
         "lockOrigin": false,
         "moments": {
             "resourceType": "KeyframeStore<MomentsEventKeyframe>",
@@ -105,13 +115,13 @@
                                     "resourceType": "SpriteFrameKeyframe",
                                     "resourceVersion": "1.0",
                                     "Id": {
-                                        "name": "971753e5-d219-4de2-9c2e-4a24e78ccdf3",
-                                        "path": "sprites/spr_geezerneutral/spr_geezerneutral.yy"
+                                        "name": "d8c37673-2df5-4f7f-aeeb-ad570405b97a",
+                                        "path": "sprites/spr_laceneutral/spr_laceneutral.yy"
                                     }
                                 }
                             },
                             "Disabled": false,
-                            "id": "fe78691c-2149-4c22-9f7b-84714ac3e988",
+                            "id": "fc986d5f-0f5a-44e5-90d1-098e119a4b91",
                             "IsCreationKey": false,
                             "Key": 0.0,
                             "Length": 1.0,
@@ -125,13 +135,13 @@
                                     "resourceType": "SpriteFrameKeyframe",
                                     "resourceVersion": "1.0",
                                     "Id": {
-                                        "name": "82cce618-a7c6-467c-954b-f529e462bb9c",
-                                        "path": "sprites/spr_geezerneutral/spr_geezerneutral.yy"
+                                        "name": "8fdf6c32-6a67-485b-aa36-617f7173af8d",
+                                        "path": "sprites/spr_laceneutral/spr_laceneutral.yy"
                                     }
                                 }
                             },
                             "Disabled": false,
-                            "id": "f0262aac-a9f4-4dbb-9fca-6bfdf4af57c1",
+                            "id": "2473f357-77fa-420c-b1c5-5ba87fd3dc25",
                             "IsCreationKey": false,
                             "Key": 1.0,
                             "Length": 1.0,
@@ -145,15 +155,55 @@
                                     "resourceType": "SpriteFrameKeyframe",
                                     "resourceVersion": "1.0",
                                     "Id": {
-                                        "name": "73c0a715-e883-4891-af05-342efa8225e9",
-                                        "path": "sprites/spr_geezerneutral/spr_geezerneutral.yy"
+                                        "name": "982d8c32-b4e5-42a0-850d-ab715c88d4c6",
+                                        "path": "sprites/spr_laceneutral/spr_laceneutral.yy"
                                     }
                                 }
                             },
                             "Disabled": false,
-                            "id": "8466d60b-a54b-4751-87fe-037c3d30fe58",
+                            "id": "cc27ac8a-3f17-499b-828f-f18b93991256",
                             "IsCreationKey": false,
                             "Key": 2.0,
+                            "Length": 1.0,
+                            "Stretch": false
+                        },
+                        {
+                            "resourceType": "Keyframe<SpriteFrameKeyframe>",
+                            "resourceVersion": "1.0",
+                            "Channels": {
+                                "0": {
+                                    "resourceType": "SpriteFrameKeyframe",
+                                    "resourceVersion": "1.0",
+                                    "Id": {
+                                        "name": "5a632bb5-7f1e-44e9-8343-251a957a7ef8",
+                                        "path": "sprites/spr_laceneutral/spr_laceneutral.yy"
+                                    }
+                                }
+                            },
+                            "Disabled": false,
+                            "id": "c79fbf08-144e-4a74-b339-149d706f81c1",
+                            "IsCreationKey": false,
+                            "Key": 3.0,
+                            "Length": 1.0,
+                            "Stretch": false
+                        },
+                        {
+                            "resourceType": "Keyframe<SpriteFrameKeyframe>",
+                            "resourceVersion": "1.0",
+                            "Channels": {
+                                "0": {
+                                    "resourceType": "SpriteFrameKeyframe",
+                                    "resourceVersion": "1.0",
+                                    "Id": {
+                                        "name": "7a3df7b1-5f92-4140-97c4-c5ea685e6d11",
+                                        "path": "sprites/spr_laceneutral/spr_laceneutral.yy"
+                                    }
+                                }
+                            },
+                            "Disabled": false,
+                            "id": "4a0599f1-4ae1-4ec3-ada5-c7e446ea7f78",
+                            "IsCreationKey": false,
+                            "Key": 4.0,
                             "Length": 1.0,
                             "Stretch": false
                         }
@@ -169,15 +219,15 @@
         "visibleRange": null,
         "volume": 1.0,
         "xorigin": 0,
-        "yorigin": -45
+        "yorigin": 0
     },
     "swatchColours": null,
     "swfPrecision": 2.525,
     "textureGroupId": {
-        "name": "texgroup_cutscene",
-        "path": "texturegroups/texgroup_cutscene"
+        "name": "Default",
+        "path": "texturegroups/Default"
     },
     "type": 0,
     "VTile": false,
-    "width": 165
+    "width": 176
 }

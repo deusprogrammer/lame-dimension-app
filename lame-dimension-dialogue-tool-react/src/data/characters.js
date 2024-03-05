@@ -225,6 +225,7 @@ const characters = {
             'neutral',
             'sad',
             'scared',
+            'shadow',
             'shaking',
             'shocked',
             'suspicious',
@@ -401,6 +402,7 @@ const characters = {
             'armed',
             'cry',
             'curious',
+            'confused',
             'disappointed',
             'excited',
             'happy',
@@ -829,6 +831,14 @@ const characters = {
             'thinking',
             'unsure',
         ],
+    },
+    caro: {
+        name: 'Caro',
+        emotes: ['neutral'],
+    },
+    dennis: {
+        name: 'Dennis',
+        emotes: ['neutral'],
     },
 };
 

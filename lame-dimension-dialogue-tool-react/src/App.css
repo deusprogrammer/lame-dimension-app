@@ -285,3 +285,28 @@ textarea[disabled],
 button[disabled] {
     pointer-events: none;
 }
+
+.data-table {
+    margin: auto;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table td {
+    width: fit-content;
+}
+
+.data-table input {
+    width: 100%;
+}
+
+.data-table button {
+    width: 100%;
+}
+
+.data-table .grouped {
+    background-color: teal;
+    color: white;
+    border-top: 10px solid black;
+    margin-top: 5px;
+}
