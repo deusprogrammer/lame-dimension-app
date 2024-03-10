@@ -8,6 +8,7 @@ import authRoute from './routes/authRoutes.js';
 import userRoute from './routes/userRoutes.js';
 import profileRoute from './routes/profileRoutes.js';
 import codeRoute from './routes/codeRoutes.js';
+import charactersRoute from './routes/charactersRoutes.js';
 
 import { jwtAuthStrategy } from './config/passportConfig.js';
 
@@ -62,6 +63,7 @@ app.use((req, res, next) => {
  */
 app.use('/auth', authRoute);
 app.use('/users', userRoute);
+app.use('/characters', charactersRoute);
 app.use(
     '/profiles',
     passport.authenticate('jwt', { session: false }),
