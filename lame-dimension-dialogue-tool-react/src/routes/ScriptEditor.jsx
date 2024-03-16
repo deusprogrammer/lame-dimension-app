@@ -22,7 +22,6 @@ import update from 'immutability-helper';
 
 import deepDiff from 'deep-diff-pizza';
 import { mergePulled } from '../util/util';
-import characters from '../data/characters';
 
 let dialogCounter = 0;
 let interval;
@@ -198,7 +197,19 @@ function App() {
             });
 
             setChapters(res.data.chapters);
-            setScript({ ...res.data, characters });
+            let script = res.data;
+
+            // TODO change service to make this a per project value
+            url = `${process.env.REACT_APP_API_DOMAIN}/characters`;
+            res = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
+
+            let characters = res.data;
+
+            setScript({ ...script, characters });
 
             url = `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}?pull=root`;
             res = await axios.get(url, {

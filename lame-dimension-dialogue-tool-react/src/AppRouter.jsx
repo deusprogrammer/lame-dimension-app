@@ -5,6 +5,9 @@ import {
     Navigate,
     useNavigate,
     Link,
+    useParams,
+    matchPath,
+    useLocation,
 } from 'react-router-dom';
 
 import ScriptList from './routes/ScriptList';
@@ -20,11 +23,19 @@ import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import DatabaseEditor from './routes/DatabaseEditor';
 
 function App() {
     const [user, setUser] = useAtom(userAtom);
     const jwtToken = localStorage.getItem('jwtToken');
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const pattern =
+        /^.*\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\/*.*$/;
+
+    const match = location.pathname.match(pattern);
+    let id = match ? match[1] : null;
 
     const getUser = async () => {
         if (!jwtToken) {
@@ -97,6 +108,28 @@ function App() {
                     >
                         Home
                     </button>
+                    {id ? (
+                        <>
+                            <button
+                                onClick={() => {
+                                    navigate(
+                                        `${process.env.PUBLIC_URL}/scripts/${id}`
+                                    );
+                                }}
+                            >
+                                Script Editor
+                            </button>
+                            <button
+                                onClick={() => {
+                                    navigate(
+                                        `${process.env.PUBLIC_URL}/scripts/${id}/database`
+                                    );
+                                }}
+                            >
+                                Database Editor
+                            </button>
+                        </>
+                    ) : null}
                     {user.roles.includes('ADMIN') ? (
                         <button
                             onClick={() => {
@@ -120,6 +153,11 @@ function App() {
                     path={`${process.env.PUBLIC_URL}/scripts/:id`}
                     exact
                     element={<ScriptEditor />}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/scripts/:id/database`}
+                    exact
+                    element={<DatabaseEditor />}
                 />
                 <Route
                     path={`${process.env.PUBLIC_URL}/login`}

@@ -12,7 +12,8 @@ import categories from '../data/categories';
 import characters from '../data/characters';
 import userAtom from '../atoms/User.atom';
 import categoryDataList from '../data/categoryData';
-import DataTable from '../components/center/database/DataTable';
+import CategoryItemDataTable from '../components/center/database/CategoryItemDataTable';
+import CategoryDataTable from '../components/center/database/CategoryDataTable';
 
 let interval;
 export default () => {
@@ -73,12 +74,25 @@ export default () => {
         }
     };
 
+    let selectedCategoryComponent;
+    if (categories[selectedCategory]) {
+        let categoryData =
+            categories[selectedCategory];
+        selectedCategoryComponent = (
+            <CategoryDataTable
+                category={categoryData}
+                defaultLanguage={defaultLanguage}
+                language={language}
+            />
+        );
+    }
+
     let selectedCategoryItemComponent;
     if (categories[selectedCategory] && selectedCategoryItem) {
         let categoryItemData =
             categoryData[selectedCategory][selectedCategoryItem];
         selectedCategoryItemComponent = (
-            <DataTable
+            <CategoryItemDataTable
                 category={categories[selectedCategory]}
                 categoryItemData={categoryItemData}
                 defaultLanguage={defaultLanguage}
@@ -128,9 +142,10 @@ export default () => {
                                 return (
                                     <tr>
                                         <td
-                                            onClick={() =>
-                                                setSelectedCategory(category)
-                                            }
+                                            onClick={() => {
+                                                setSelectedCategory(category);
+                                                setSelectedCategoryItem(null);
+                                            }}
                                             class={`selectable ${
                                                 selectedCategory === category
                                                     ? 'selected'
@@ -197,6 +212,7 @@ export default () => {
                 />
             </div>
             <div className="center" style={{ textAlign: 'center' }}>
+                {!selectedCategoryItemComponent ? selectedCategoryComponent : null}
                 {selectedCategoryItemComponent}
             </div>
         </div>
