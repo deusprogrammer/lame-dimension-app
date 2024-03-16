@@ -1,8 +1,13 @@
 export const languages = ['en', 'es', 'jp', 'fr', 'br', 'ch', 'de', 'ru'];
 
-export const createLanguageObject = (initialValue) => {
+export const createLocalizationBlock = (initialValue) => {
     let obj = {};
     languages.forEach((language) => {
-        obj[language] = initialValue;
+        if (initialValue instanceof Function) {
+            obj[language] = initialValue();
+        } else {
+            obj[language] = initialValue;
+        }
     });
+    return obj;
 }

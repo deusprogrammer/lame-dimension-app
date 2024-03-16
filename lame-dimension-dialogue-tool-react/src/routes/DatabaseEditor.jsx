@@ -13,7 +13,7 @@ import CategoryItemDataTable from '../components/center/database/CategoryItemDat
 import CategoryDataTable from '../components/center/database/CategoryDataTable';
 
 import EditableInput from '../components/EditableInput';
-import { createLanguageObject } from '../data/languages';
+import { createLocalizationBlock } from '../data/languages';
 
 let interval;
 export default () => {
@@ -195,11 +195,11 @@ export default () => {
 
         let category = categories[selectedCategory];
         category.template.forEach(({key, dataType, localized, collectionType}) => {
-            if (localized && collectionType === 'array' && dataType === 'text') {
-                newItem[key] = createLanguageObject([]);
+            if (localized && collectionType === 'array') {
+                newItem[key] = createLocalizationBlock(() => new Array());
                 return;
             } else if (localized && dataType === 'text') {
-                newItem[key] = createLanguageObject('')
+                newItem[key] = createLocalizationBlock('')
                 return;
             }
 

@@ -7,12 +7,12 @@ export default ({
     categoryItemData: entry,
     onUpdate
 }) => {
-    const { template, nameField } = category;
+    const { template } = category;
 
     const updateField = (fieldName, fieldValue, index) => {
         let copy = {...entry};
         let field = category.template.find(({key}) => key === fieldName);
-        if (!index) {
+        if (index instanceof Number) {
             if (field.localized) {
                 copy[fieldName][language] = fieldValue;
             } else {
@@ -59,7 +59,6 @@ export default ({
 
     return (
         <>
-            <h2>{entry[nameField][language]}</h2>
             <table className="data-table">
                 {template.map(
                     ({ label, key, dataType, collectionType, localized }) => {
@@ -67,6 +66,26 @@ export default ({
                             let collection = localized
                                 ? (entry?.[key]?.[language] ?? [])
                                 : entry?.[key] ?? [];
+                            
+                            if (collection.length === 0) {
+                                return (
+                                    <tbody className="grouped">
+                                        <tr>
+                                            <td>{label}</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td colSpan={3}>
+                                                <button type="button" onClick={() => {addElementToField(key)}}>
+                                                    Add Element
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                )
+                            }
+                            
                             return (
                                 <tbody className="grouped">
                                     {collection.map((collectionEntry, index) => {
