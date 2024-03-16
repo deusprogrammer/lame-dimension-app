@@ -1,3 +1,5 @@
+import { languages } from "../../../data/languages";
+
 export default ({
     language,
     defaultLanguage,
@@ -26,7 +28,6 @@ export default ({
         onUpdate(copy);
     };
 
-    // TODO Populate for all languages
     const addElementToField = (fieldName) => {
         let copy = {...entry};
         let valueToPush;
@@ -43,7 +44,9 @@ export default ({
                 break;
         }
         if (field?.localized) {
-            copy[fieldName][language].push(valueToPush);
+            languages.forEach((lang) => {
+                copy[fieldName][lang].push(valueToPush);
+            })
         } else {
             copy[fieldName].push(valueToPush);
         }

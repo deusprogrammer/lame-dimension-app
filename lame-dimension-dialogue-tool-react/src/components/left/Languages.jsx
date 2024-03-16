@@ -1,6 +1,5 @@
 import React from 'react';
-
-const languages = ['en', 'es', 'jp', 'fr', 'br', 'ch'];
+import {languages} from '../../data/languages';
 
 const component = ({
     onSelectLanguage,
