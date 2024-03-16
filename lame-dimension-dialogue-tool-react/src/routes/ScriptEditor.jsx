@@ -118,10 +118,12 @@ function App() {
             }
         }
 
+        let {characters, ...cleanScript} = script;
+
         try {
             await axios.put(
                 `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}`,
-                { ...script, chapters: updatedChapters },
+                { ...cleanScript, chapters: updatedChapters },
                 {
                     headers: {
                         Authorization: `Bearer ${jwtToken}`,
@@ -137,9 +139,10 @@ function App() {
 
     const merge = async () => {
         try {
+            let {characters, ...cleanScript} = script;
             await axios.put(
                 `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}?merge`,
-                { ...script, chapters },
+                { ...cleanScript, chapters},
                 {
                     headers: {
                         Authorization: `Bearer ${jwtToken}`,
