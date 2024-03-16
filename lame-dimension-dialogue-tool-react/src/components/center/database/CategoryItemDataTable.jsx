@@ -3,16 +3,52 @@ export default ({
     defaultLanguage,
     category,
     categoryItemData: entry,
+    onUpdate
 }) => {
     const { template, nameField } = category;
 
-    const updateField = (index, fieldName, fieldValue) => {
-        let copy = [...entries];
-        let rowCopy = { ...entries[index] };
-        rowCopy[fieldName] = fieldValue;
-        copy[index] = rowCopy;
-        setEntries(copy);
+    const updateField = (fieldName, fieldValue, index) => {
+        let copy = {...entry};
+        let field = category.template.find(({key}) => key === fieldName);
+        if (!index) {
+            if (field.localized) {
+                copy[fieldName][language] = fieldValue;
+            } else {
+                copy[fieldName] = fieldValue;
+            }
+        } else {
+            if (field.localized) {
+                copy[fieldName][language][index] = fieldValue;
+            } else {
+                copy[fieldName][index] = fieldValue;
+            }
+        }
+        onUpdate(copy);
     };
+
+    // TODO Populate for all languages
+    const addElementToField = (fieldName) => {
+        let copy = {...entry};
+        let valueToPush;
+        let field = category.template.find(({key}) => key === fieldName);
+        switch(field?.dataType) {
+            case 'text':
+                valueToPush = '';
+                break;
+            case 'number':
+                valueToPush = 0;
+                break;
+            case 'checkbox':
+                valueToPush = false;
+                break;
+        }
+        if (field?.localized) {
+            copy[fieldName][language].push(valueToPush);
+        } else {
+            copy[fieldName].push(valueToPush);
+        }
+        onUpdate(copy);
+    }
 
     if (!entry) {
         return null;
@@ -26,11 +62,12 @@ export default ({
                     ({ label, key, dataType, collectionType, localized }) => {
                         if (collectionType === 'array') {
                             let collection = localized
-                                ? entry[key][defaultLanguage]
-                                : entry[key];
+                                ? (entry?.[key]?.[language] ?? [])
+                                : entry?.[key] ?? [];
                             return (
                                 <tbody className="grouped">
-                                    {collection.map((entry, index) => {
+                                    {collection.map((collectionEntry, index) => {
+                                        let translation = entry?.[key]?.[defaultLanguage]?.[index] ?? '';
                                         return (
                                             <tr>
                                                 <td>{`${label} ${
@@ -42,19 +79,19 @@ export default ({
                                                             target: { value },
                                                         }) => {
                                                             updateField(
-                                                                index,
                                                                 key,
-                                                                value
+                                                                value,
+                                                                index
                                                             );
                                                         }}
                                                         type={dataType}
-                                                        value={entry}
+                                                        value={collectionEntry}
                                                     />
                                                 </td>
                                                 <td>
                                                     <input
                                                         type={dataType}
-                                                        value={entry}
+                                                        value={localized ? translation : null}
                                                         disabled
                                                     />
                                                 </td>
@@ -63,7 +100,7 @@ export default ({
                                     })}
                                     <tr>
                                         <td colSpan={3}>
-                                            <button type="button">
+                                            <button type="button" onClick={() => {addElementToField(key)}}>
                                                 Add Element
                                             </button>
                                         </td>
@@ -81,7 +118,7 @@ export default ({
                                             onChange={({
                                                 target: { value },
                                             }) => {
-                                                updateField(index, key, value);
+                                                updateField(key, value);
                                             }}
                                             type={dataType}
                                             value={
@@ -96,9 +133,7 @@ export default ({
                                             type={dataType}
                                             value={
                                                 localized
-                                                    ? entry[key][
-                                                          defaultLanguage
-                                                      ]
+                                                    ? entry[key][defaultLanguage]
                                                     : null
                                             }
                                             disabled

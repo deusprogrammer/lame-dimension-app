@@ -175,6 +175,16 @@ function App() {
             let snapshot = res.data;
             toast.info('Script Updated from Root');
 
+            // TODO change service to make this a per project value
+            let url = `${process.env.REACT_APP_API_DOMAIN}/characters`;
+            res = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
+
+            let characters = res.data;
+
             let merged = mergePulled(script, theirs, snapshot);
             setChapters(merged.chapters);
             setScript({ ...merged, characters });

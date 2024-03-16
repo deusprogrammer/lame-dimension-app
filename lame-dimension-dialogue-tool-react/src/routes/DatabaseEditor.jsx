@@ -3,24 +3,24 @@ import { useAtom } from 'jotai';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
 import Languages from '../components/left/Languages';
-import categories from '../data/categories';
 
-import characters from '../data/characters';
 import userAtom from '../atoms/User.atom';
-import categoryDataList from '../data/categoryData';
 import CategoryItemDataTable from '../components/center/database/CategoryItemDataTable';
 import CategoryDataTable from '../components/center/database/CategoryDataTable';
+
+import EditableInput from '../components/EditableInput';
 
 let interval;
 export default () => {
     const [selectedCategory, setSelectedCategory] = useState();
     const [selectedCategoryItem, setSelectedCategoryItem] = useState();
+    const [categories, setCategories] = useState({});
+    const [categoryData, setCategoryData] = useState({});
 
-    const [categoryData, setCategoryData] = useState(categoryDataList);
     const [language, setLanguage] = useState('en');
     const [defaultLanguage, setDefaultLanguage] = useState('en');
     const [script, setScript] = useState({});
@@ -58,7 +58,21 @@ export default () => {
                 },
             });
 
-            setScript({ ...res.data, characters });
+            let script = res.data;
+
+            // TODO change service to make this a per project value
+            url = `${process.env.REACT_APP_API_DOMAIN}/characters`;
+            res = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
+
+            let characters = res.data;
+
+            setScript({ ...script, characters });
+            setCategories(script.categories);
+            setCategoryData(script.categoryData);
 
             url = `${process.env.REACT_APP_API_DOMAIN}/scripts/${id}?pull=root`;
             res = await axios.get(url, {
@@ -74,6 +88,147 @@ export default () => {
         }
     };
 
+    const updateCategoryKey = (oldCategoryKey, newCategoryKey) => {
+        let categoriesCopy = {};
+        let categoryDataCopy = {};
+
+        newCategoryKey = newCategoryKey
+            .replace(' ', '_')
+            .replace(/[^a-zA-Z0-9_]/, '');
+
+        for (let key in categories) {
+            if (key === '_id') {
+                continue;
+            }
+
+            let newKey = key;
+            if (oldCategoryKey === key) {
+                newKey = newCategoryKey;
+            }
+            categoriesCopy[newKey] = { ...categories[key] };
+        }
+        for (let key in categoryData) {
+            if (key === '_id') {
+                continue;
+            }
+
+            let newKey = key;
+            if (oldCategoryKey === key) {
+                newKey = newCategoryKey;
+            }
+            categoryDataCopy[newKey] = { ...categoryData[key] };
+        }
+        if (selectedCategory === oldCategoryKey) {
+            setSelectedCategory(newCategoryKey);
+        }
+        setCategories(categoriesCopy);
+        setCategoryData(categoryDataCopy);
+    }
+
+    const updateCategoryItemKey = (oldCategoryItemKey, newCategoryItemKey) => {
+        let categoryDataItemCopy = {};
+
+        newCategoryItemKey = newCategoryItemKey
+            .replace(' ', '_')
+            .replace(/[^a-zA-Z0-9_]/, '');
+
+        for (let key in categoryData[selectedCategory]) {
+            if (key === '_id') {
+                continue;
+            }
+
+            let newKey = key;
+            if (oldCategoryItemKey === key) {
+                newKey = newCategoryItemKey;
+            }
+            categoryDataItemCopy[newKey] = { ...categoryData[selectedCategory][key], id: newKey };
+        }
+        if (selectedCategoryItem === oldCategoryItemKey) {
+            setSelectedCategoryItem(newCategoryItemKey);
+        }
+
+        let categoryDataCopy = {...categoryData};
+        categoryDataCopy[selectedCategory] = categoryDataItemCopy;
+        setCategoryData(categoryDataCopy);
+    }
+
+    const updateCategoryMetadata = (category, updated) => {
+        let categoriesCopy = {...categories};
+        categoriesCopy[category] = updated;
+        setCategories(categoriesCopy);
+    }
+
+    const updateCategoryData = (category, updated) => {
+        let categoryDataCopy = {...categoryData};
+        categoryDataCopy[category][selectedCategoryItem] = updated;
+        setCategoryData(categoryDataCopy);
+    }
+
+    const addCategory = () => {
+        let categoriesCopy = {...categories};
+        categoriesCopy[`_category${Object.keys(categories).length}`] = {
+            title: {
+                en: `_category${Object.keys(categories).length}`
+            },
+            nameField: 'name',
+            template: [
+                {
+                    key: 'name',
+                    label: 'Name',
+                    collectionType: 'none',
+                    dataType: 'text',
+                    localized: false
+                }
+            ]
+        };
+        let categoryItemCopy = {...categoryData};
+        categoryItemCopy[`_category${Object.keys(categories).length}`] = {};
+        setCategories(categoriesCopy);
+        setCategoryData(categoryItemCopy);
+    }
+
+    const addCategoryItem = () => {
+        let categoryDataCopy = {...categoryData};
+        let categoryItemsCopy = {...categoryData[selectedCategory]};
+        let newItem = {};
+
+        let category = categories[selectedCategory];
+        category.template.forEach(({key, dataType, localized, collectionType}) => {
+            if (localized && collectionType === 'array' && dataType === 'text') {
+                newItem[key] = {
+                    en: []
+                }
+                return;
+            } else if (localized && dataType === 'text') {
+                newItem[key] = {
+                    en: ''
+                }
+                return;
+            }
+
+            if (collectionType === 'array') {
+                newItem[key] = [];
+                return;
+            }
+
+            switch(dataType) {
+                case 'number':
+                    newItem[key] = 0;
+                    break;
+                case 'text':
+                    newItem[key] = '';
+                    break;
+                case 'checkbox':
+                    newItem[key] = false;
+                    break;
+            }
+        });
+
+        categoryItemsCopy[`_category-item${Object.keys(categoryData[selectedCategory]).length}`] = newItem;
+        categoryDataCopy[selectedCategory] = categoryItemsCopy;
+        setCategoryData(categoryDataCopy);
+    }
+
     let selectedCategoryComponent;
     if (categories[selectedCategory]) {
         let categoryData =
@@ -83,6 +238,7 @@ export default () => {
                 category={categoryData}
                 defaultLanguage={defaultLanguage}
                 language={language}
+                onUpdate={(updated) => {updateCategoryMetadata(selectedCategory, updated)}}
             />
         );
     }
@@ -97,6 +253,7 @@ export default () => {
                 categoryItemData={categoryItemData}
                 defaultLanguage={defaultLanguage}
                 language={language}
+                onUpdate={(updated) => {updateCategoryData(selectedCategory, updated)}}
             />
         );
     }
@@ -138,28 +295,29 @@ export default () => {
                     <table>
                         <tbody>
                             {Object.keys(categories).map((category) => {
-                                let { title } = categories[category];
                                 return (
-                                    <tr>
-                                        <td
-                                            onClick={() => {
-                                                setSelectedCategory(category);
-                                                setSelectedCategoryItem(null);
-                                            }}
-                                            class={`selectable ${
-                                                selectedCategory === category
-                                                    ? 'selected'
-                                                    : null
-                                            }`}
-                                        >
-                                            {title[language]}
-                                        </td>
-                                    </tr>
+                                    <EditableInput 
+                                        key={`_category-${category}`}
+                                        currentValue={category}
+                                        isEditable={editable}
+                                        isSelected={selectedCategory === category}
+                                        onSelect={() => {
+                                            setSelectedCategory(category);
+                                            setSelectedCategoryItem(null);
+                                        }}
+                                        onSave={(newCategoryKey) => {
+                                            updateCategoryKey(category, newCategoryKey);
+                                        }}
+                                        onDelete={() => {
+
+                                        }}
+                                    />
                                 );
                             })}
                         </tbody>
                     </table>
                 </div>
+                <button type="button" onClick={addCategory}>Add Category</button>
                 {selectedCategory ? (
                     <>
                         <h2>Items</h2>
@@ -168,40 +326,31 @@ export default () => {
                                 <tbody>
                                     {Object.keys(
                                         categoryData[selectedCategory]
-                                    ).map((key) => {
-                                        const { nameField } =
-                                            categories[selectedCategory];
-                                        const categoryItem =
-                                            categoryData[selectedCategory][key];
-                                        const { id } = categoryItem;
-
+                                    )
+                                    .filter((key) => key !== '_id')
+                                    .map((key) => {
                                         return (
-                                            <tr>
-                                                <td
-                                                    onClick={() =>
-                                                        setSelectedCategoryItem(
-                                                            id
-                                                        )
-                                                    }
-                                                    class={`selectable ${
-                                                        selectedCategoryItem ===
-                                                        id
-                                                            ? 'selected'
-                                                            : null
-                                                    }`}
-                                                >
-                                                    {
-                                                        categoryItem[nameField][
-                                                            language
-                                                        ]
-                                                    }
-                                                </td>
-                                            </tr>
+                                            <EditableInput 
+                                                key={`_category-item-${key}`}
+                                                currentValue={key}
+                                                isEditable={editable}
+                                                isSelected={selectedCategoryItem === key}
+                                                onSelect={() => {
+                                                    setSelectedCategoryItem(key);
+                                                }}
+                                                onSave={(newCategoryItemKey) => {
+                                                    updateCategoryItemKey(key, newCategoryItemKey);
+                                                }}
+                                                onDelete={() => {
+
+                                                }}
+                                            />
                                         );
                                     })}
                                 </tbody>
                             </table>
                         </div>
+                        <button type="button" onClick={addCategoryItem} disabled={!selectedCategory}>Add Category Item</button>
                     </>
                 ) : null}
                 <Languages
