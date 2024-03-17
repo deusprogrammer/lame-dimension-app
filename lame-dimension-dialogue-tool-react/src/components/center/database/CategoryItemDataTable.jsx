@@ -9,10 +9,12 @@ export default ({
 }) => {
     const { template } = category;
 
+    console.log("ENTRY: " + JSON.stringify(entry, null, 5));
+
     const updateField = (fieldName, fieldValue, index) => {
         let copy = {...entry};
         let field = category.template.find(({key}) => key === fieldName);
-        if (index instanceof Number) {
+        if (index === undefined) {
             if (field.localized) {
                 copy[fieldName][language] = fieldValue;
             } else {

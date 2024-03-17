@@ -221,6 +221,7 @@ export default () => {
             }
         });
 
+        newItem.id = `_category-item${Object.keys(categoryData[selectedCategory]).length}`;
         categoryItemsCopy[`_category-item${Object.keys(categoryData[selectedCategory]).length}`] = newItem;
         categoryDataCopy[selectedCategory] = categoryItemsCopy;
         setCategoryData(categoryDataCopy);
