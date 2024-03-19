@@ -69,14 +69,14 @@ function App() {
     }, [user, id]);
 
     useEffect(() => {
-        let newDiff = deepDiff(rootScript, script).filter(
-            ({ path, operation }) =>
-                !path.startsWith('characters') &&
-                !['editor', '_id'].includes(path) &&
-                !path.includes('_id') &&
-                operation !== 'UNCHANGED'
-        );
-        setDiff(newDiff);
+        // let newDiff = deepDiff(rootScript, script).filter(
+        //     ({ path, operation }) =>
+        //         !path.startsWith('characters') &&
+        //         !['editor', '_id'].includes(path) &&
+        //         !path.includes('_id') &&
+        //         operation !== 'UNCHANGED'
+        // );
+        // setDiff(newDiff);
     }, [script, rootScript]);
 
     const deepCopyObject = (object) => {

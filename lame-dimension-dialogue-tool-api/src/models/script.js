@@ -1,10 +1,51 @@
 import mongoose from 'mongoose';
 
+let multilingualField = new mongoose.Schema({
+    en: String,
+    es: String,
+    jp: String,
+    fr: String,
+    br: String,
+    ch: String,
+    de: String,
+    ru: String,
+}, { _id : false });
+
+let categoryData = new mongoose.Schema({}, { strict: false, _id: false });
+
+let categoryField = new mongoose.Schema({
+    key: String,
+    label: String,
+    dataType: {
+        type: String,
+        enum: [
+            'text',
+            'number',
+            'array'
+        ],
+        default: 'text'
+    },
+    collectionType: {
+        type: String,
+        enum: [
+            'none',
+            'array'
+        ]
+    },
+    localized: Boolean
+}, { _id : false });
+
+let category = new mongoose.Schema({
+    title: multilingualField,
+    nameField: String,
+    template: [categoryField]
+}, { _id : false });
+
 let position = new mongoose.Schema({
     name: String,
     override: String,
     emote: String,
-});
+}, { _id : false });
 
 let multilingualChoices = new mongoose.Schema({
     en: [String],
@@ -13,7 +54,9 @@ let multilingualChoices = new mongoose.Schema({
     fr: [String],
     br: [String],
     ch: [String],
-});
+    de: [String],
+    ru: [String],
+}, { _id : false });
 
 let multilingualTexts = new mongoose.Schema({
     en: String,
@@ -22,7 +65,9 @@ let multilingualTexts = new mongoose.Schema({
     fr: String,
     br: String,
     ch: String,
-});
+    de: String,
+    ru: String,
+}, { _id : false });
 
 let dialogue = new mongoose.Schema({
     positions: {
@@ -58,7 +103,7 @@ let dialogue = new mongoose.Schema({
         type: String,
         default: '',
     },
-});
+}, { _id : false });
 
 let scene = new mongoose.Schema({
     dialogue: {
@@ -78,19 +123,14 @@ let scene = new mongoose.Schema({
             default: false,
         },
     },
-});
+}, { _id : false });
 
 let chapter = new mongoose.Schema({
     scenes: {
         type: Map,
         of: scene,
     },
-});
-
-let character = new mongoose.Schema({
-    name: String,
-    emotes: [String],
-});
+}, { _id : false });
 
 let scriptSchema = new mongoose.Schema({
     id: String,
@@ -103,14 +143,16 @@ let scriptSchema = new mongoose.Schema({
         type: String,
         default: 'Script',
     },
-    characters: {
+    categories: {
         type: Map,
-        of: character,
+        of: category,
+        default: {}
     },
-    chapters: {
+    categoryData: {
         type: Map,
-        of: chapter,
-    },
+        of: categoryData,
+        default: {}
+    }
 });
 
 export default mongoose.model('scripts', scriptSchema);
