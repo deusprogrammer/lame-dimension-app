@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "isomorphic-git": "^1.24.5",
-    "simple-git": "^3.19.1"
+    "isomorphic-git": "^1.25.6"
   }
 }

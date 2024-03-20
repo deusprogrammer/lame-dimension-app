@@ -1,20 +1,25 @@
-import path from "path";
 import fs from "fs";
-import simpleGit from "simple-git";
+import * as http from 'isomorphic-git/http/node/index.js';
+import * as git from "isomorphic-git";
+
+let dir = 'hazuki-dies';
+let onAuth = () => ({ username: process.env.GITHUB_TOKEN });
 
 (async () => {
-  const remoteDir = path.join(process.cwd(), "test-clone");
-  const localDir = path.join(process.cwd(), "test-clone-branch");
-  fs.mkdirSync(remoteDir);
-  fs.mkdirSync(localDir);
-  fs.writeFileSync(
-    `${remoteDir}/script.json`,
-    JSON.stringify({
-      foo: "bar",
-    })
-  );
-  let remoteGit = simpleGit(remoteDir);
-  let localGit = simpleGit(localDir);
-  await remoteGit.init().add(".").commit("initial-commit");
-  await localGit.clone(remoteDir, ".");
+  try {
+    await git.clone({
+      fs,
+      http,
+      dir,
+      url: 'https://github.com/deusprogrammer/hazuki-dies-script.git',
+      ref: 'main',
+      singleBranch: true,
+      depth: 10
+    });
+    await git.branch({ fs, dir, ref: 'test' });
+    await git.checkout({ fs, dir, ref: 'test' });
+    await git.push({ fs, http, dir, remote: 'origin', onAuth });
+  } catch (e) {
+    console.error(e);
+  }
 })();
